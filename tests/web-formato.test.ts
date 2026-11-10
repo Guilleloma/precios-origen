@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import type { Resumen } from '../scripts/ingesta/contrato.ts';
 import { hayAtraso, semanaPendiente, textoAtraso } from '../src/formato/atraso.ts';
+import { descripcionPortada, descripcionProducto, tituloProducto } from '../src/formato/compartir.ts';
 import {
   etiquetaSemana,
   etiquetaSemanaConFechas,
@@ -164,5 +166,47 @@ describe('aviso de dato atrasado', () => {
   it('should keep week 53 in a year with 53 weeks and restart at 1 when the Monday changes year', () => {
     expect(semanaPendiente({ anyo: 2026, semana: 52, lunes: '2026-12-21' })).toBe(53);
     expect(semanaPendiente({ anyo: 2026, semana: 53, lunes: '2026-12-28' })).toBe(1);
+  });
+});
+
+describe('vista previa al compartir', () => {
+  const resumen: Resumen = {
+    esquema: 1,
+    generadoEl: '2026-11-04T16:31:10Z',
+    fuente: { actualizadoEl: '2026-11-04', urlDataset: 'https://dadesobertes.gva.es/es/dataset/agr-obs-pre-origen' },
+    ultimaSemana: { anyo: 2026, semana: 44, lunes: '2026-10-26', domingo: '2026-11-01' },
+    productos: [
+      productoResumen(),
+      productoResumen({ slug: 'garrofa', nombre: 'Garrofa entera', ultimo: { anyo: 2026, semana: 44, lunes: '2026-10-26', min: 0.45, medio: 0.51, max: 0.56 } }),
+    ],
+  };
+
+  it('should list every product price of the week on the home page', () => {
+    expect(descripcionPortada(resumen)).toBe(
+      'Precio medio en origen, semana 44 (26 oct–1 nov 2026), en €/kg: Naranja Navelina 0,27 · Garrofa entera 0,51. ' +
+        'Fuente: Generalitat Valenciana (datos abiertos, CC BY 4.0).',
+    );
+  });
+
+  it('should put the latest price in the product title', () => {
+    expect(tituloProducto(productoResumen())).toBe(`Naranja Navelina: 0,27${NB}€/kg · Precios en origen`);
+  });
+
+  it('should describe province, week, change and range of a product', () => {
+    expect(descripcionProducto(productoResumen())).toBe(
+      `Valencia, sobre árbol. Semana 44 (26 oct–1 nov 2026): ▲ +0,01${NB}€ (+3,8${NB}%) respecto a la semana anterior. ` +
+        `Horquilla 0,20–0,34${NB}€/kg. Fuente: Generalitat Valenciana (datos abiertos, CC BY 4.0).`,
+    );
+  });
+
+  it('should say since when a product has no quotation instead of a change', () => {
+    const producto = productoResumen({
+      cotizaEstaSemana: false,
+      ultimo: { anyo: 2021, semana: 14, lunes: '2021-03-29', min: 0.12, medio: 0.16, max: 0.2 },
+      variacion: null,
+    });
+    expect(descripcionProducto(producto)).toContain(
+      `Sin cotización desde la sem. 14 (marzo de 2021). Último precio medio: 0,16${NB}€/kg.`,
+    );
   });
 });

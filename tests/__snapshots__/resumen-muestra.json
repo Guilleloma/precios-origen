@@ -1,0 +1,198 @@
+{
+  "esquema": 1,
+  "generadoEl": "2021-05-19T16:31:10Z",
+  "fuente": {
+    "actualizadoEl": "2021-05-19",
+    "urlDataset": "https://dadesobertes.gva.es/es/dataset/agr-obs-pre-origen"
+  },
+  "ultimaSemana": {
+    "anyo": 2021,
+    "semana": 20,
+    "lunes": "2021-05-10",
+    "domingo": "2021-05-16"
+  },
+  "productos": [
+    {
+      "slug": "naranja-navelina",
+      "nombre": "Naranja Navelina",
+      "provincia": "Valencia",
+      "unidad": "€/kg",
+      "posicion": "sobre árbol",
+      "cotizaEstaSemana": false,
+      "ultimo": {
+        "anyo": 2021,
+        "semana": 1,
+        "lunes": "2020-12-28",
+        "min": 0.11,
+        "medio": 0.14,
+        "max": 0.17
+      },
+      "variacion": null,
+      "anterior": {
+        "anyo": 2020,
+        "semana": 52,
+        "lunes": "2020-12-21"
+      }
+    },
+    {
+      "slug": "clementina-clemenules",
+      "nombre": "Clementina Clemenules",
+      "provincia": "Castellón",
+      "unidad": "€/kg",
+      "posicion": "sobre árbol",
+      "cotizaEstaSemana": false,
+      "ultimo": {
+        "anyo": 2021,
+        "semana": 3,
+        "lunes": "2021-01-11",
+        "min": 0.12,
+        "medio": 0.16,
+        "max": 0.2
+      },
+      "variacion": null,
+      "anterior": {
+        "anyo": 2021,
+        "semana": 2,
+        "lunes": "2021-01-04"
+      }
+    },
+    {
+      "slug": "almendra-comuna",
+      "nombre": "Almendra Comuna",
+      "provincia": "Alicante",
+      "unidad": "€/kg",
+      "posicion": "grano, entrada descascaradora",
+      "cotizaEstaSemana": true,
+      "ultimo": {
+        "anyo": 2021,
+        "semana": 20,
+        "lunes": "2021-05-10",
+        "min": 2.91,
+        "medio": 2.96,
+        "max": 3.01
+      },
+      "variacion": {
+        "euros": 0,
+        "porcentaje": 0,
+        "respectoA": {
+          "anyo": 2021,
+          "semana": 19
+        }
+      },
+      "anterior": {
+        "anyo": 2021,
+        "semana": 19,
+        "lunes": "2021-05-03"
+      }
+    },
+    {
+      "slug": "almendra-marcona",
+      "nombre": "Almendra Marcona",
+      "provincia": "Alicante",
+      "unidad": "€/kg",
+      "posicion": "grano, entrada descascaradora",
+      "cotizaEstaSemana": true,
+      "ultimo": {
+        "anyo": 2021,
+        "semana": 20,
+        "lunes": "2021-05-10",
+        "min": 6.11,
+        "medio": 6.16,
+        "max": 6.21
+      },
+      "variacion": {
+        "euros": 0,
+        "porcentaje": 0,
+        "respectoA": {
+          "anyo": 2021,
+          "semana": 19
+        }
+      },
+      "anterior": {
+        "anyo": 2021,
+        "semana": 19,
+        "lunes": "2021-05-03"
+      }
+    },
+    {
+      "slug": "garrofa",
+      "nombre": "Garrofa entera",
+      "provincia": "Castellón",
+      "unidad": "€/kg",
+      "posicion": "entrada almacén",
+      "cotizaEstaSemana": true,
+      "ultimo": {
+        "anyo": 2021,
+        "semana": 20,
+        "lunes": "2021-05-10",
+        "min": 0.95,
+        "medio": 1,
+        "max": 1.05
+      },
+      "variacion": {
+        "euros": 0,
+        "porcentaje": 0,
+        "respectoA": {
+          "anyo": 2021,
+          "semana": 19
+        }
+      },
+      "anterior": {
+        "anyo": 2021,
+        "semana": 19,
+        "lunes": "2021-05-03"
+      }
+    },
+    {
+      "slug": "aceite-virgen-extra",
+      "nombre": "Aceite de oliva virgen extra",
+      "provincia": "Castellón",
+      "unidad": "€/kg",
+      "posicion": "entrada almacén",
+      "cotizaEstaSemana": true,
+      "ultimo": {
+        "anyo": 2021,
+        "semana": 20,
+        "lunes": "2021-05-10",
+        "min": 3.4,
+        "medio": 3.45,
+        "max": 3.5
+      },
+      "variacion": {
+        "euros": -0.05,
+        "porcentaje": -1.4,
+        "respectoA": {
+          "anyo": 2021,
+          "semana": 19
+        }
+      },
+      "anterior": {
+        "anyo": 2021,
+        "semana": 19,
+        "lunes": "2021-05-03"
+      }
+    },
+    {
+      "slug": "limon-fino",
+      "nombre": "Limón Fino",
+      "provincia": "Alicante",
+      "unidad": "€/kg",
+      "posicion": "sobre árbol",
+      "cotizaEstaSemana": false,
+      "ultimo": {
+        "anyo": 2021,
+        "semana": 14,
+        "lunes": "2021-03-29",
+        "min": 0.12,
+        "medio": 0.16,
+        "max": 0.2
+      },
+      "variacion": null,
+      "anterior": {
+        "anyo": 2021,
+        "semana": 13,
+        "lunes": "2021-03-22"
+      }
+    }
+  ]
+}

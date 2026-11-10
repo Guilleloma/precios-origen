@@ -58,7 +58,7 @@ const lectura = inicial ? leerPunto(inicial, ultimaSemana, unidad) : null;
   <h2 id="titulo-grafico" class="grafico__titulo">Evolución del precio</h2>
 
   <p class="lectura">
-    <span class="lectura__semana" data-lectura-semana>{lectura?.semana ?? 'Sin cotizaciones en este periodo'}</span>
+    <span class="lectura__semana" data-lectura-semana>{lectura?.semana}</span>
     <span class="lectura__valores">
       <span class="lectura__medio cifra" data-lectura-medio>{lectura?.medio}</span>
       <span class="lectura__horquilla cifra" data-lectura-horquilla>{lectura?.horquilla}</span>

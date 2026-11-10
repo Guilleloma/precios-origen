@@ -117,7 +117,8 @@ export function iniciarGrafico(raiz: HTMLElement): void {
     if (panel) {
       panel.mostrarUltimo();
     } else {
-      lecturaSemana.textContent = 'Sin cotizaciones en este periodo';
+      // El panel vacío ya lo dice; la lectura se queda en blanco para no repetirlo.
+      lecturaSemana.textContent = '';
       lecturaMedio.textContent = '';
       lecturaHorquilla.textContent = '';
     }

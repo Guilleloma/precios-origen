@@ -1,10 +1,10 @@
 # Precios en origen · Comunitat Valenciana
 
-Web estática con los precios agrarios en origen de siete productos valencianos, semana a semana.
+Web estática con los precios agrarios en origen de 36 productos valencianos (cítricos, fruta, uva de mesa, almendra, aceite y garrofa), semana a semana.
 
 Datos: Generalitat Valenciana, Conselleria de Agricultura, [«Precios agrarios de origen de la Comunitat Valenciana»](https://dadesobertes.gva.es/es/dataset/agr-obs-pre-origen) (datos abiertos, CC BY 4.0). Web no oficial, sin relación con la Generalitat Valenciana.
 
-Plan técnico y reglas de cálculo: [`docs/plan-tecnico.md`](docs/plan-tecnico.md).
+Plan técnico y reglas de cálculo: [`docs/plan-tecnico.md`](docs/plan-tecnico.md). Qué productos trae el dataset, cuáles se publican y por qué: [`docs/inventario-productos.md`](docs/inventario-productos.md).
 
 ## Ingesta
 
@@ -47,7 +47,22 @@ Códigos de salida: `0` bien (con o sin cambios), `1` fallo de la fuente o de va
 | `PUBLICADO_ILEGIBLE` | Lo que ya hay en la carpeta de salida no es JSON válido |
 | `OPCION_INVALIDA`, `CSV_NO_LEGIBLE` | Falta `--actualizado-el` con `--csv`, o no se puede leer el fichero |
 
-Los productos se configuran en [`config/productos.ts`](config/productos.ts): añadir una variedad es añadir una entrada.
+## Productos
+
+Se configuran solo en [`config/productos.ts`](config/productos.ts): añadir una variedad es añadir una entrada con `slug`, `categoria`, `nombre`, `codigoVariedad`, `codigoZona`, `nombreEsperado`, `unidad` y `posicion`. El inventario completo del dataset, el criterio de selección y lo que queda fuera están en [`docs/inventario-productos.md`](docs/inventario-productos.md).
+
+| Categoría (`id`) | Productos (en el orden de la web) | Provincia | Posición comercial |
+|---|---|---|---|
+| Cítricos (`citricos`) | Naranja Navelina, Lane Late, Salustiana y Valencia Late; Clementina Clemenules y Oronules; Satsuma Clausellina/Okitsu; Mandarina Clemenvilla y Nadorcott; Limón Fino y Verna; Pomelo rojo | Una por producto: la de más semanas con dato en las dos últimas campañas (ver el inventario) | sobre árbol |
+| Fruta (`fruta`) | Aguacate Hass, Albaricoque temprano, Caqui Rojo Brillante, Cereza Starking, Ciruela tipo Black, Granada Mollar, Higo negro, Manzana Fuji, Melocotón paraguayo, Melón piel de sapo, Nectarina amarilla, Níspero Algar, Sandía sin pepitas | Ídem | entrada almacén; el caqui, sobre árbol |
+| Uva de mesa (`uva`) | Red Globe, Doña María, Moscatel Romano | Alicante | sobre cepa |
+| Frutos secos (`frutos-secos`) | Almendra Comuna, Marcona, Largueta y Planeta | Alicante | grano, entrada descascaradora |
+| Aceite y garrofa (`aceite-y-garrofa`) | Aceite de oliva virgen extra, virgen y lampante; Garrofa entera | Castellón | entrada almacén |
+
+- **Categorías**: conjunto cerrado y con orden fijo, en `CATEGORIAS` de la misma configuración. Un producto con una categoría que no existe no compila.
+- **Posición comercial**: el CSV no la trae. Sale de la descripción del dataset y del pie del informe semanal de la GVA, y va en constantes de la configuración. Todo en €/kg sin IVA.
+- **Fuera de campaña**: la mayoría de la fruta cotiza unas semanas al año. Un producto sin fila en la última semana sale con «Sin cotización desde la sem. N» y no hace fallar la ingesta: el desfase de la fuente (`DATOS_DESFASADOS`) se mide sobre la última semana de todo el CSV, no por producto.
+- **Tests**: la muestra de los tests (`tests/fixtures/muestra.csv`, 2020–2021) solo trae filas de los siete productos del MVP, así que los tests de la ingesta usan esa lista (`PRODUCTOS_MUESTRA` en `tests/factorias.ts`). Los productos nuevos se comprueban contra el CSV real con `npm run ingesta -- --csv <ruta> --actualizado-el <fecha> --permitir-desfase`.
 
 ## Contrato de datos
 
@@ -67,10 +82,18 @@ Convenciones:
   "generadoEl": "2026-11-10T17:38:59Z",
   "fuente": { "actualizadoEl": "2026-11-04", "urlDataset": "https://dadesobertes.gva.es/es/dataset/agr-obs-pre-origen" },
   "ultimaSemana": { "anyo": 2026, "semana": 44, "lunes": "2026-10-26", "domingo": "2026-11-01" },
+  "categorias": [
+    { "id": "citricos", "etiqueta": "Cítricos" },
+    { "id": "fruta", "etiqueta": "Fruta" },
+    { "id": "uva", "etiqueta": "Uva de mesa" },
+    { "id": "frutos-secos", "etiqueta": "Frutos secos" },
+    { "id": "aceite-y-garrofa", "etiqueta": "Aceite y garrofa" }
+  ],
   "productos": [
     {
       "slug": "naranja-navelina",
       "nombre": "Naranja Navelina",
+      "categoria": "citricos",
       "provincia": "Valencia",
       "unidad": "€/kg",
       "posicion": "sobre árbol",
@@ -88,7 +111,9 @@ Convenciones:
 | `esquema` | Versión del contrato. Sube si cambia de forma incompatible |
 | `fuente.actualizadoEl` | Fecha de la última actualización del dataset (`Last-Modified` del CSV). Va en la atribución: «actualizado el 4 nov 2026» |
 | `ultimaSemana` | Semana de referencia: la última del CSV para cualquier producto, con su lunes y su domingo. El aviso de dato atrasado compara hoy con `domingo` |
-| `productos` | En el orden de `config/productos.ts` |
+| `categorias` | Todas las categorías, en el orden en que se muestran, con `id` y `etiqueta` en español. **Añadido en la ampliación de productos** (cambio compatible: el esquema sigue en 1) |
+| `productos` | Agrupados por categoría en el orden de `categorias` y, dentro de cada una, en el orden de `config/productos.ts`. Para pintar la lista por grupos basta con recorrer `categorias` y filtrar `productos` por `categoria`, sin reordenar |
+| `categoria` | `id` de la categoría del producto (tipo `CategoriaId`). Añadido con `categorias` |
 | `provincia` | Provincia de la serie. Se rotula siempre junto al precio |
 | `cotizaEstaSemana` | Tiene fila en `ultimaSemana` |
 | `ultimo` | Última cotización de la serie: de esta semana o, si no cotiza, la más reciente. `medio` es el punto medio de la horquilla de la GVA |
@@ -120,7 +145,7 @@ Una por producto. Un punto por semana con cotización, ordenados por fecha, sin 
 }
 ```
 
-Cada punto es `[lunes, año, semana, mínimo, medio, máximo]`. Tamaño con los datos de noviembre de 2026: de 8 a 19 KB por serie y 5 KB el resumen.
+Cada punto es `[lunes, año, semana, mínimo, medio, máximo]`. Tamaño con los datos de noviembre de 2026 y 36 productos: de 1 a 19 KB por serie (290 KB en total, 40 KB comprimido) y 22 KB el resumen. Los JSON no se sirven al navegador: el build los lee y los pinta en el HTML (la portada pesa 65 KB, 9 KB comprimida).
 
 ## Web
 
@@ -146,7 +171,7 @@ Los scripts desactivan la telemetría de Astro (`ASTRO_TELEMETRY_DISABLED=1`). E
 
 | Ruta | Qué muestra |
 |---|---|
-| `/` | Lista de productos: precio medio, variación con flecha y signo, provincia, posición, semana y minigráfica de 52 semanas |
+| `/` | Lista de productos: precio medio, variación con flecha y signo, provincia, posición, semana y minigráfica de 52 semanas. **Pendiente de frontend**: agruparla por `categorias` (hoy sale una lista única, ya en el orden de las categorías) |
 | `/<slug>/` | Detalle: precio, horquilla, atribución completa, gráfico con rangos de 6 meses, 1 año, 3 años y todo, y tabla con todas las semanas |
 | `/sobre-los-datos/` | Fuente, licencia, qué es el precio medio, provincia de cada producto y cómo se calcula la variación |
 
@@ -173,6 +198,7 @@ Cómo funciona:
 - **Huecos**: dos puntos solo se unen si sus lunes están a 7 días; un punto aislado se dibuja como punto con su horquilla. El eje X es tiempo continuo, así que las semanas sin cotización quedan en blanco.
 - **Aviso de dato atrasado**: la GVA publica cada semana el miércoles siguiente, 10 días después del domingo de la última semana que tenemos (el mismo `DIAS_DESFASE` de la ingesta). El navegador compara la fecha del dispositivo con ese domingo y, a partir de 11 días (el jueves, si el miércoles no salió la semana nueva), muestra «El dato de la semana N se retrasa: tenía que salir el miércoles D y aún no se ha publicado».
 - **Accesibilidad**: el gráfico se anuncia como control deslizante con el precio de la semana señalada y un resumen de la serie; la tabla de datos es la alternativa completa. Objetivos táctiles de 44 px, `prefers-reduced-motion` y subida o bajada siempre con flecha y signo, no solo con color.
+- **Pendiente de frontend tras la ampliación a 36 productos**: agrupar la portada por categorías; la descripción de la vista previa de la portada (`descripcionPortada`) enumera todos los productos y con 36 queda muy larga; y el texto de «Sobre los datos» que explica la posición comercial solo nombra cítricos, almendra, aceite y garrofa (faltan fruta y melón y sandía a la entrada del almacén, el caqui sobre el árbol y la uva de mesa sobre la cepa).
 - **Astro 7.3 y no 7.4**: la 7.4 exige Node 22.22 o superior. `astro check` no se usa porque no funciona con TypeScript 7; por eso la lógica vive en `.ts` (comprobados con `npm run typecheck`) y los `.astro` solo pintan.
 
 Para probar la web con los estados que no se dan con los datos de hoy (producto sin cotización esta semana), se puede construir con la muestra de los tests:

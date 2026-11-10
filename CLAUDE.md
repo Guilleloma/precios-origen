@@ -20,7 +20,8 @@ Web estática pública con los precios agrarios en origen de la Comunitat Valenc
 
 ## Reglas del proyecto
 
-- Los productos se configuran solo en `config/productos.ts`.
+- Los productos se configuran solo en `config/productos.ts`, cada uno con una categoría del conjunto cerrado `CATEGORIAS`. Qué hay en el dataset y por qué entra o no cada variedad: `docs/inventario-productos.md`.
+- Los tests de la ingesta usan `PRODUCTOS_MUESTRA` (los 7 del MVP, los únicos con filas en `tests/fixtures/muestra.csv`). Un producto nuevo se prueba con la ingesta contra el CSV real.
 - La ingesta no tiene dependencias de ejecución: solo Node (≥ 22.6, con `--experimental-strip-types`).
 - `data/` es generado: no va a `main`, vive en la rama `datos`.
 - El CSV completo nunca se commitea. La única muestra es `tests/fixtures/muestra.csv` (recorte real, CC BY 4.0).

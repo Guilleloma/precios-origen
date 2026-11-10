@@ -118,10 +118,10 @@ La web, además, muestra un aviso por su cuenta: un script mínimo compara la fe
 5. **Semana de referencia.** La última semana presente en el CSV para cualquier producto. Un producto «cotiza esta semana» si tiene fila en ella.
 6. **Variación semanal.** Se calcula en céntimos enteros contra la cotización anterior de la misma serie.
    - Semana anterior con dato: variación normal.
-   - Hueco de 1 a 3 semanas: se compara con la última cotización y se rotula «respecto a la sem. N».
-   - Hueco de 4 semanas o más: sin variación; se muestra «Primera cotización desde la sem. N».
+   - Hueco de 1 a 3 semanas: se compara con la última cotización y se rotula «respecto a la sem. N de AAAA».
+   - Hueco de 4 semanas o más: sin variación; se muestra «Primera cotización desde la sem. N de AAAA».
    - Porcentaje con un decimal; euros con dos. Se rotula como cálculo propio, no como dato de la GVA.
-7. **Sin cotización esta semana.** La fila muestra el último precio atenuado y «Sin cotización desde la sem. N (mes año)», sin variación. No se infiere si es fin de campaña: el texto es el mismo para todos.
+7. **Sin cotización esta semana.** La fila muestra el último precio atenuado y «Sin cotización desde la sem. N de AAAA (mes)», sin variación. No se infiere si es fin de campaña: el texto es el mismo para todos.
 8. **Gráfico.**
    - Línea = precio medio. Banda = área entre mínimo y máximo.
    - Dos puntos se unen solo si están a 7 días exactos. Cualquier semana sin dato corta la línea y la banda; no se interpola. Un punto aislado se dibuja como punto.

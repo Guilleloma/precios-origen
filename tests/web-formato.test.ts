@@ -107,14 +107,14 @@ describe('estadoFila', () => {
     expect(estado).toMatchObject({ tipo: 'variacion', respectoA: null });
   });
 
-  it('should name the compared week after a gap of 1 to 3 weeks', () => {
+  it('should name the compared week, with its year, after a gap of 1 to 3 weeks in the same year', () => {
     const estado = estadoFila(
       productoResumen({
         variacion: { euros: 0.02, porcentaje: 8, respectoA: { anyo: 2026, semana: 41 } },
         anterior: { anyo: 2026, semana: 41, lunes: '2026-10-05' },
       }),
     );
-    expect(estado).toMatchObject({ tipo: 'variacion', respectoA: 'respecto a la sem. 41' });
+    expect(estado).toMatchObject({ tipo: 'variacion', respectoA: 'respecto a la sem. 41 de 2026' });
   });
 
   it('should add the year to the compared week when it belongs to the previous year', () => {
@@ -128,18 +128,40 @@ describe('estadoFila', () => {
     expect(estado).toMatchObject({ respectoA: 'respecto a la sem. 51 de 2025' });
   });
 
-  it('should announce the first quotation after a gap of 4 weeks or more', () => {
+  it('should announce the first quotation after a gap of 4 weeks or more, with the year of the previous one', () => {
     const estado = estadoFila(
       productoResumen({ variacion: null, anterior: { anyo: 2026, semana: 22, lunes: '2026-05-25' } }),
     );
-    expect(estado).toEqual({ tipo: 'primeraTrasHueco', texto: 'Primera cotización desde la sem. 22' });
+    expect(estado).toEqual({ tipo: 'primeraTrasHueco', texto: 'Primera cotización desde la sem. 22 de 2026' });
+  });
+
+  it('should add the year to the first quotation since week 1 of the same year (Mollar pomegranate case)', () => {
+    const estado = estadoFila(
+      productoResumen({
+        ultimo: { anyo: 2026, semana: 44, lunes: '2026-10-26', min: 1, medio: 1.2, max: 1.4 },
+        variacion: null,
+        anterior: { anyo: 2026, semana: 1, lunes: '2025-12-29' },
+      }),
+    );
+    expect(estado).toEqual({ tipo: 'primeraTrasHueco', texto: 'Primera cotización desde la sem. 1 de 2026' });
+  });
+
+  it('should add the year to the first quotation when the previous one is from an earlier year', () => {
+    const estado = estadoFila(
+      productoResumen({
+        ultimo: { anyo: 2026, semana: 3, lunes: '2026-01-12', min: 1, medio: 1.2, max: 1.4 },
+        variacion: null,
+        anterior: { anyo: 2025, semana: 40, lunes: '2025-09-29' },
+      }),
+    );
+    expect(estado).toEqual({ tipo: 'primeraTrasHueco', texto: 'Primera cotización desde la sem. 40 de 2025' });
   });
 
   it('should show no change for the first quotation of a series', () => {
     expect(estadoFila(productoResumen({ variacion: null, anterior: null }))).toEqual({ tipo: 'primeraDeLaSerie' });
   });
 
-  it('should say since when a product has no quotation, with month and year', () => {
+  it('should say since when a product has no quotation, with year and month', () => {
     const estado = estadoFila(
       productoResumen({
         cotizaEstaSemana: false,
@@ -148,7 +170,19 @@ describe('estadoFila', () => {
         anterior: { anyo: 2021, semana: 13, lunes: '2021-03-22' },
       }),
     );
-    expect(estado).toEqual({ tipo: 'sinCotizacion', texto: 'Sin cotización desde la sem. 14 (marzo de 2021)' });
+    expect(estado).toEqual({ tipo: 'sinCotizacion', texto: 'Sin cotización desde la sem. 14 de 2021 (marzo)' });
+  });
+
+  it('should keep the GVA year when a week without quotation starts in December of the previous year', () => {
+    const estado = estadoFila(
+      productoResumen({
+        cotizaEstaSemana: false,
+        ultimo: { anyo: 2026, semana: 1, lunes: '2025-12-29', min: 1, medio: 1.2, max: 1.4 },
+        variacion: null,
+        anterior: { anyo: 2025, semana: 52, lunes: '2025-12-22' },
+      }),
+    );
+    expect(estado).toEqual({ tipo: 'sinCotizacion', texto: 'Sin cotización desde la sem. 1 de 2026 (diciembre)' });
   });
 });
 
@@ -236,7 +270,7 @@ describe('vista previa al compartir', () => {
       variacion: null,
     });
     expect(descripcionProducto(producto)).toContain(
-      `Sin cotización desde la sem. 14 (marzo de 2021). Último precio medio: 0,16${NB}€/kg.`,
+      `Sin cotización desde la sem. 14 de 2021 (marzo). Último precio medio: 0,16${NB}€/kg.`,
     );
   });
 });

@@ -8,7 +8,7 @@ export const RUTA_MUESTRA = fileURLToPath(new URL('./fixtures/muestra.csv', impo
 export const leerMuestra = () => readFileSync(RUTA_MUESTRA, 'utf8');
 export const CABECERA = COLUMNAS.join(';');
 
-/** Productos que tienen filas en la muestra: los siete del MVP. Los demás no cotizan entre 2020 y 2021 en el recorte. */
+/** Productos con filas en la muestra: los siete del MVP. El recorte no trae filas de los demás. */
 export const SLUGS_MUESTRA = [
   'naranja-navelina',
   'clementina-clemenules',

@@ -1,0 +1,20 @@
+{
+  "name": "precios-origen",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Precios agrarios en origen de la Comunitat Valenciana, con el CSV abierto de la Generalitat Valenciana (CC BY 4.0)",
+  "type": "module",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "ingesta": "node --experimental-strip-types --disable-warning=ExperimentalWarning scripts/ingesta/main.ts"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "typescript": "7.0.2",
+    "vitest": "5.1.0"
+  }
+}

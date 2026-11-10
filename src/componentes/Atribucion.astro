@@ -1,0 +1,32 @@
+---
+/**
+ * Atribución que exige la licencia CC BY 4.0: fuente, provincia, semana y fecha de actualización.
+ * Sin `provincia`, es la versión de la lista, donde cada fila ya lleva la suya.
+ */
+import type { Resumen } from '../../scripts/ingesta/contrato.ts';
+import { formatearFecha } from '../formato/fechas.ts';
+
+interface Props {
+  fuente: Resumen['fuente'];
+  provincia?: string;
+  /** «semana 44 (26 oct–1 nov 2026)» o «sem. 14 de 2021». */
+  semana: string;
+}
+
+const { fuente, provincia, semana } = Astro.props;
+---
+
+<p class="atribucion">
+  Fuente:
+  <a href={fuente.urlDataset}>Generalitat Valenciana, Conselleria de Agricultura</a>
+  (datos abiertos, CC BY 4.0) · {provincia ?? 'precio por provincia, indicada en cada producto'} · {semana} ·
+  actualizado el {formatearFecha(fuente.actualizadoEl)}
+</p>
+
+<style>
+  .atribucion {
+    font-size: 0.8125rem;
+    color: var(--tinta-suave);
+    margin: 0;
+  }
+</style>

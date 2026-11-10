@@ -1,0 +1,172 @@
+---
+import Base from '../layouts/Base.astro';
+import Atribucion from '../componentes/Atribucion.astro';
+import { cargarResumen } from '../datos/cargar.ts';
+import { etiquetaSemanaConFechas } from '../formato/fechas.ts';
+
+const resumen = cargarResumen();
+const { ultimaSemana } = resumen;
+---
+
+<Base
+  titulo="Sobre los datos · Precios en origen"
+  descripcion="De dónde salen los precios en origen de la Comunitat Valenciana, qué significa cada cifra y cómo se calcula la variación."
+>
+  <article class="texto">
+    <h1>Sobre los datos</h1>
+    <p class="entradilla">
+      Precios agrarios en origen de la Comunitat Valenciana, tal como los publica la Conselleria de Agricultura de la
+      Generalitat Valenciana en su portal de datos abiertos.
+    </p>
+
+    <h2>Qué es el precio en origen</h2>
+    <p>
+      Es lo que se paga por el producto en origen, antes de pasar por el almacén de confección o la industria: los
+      cítricos, sobre el árbol; la almendra, en grano a la entrada de la descascaradora; el aceite y la garrofa, a la
+      entrada del almacén. Todos los precios van en euros por kilo, sin IVA.
+    </p>
+
+    <h2>Un precio por semana, no por día</h2>
+    <p>
+      La Conselleria recoge una cotización por semana, de lunes a domingo, y suele publicarla el miércoles siguiente.
+      Entre una semana y otra no hay precio propio. Si el viernes todavía no ha salido la semana nueva, la web lo avisa
+      arriba.
+    </p>
+
+    <h2>Mínimo, máximo y precio medio</h2>
+    <p>
+      Para cada producto se publica una horquilla: el precio mínimo y el máximo de la semana. El <strong>precio medio</strong>
+      que ves en grande es el punto medio de esa horquilla, tal como aparece en los datos abiertos. No es una media
+      ponderada por kilos vendidos. En el gráfico, la línea es el precio medio y la banda sombreada va del mínimo al máximo.
+    </p>
+
+    <h2>Una provincia por producto</h2>
+    <p>
+      La Conselleria publica el precio por provincia, no por lonja. Para cada producto se usa una sola provincia, la que
+      tiene la serie más completa, y se indica siempre junto al precio.
+    </p>
+    <div class="tabla-envoltorio">
+      <table>
+        <caption class="sr-only">Provincia y posición comercial de cada producto</caption>
+        <thead>
+          <tr>
+            <th scope="col">Producto</th>
+            <th scope="col">Provincia</th>
+            <th scope="col">Dónde se paga</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            resumen.productos.map((producto) => (
+              <tr>
+                <th scope="row">{producto.nombre}</th>
+                <td>{producto.provincia}</td>
+                <td>{producto.posicion}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Semanas sin cotización</h2>
+    <p>
+      Fuera de campaña un producto puede pasar semanas sin cotizar. En el gráfico esas semanas quedan en blanco: la línea
+      se corta y no se rellena ni se inventa ningún valor.
+    </p>
+
+    <h2>La variación es un cálculo de esta web</h2>
+    <p>
+      La subida o bajada que acompaña a cada precio no la publica la Conselleria: es la diferencia del precio medio
+      frente a la cotización anterior del mismo producto, en euros y en porcentaje.
+    </p>
+    <ul>
+      <li>Si la cotización anterior es de la semana pasada, se compara con ella.</li>
+      <li>Si el producto estuvo de una a tres semanas sin cotizar, se compara con la última que hubo y se indica cuál.</li>
+      <li>
+        Si estuvo cuatro semanas o más sin cotizar, no se calcula: se indica que es la primera cotización desde esa
+        semana.
+      </li>
+    </ul>
+
+    <h2>Cómo se nombran las semanas</h2>
+    <p>
+      La semana más reciente se muestra con sus fechas. Las anteriores se nombran con el número que les da la
+      Conselleria (por ejemplo, «sem. 12 de 2021»), porque en algunos años su numeración no coincide del todo con el
+      calendario habitual.
+    </p>
+
+    <h2>Fuente y licencia</h2>
+    <p>
+      Generalitat Valenciana, Conselleria de Agricultura,
+      <a href={resumen.fuente.urlDataset}>«Precios agrarios de origen de la Comunitat Valenciana»</a>, publicado con
+      licencia <a href="https://creativecommons.org/licenses/by/4.0/deed.es">Creative Commons Reconocimiento 4.0 (CC BY 4.0)</a>.
+      Los precios se muestran sin alterar. Esta web no es oficial y no tiene relación con la Generalitat Valenciana.
+    </p>
+    <Atribucion fuente={resumen.fuente} semana={etiquetaSemanaConFechas(ultimaSemana, ultimaSemana.lunes)} />
+
+    <h2>Privacidad</h2>
+    <p>Esta web no usa cookies ni analítica, no carga nada de otros sitios y no guarda ningún dato de quien la visita.</p>
+  </article>
+</Base>
+
+<style>
+  .texto {
+    max-width: 38rem;
+    padding-top: 1.75rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0.6rem;
+  }
+
+  .entradilla {
+    font-size: 1.0625rem;
+    color: var(--tinta-suave);
+  }
+
+  ul {
+    padding-left: 1.25rem;
+    margin: 0 0 0.75em;
+  }
+
+  li + li {
+    margin-top: 0.4rem;
+  }
+
+  .tabla-envoltorio {
+    overflow-x: auto;
+    margin: 0.5rem 0 1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 0.55rem 0.5rem 0.55rem 0;
+    border-bottom: 1px solid var(--linea);
+    vertical-align: top;
+  }
+
+  thead th {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--tinta-suave);
+    border-bottom-color: var(--linea-fuerte);
+  }
+
+  tbody th {
+    font-weight: 600;
+  }
+</style>

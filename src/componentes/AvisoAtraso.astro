@@ -1,0 +1,44 @@
+---
+import type { Resumen } from '../../scripts/ingesta/contrato.ts';
+import { textoAtraso } from '../formato/atraso.ts';
+
+interface Props {
+  ultimaSemana: Resumen['ultimaSemana'];
+}
+
+const { ultimaSemana } = Astro.props;
+---
+
+<div class="aviso-atraso" data-domingo={ultimaSemana.domingo} role="status" hidden>
+  <p class="contenedor">{textoAtraso(ultimaSemana)}</p>
+</div>
+
+<script>
+  import { hayAtraso } from '../formato/atraso.ts';
+  import { fechaLocal } from '../formato/fechas.ts';
+
+  // La web es estática: solo el navegador sabe qué día es hoy.
+  const aviso = document.querySelector<HTMLElement>('.aviso-atraso');
+  const domingo = aviso?.dataset.domingo;
+  if (aviso && domingo && hayAtraso(domingo, fechaLocal(new Date()))) aviso.hidden = false;
+</script>
+
+<style>
+  .aviso-atraso {
+    background: var(--aviso-fondo);
+    color: var(--aviso);
+    border-bottom: 1px solid var(--linea);
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+
+  .aviso-atraso p {
+    margin: 0;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .aviso-atraso[hidden] {
+    display: none;
+  }
+</style>

@@ -1,0 +1,139 @@
+---
+import '../estilos/global.css';
+import AvisoAtraso from '../componentes/AvisoAtraso.astro';
+import { cargarResumen } from '../datos/cargar.ts';
+import { unirRuta } from '../datos/rutas.ts';
+
+interface Props {
+  /** Título de la pestaña y de la vista previa del enlace. */
+  titulo: string;
+  descripcion: string;
+}
+
+const { titulo, descripcion } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const resumen = cargarResumen();
+
+const NOMBRE_WEB = 'Precios en origen · Comunitat Valenciana';
+const rutaImagen = unirRuta(base, 'og.png');
+// WhatsApp solo lee la imagen con URL absoluta: sale del dominio configurado en el build.
+const imagen = Astro.site ? new URL(rutaImagen, Astro.site).href : rutaImagen;
+const direccion = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const enPortada = Astro.url.pathname === base || Astro.url.pathname === unirRuta(base);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#12110f" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href={unirRuta(base, 'favicon.svg')} type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={NOMBRE_WEB} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    {direccion && <meta property="og:url" content={direccion} />}
+    <meta property="og:image" content={imagen} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Precios en origen de la Comunitat Valenciana: gráfico semanal con la horquilla de precios" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <header class="cabecera">
+      <div class="contenedor cabecera__fila">
+        {
+          enPortada ? (
+            <span class="cabecera__marca">Precios en origen</span>
+          ) : (
+            <a class="cabecera__marca" href={base}>Precios en origen</a>
+          )
+        }
+        <a class="cabecera__enlace" href={unirRuta(base, 'sobre-los-datos/')}>Sobre los datos</a>
+      </div>
+    </header>
+    <AvisoAtraso ultimaSemana={resumen.ultimaSemana} />
+    <main id="contenido" class="contenedor">
+      <slot />
+    </main>
+    <footer class="pie">
+      <div class="contenedor">
+        <p class="pie__aviso">Web no oficial, sin relación con la Generalitat Valenciana.</p>
+        <p>
+          Datos: Generalitat Valenciana, Conselleria de Agricultura,
+          <a href={resumen.fuente.urlDataset}>«Precios agrarios de origen de la Comunitat Valenciana»</a>
+          (datos abiertos,
+          <a href="https://creativecommons.org/licenses/by/4.0/deed.es">CC BY 4.0</a>). Se muestran sin alterar.
+        </p>
+        <p><a href={unirRuta(base, 'sobre-los-datos/')}>Sobre los datos</a> · Sin cookies ni analítica.</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .cabecera {
+    border-bottom: 3px double var(--linea-fuerte);
+    background: var(--fondo);
+  }
+
+  .cabecera__fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 3.5rem;
+  }
+
+  .cabecera__marca {
+    font-family: var(--letra-titulos);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--tinta);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tactil);
+  }
+
+  a.cabecera__marca:hover {
+    text-decoration: underline;
+  }
+
+  .cabecera__enlace {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tactil);
+    padding: 0 0.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .pie {
+    margin-top: 3rem;
+    padding: 1.5rem 0 2.5rem;
+    border-top: 1px solid var(--linea);
+    font-size: 0.875rem;
+    color: var(--tinta-suave);
+  }
+
+  .pie__aviso {
+    color: var(--tinta);
+    font-weight: 600;
+  }
+
+  .pie a {
+    display: inline-block;
+    padding: 0.35rem 0;
+  }
+</style>

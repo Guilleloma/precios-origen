@@ -8,6 +8,9 @@
     "node": ">=22.6"
   },
   "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "ingesta": "node --experimental-strip-types --disable-warning=ExperimentalWarning scripts/ingesta/main.ts"

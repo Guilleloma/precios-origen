@@ -1,0 +1,202 @@
+/*
+ * Boletín de precios: papel cálido y tinta en claro, papel quemado en oscuro.
+ * Tipografías del sistema (sin descargas): serif para títulos, sans con cifras tabulares para los precios.
+ * Contrastes comprobados para AA en los dos temas; subida y bajada llevan siempre flecha y signo.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  --fondo: #f4f1ea;
+  --superficie: #fbfaf6;
+  --tinta: #1c1a17;
+  --tinta-suave: #575247;
+  --linea: #d9d3c4;
+  --linea-fuerte: #1c1a17;
+  --acento: #9a3412;
+  --sube: #0f6b3a;
+  --sube-fondo: #e1efe5;
+  --baja: #b42318;
+  --baja-fondo: #fae3de;
+  --igual: #575247;
+  --igual-fondo: #e9e5da;
+  --aviso: #7a4a00;
+  --aviso-fondo: #fcefd2;
+  --grafico-linea: #a8431a;
+  --grafico-banda: rgb(168 67 26 / 0.16);
+  --grafico-rejilla: #e4dfd2;
+  --cursor: #1c1a17;
+
+  --letra-titulos: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, 'Noto Serif', serif;
+  --letra-texto: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', sans-serif;
+
+  --ancho: 46rem;
+  --hueco: 1rem;
+  --radio: 0.5rem;
+  --tactil: 2.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #12110f;
+    --superficie: #1b1a17;
+    --tinta: #eee9df;
+    --tinta-suave: #ada697;
+    --linea: #34312b;
+    --linea-fuerte: #eee9df;
+    --acento: #f4a26a;
+    --sube: #63d597;
+    --sube-fondo: #13301f;
+    --baja: #ff9184;
+    --baja-fondo: #3b1714;
+    --igual: #bdb6a7;
+    --igual-fondo: #27251f;
+    --aviso: #f6c76b;
+    --aviso-fondo: #33270e;
+    --grafico-linea: #f4a26a;
+    --grafico-banda: rgb(244 162 106 / 0.3);
+    --grafico-rejilla: #2a2823;
+    --cursor: #eee9df;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: var(--letra-texto);
+  font-size: 1rem;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--letra-titulos);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0 0 0.75em;
+}
+
+a {
+  color: var(--acento);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--acento);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.cifra {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 0 var(--hueco);
+}
+
+.saltar {
+  position: absolute;
+  left: var(--hueco);
+  top: -4rem;
+  padding: 0.75rem 1rem;
+  background: var(--tinta);
+  color: var(--fondo);
+  z-index: 10;
+}
+
+.saltar:focus {
+  top: 0.5rem;
+}
+
+.pequeno {
+  font-size: 0.8125rem;
+  color: var(--tinta-suave);
+}
+
+/* Etiqueta de variación: flecha + signo + cifra, con fondo tintado. */
+.variacion {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0.3rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.variacion[data-sentido='sube'] {
+  color: var(--sube);
+  background: var(--sube-fondo);
+}
+
+.variacion[data-sentido='baja'] {
+  color: var(--baja);
+  background: var(--baja-fondo);
+}
+
+.variacion[data-sentido='igual'] {
+  color: var(--igual);
+  background: var(--igual-fondo);
+}
+
+.variacion .flecha {
+  font-size: 0.75em;
+}
+
+@media (min-width: 40rem) {
+  :root {
+    --hueco: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

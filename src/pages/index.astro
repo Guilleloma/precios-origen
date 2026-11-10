@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+import Atribucion from '../componentes/Atribucion.astro';
+import FilaProducto from '../componentes/FilaProducto.astro';
+import { cargarResumen, cargarSerie } from '../datos/cargar.ts';
+import { unirRuta } from '../datos/rutas.ts';
+import { etiquetaSemanaConFechas, fechaAMs, formatearRango } from '../formato/fechas.ts';
+import { descripcionPortada } from '../formato/compartir.ts';
+import { puntosDeSerie } from '../grafico/serie.ts';
+
+const resumen = cargarResumen();
+const { ultimaSemana } = resumen;
+const referencia = fechaAMs(ultimaSemana.lunes);
+const filas = resumen.productos.map((producto) => ({
+  producto,
+  puntos: puntosDeSerie(cargarSerie(producto.slug).puntos),
+}));
+---
+
+<Base titulo="Precios en origen · Comunitat Valenciana" descripcion={descripcionPortada(resumen)}>
+  <section class="portada" aria-labelledby="titulo-lista">
+    <p class="antetitulo">Precio semanal en origen</p>
+    <h1 id="titulo-lista">Semana {ultimaSemana.semana}</h1>
+    <p class="fechas cifra">
+      {formatearRango(ultimaSemana.lunes, ultimaSemana.domingo)} · Comunitat Valenciana
+    </p>
+
+    <div class="cabecera-lista" aria-hidden="true">
+      <span>Producto</span>
+      <span class="cabecera-lista__mini">Último año</span>
+      <span class="cabecera-lista__precio">Precio medio</span>
+    </div>
+    <ul class="lista" role="list">
+      {
+        filas.map(({ producto, puntos }, orden) => (
+          <FilaProducto producto={producto} puntos={puntos} referencia={referencia} orden={orden} />
+        ))
+      }
+    </ul>
+
+    <div class="notas">
+      <p class="pequeno">
+        Euros por kilo, sin IVA. El precio medio es el punto medio de la horquilla mínimo–máximo. La variación es un cálculo de esta web frente a
+        la cotización anterior. La línea de cada producto es su precio medio del último año.{' '}<a href={unirRuta(import.meta.env.BASE_URL, 'sobre-los-datos/')}>Sobre los datos</a>
+      </p>
+      <Atribucion fuente={resumen.fuente} semana={etiquetaSemanaConFechas(ultimaSemana, ultimaSemana.lunes)} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .portada {
+    padding-top: 1.5rem;
+  }
+
+  .antetitulo {
+    margin: 0 0 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+  }
+
+  h1 {
+    font-size: 2.25rem;
+  }
+
+  .fechas {
+    margin: 0.35rem 0 1.5rem;
+    color: var(--tinta-suave);
+  }
+
+  .cabecera-lista {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--linea-fuerte);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+  }
+
+  .cabecera-lista__mini {
+    display: none;
+    text-align: center;
+  }
+
+  .cabecera-lista__precio {
+    text-align: right;
+  }
+
+  .lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .notas {
+    margin-top: 1.25rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .notas p {
+    margin: 0;
+  }
+
+  @media (min-width: 40rem) {
+    h1 {
+      font-size: 2.75rem;
+    }
+
+    .cabecera-lista {
+      grid-template-columns: minmax(0, 1fr) 8rem 8.75rem;
+      column-gap: 1.25rem;
+    }
+
+    .cabecera-lista__mini {
+      display: block;
+    }
+  }
+</style>

@@ -1,0 +1,132 @@
+---
+import Base from '../layouts/Base.astro';
+import Atribucion from '../componentes/Atribucion.astro';
+import Grafico from '../componentes/Grafico.astro';
+import TablaDatos from '../componentes/TablaDatos.astro';
+import Variacion from '../componentes/Variacion.astro';
+import type { ProductoResumen } from '../../scripts/ingesta/contrato.ts';
+import { cargarResumen, cargarSerie } from '../datos/cargar.ts';
+import { descripcionProducto, tituloProducto } from '../formato/compartir.ts';
+import { etiquetaSemana, etiquetaSemanaConFechas, fechaAMs } from '../formato/fechas.ts';
+import { formatearPrecio, formatearPrecioConUnidad } from '../formato/numeros.ts';
+import { estadoFila } from '../formato/variacion.ts';
+
+export function getStaticPaths() {
+  return cargarResumen().productos.map((producto) => ({ params: { slug: producto.slug }, props: { producto } }));
+}
+
+interface Props {
+  producto: ProductoResumen;
+}
+
+const { producto } = Astro.props;
+const resumen = cargarResumen();
+const { ultimaSemana } = resumen;
+const serie = cargarSerie(producto.slug).puntos;
+const { ultimo } = producto;
+const estado = estadoFila(producto);
+const semana = producto.cotizaEstaSemana ? etiquetaSemanaConFechas(ultimo, ultimo.lunes) : etiquetaSemana(ultimo);
+const nota =
+  estado.tipo === 'variacion'
+    ? estado.respectoA
+    : estado.tipo === 'primeraDeLaSerie'
+      ? 'Primera cotización'
+      : estado.texto;
+---
+
+<Base titulo={tituloProducto(producto)} descripcion={descripcionProducto(producto)}>
+  <a class="volver" href={import.meta.env.BASE_URL}><span aria-hidden="true">←</span> Precios en origen</a>
+
+  <header class="ficha">
+    <h1>{producto.nombre}</h1>
+    <p class="ficha__lugar">{producto.provincia} · {producto.posicion} · {producto.unidad} sin IVA</p>
+
+    <div class:list={['ficha__precio', { 'ficha__precio--apagado': !producto.cotizaEstaSemana }]}>
+      <p class="ficha__cifra cifra">
+        <span class="sr-only">Precio medio:</span>{' '}
+        {formatearPrecio(ultimo.medio)}<span class="ficha__unidad">{producto.unidad}</span>
+      </p>
+      {estado.tipo === 'variacion' && <Variacion variacion={estado.variacion} />}
+    </div>
+    {nota && <p class="ficha__nota">{nota}</p>}
+    <p class="ficha__horquilla cifra">
+      Precio medio de la {semana}. Horquilla: {formatearPrecio(ultimo.min)}–{formatearPrecioConUnidad(ultimo.max, producto.unidad)}.
+    </p>
+    <Atribucion fuente={resumen.fuente} provincia={producto.provincia} semana={semana} />
+  </header>
+
+  <Grafico serie={serie} referencia={fechaAMs(ultimaSemana.lunes)} ultimaSemana={ultimaSemana} unidad={producto.unidad} />
+
+  <TablaDatos serie={serie} nombre={producto.nombre} provincia={producto.provincia} unidad={producto.unidad} />
+</Base>
+
+<style>
+  .volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: var(--tactil);
+    margin-top: 0.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .ficha {
+    padding-top: 0.5rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .ficha__lugar {
+    margin: 0.35rem 0 1rem;
+    color: var(--tinta-suave);
+  }
+
+  .ficha__precio {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.9rem;
+  }
+
+  .ficha__cifra {
+    margin: 0;
+    font-size: 2.75rem;
+    font-weight: 650;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .ficha__unidad {
+    margin-left: 0.25rem;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--tinta-suave);
+  }
+
+  .ficha__precio--apagado .ficha__cifra {
+    color: var(--tinta-suave);
+  }
+
+  .ficha__nota {
+    margin: 0.5rem 0 0;
+    font-size: 0.9375rem;
+  }
+
+  .ficha__horquilla {
+    margin: 0.75rem 0 0.5rem;
+    font-size: 0.9375rem;
+  }
+
+  @media (min-width: 40rem) {
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    .ficha__cifra {
+      font-size: 3.25rem;
+    }
+  }
+</style>

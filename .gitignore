@@ -1,0 +1,16 @@
+# Dependencias
+node_modules/
+
+# Salidas generadas
+data/
+dist/
+.astro/
+coverage/
+
+# Entorno y secretos
+.env
+.env.*
+
+# Sistema
+.DS_Store
+*.log

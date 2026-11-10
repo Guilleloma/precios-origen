@@ -164,36 +164,6 @@
       }
     },
     {
-      "slug": "garrofa",
-      "nombre": "Garrofa entera",
-      "categoria": "aceite-y-garrofa",
-      "provincia": "Castellón",
-      "unidad": "€/kg",
-      "posicion": "entrada almacén",
-      "cotizaEstaSemana": true,
-      "ultimo": {
-        "anyo": 2021,
-        "semana": 20,
-        "lunes": "2021-05-10",
-        "min": 0.95,
-        "medio": 1,
-        "max": 1.05
-      },
-      "variacion": {
-        "euros": 0,
-        "porcentaje": 0,
-        "respectoA": {
-          "anyo": 2021,
-          "semana": 19
-        }
-      },
-      "anterior": {
-        "anyo": 2021,
-        "semana": 19,
-        "lunes": "2021-05-03"
-      }
-    },
-    {
       "slug": "aceite-virgen-extra",
       "nombre": "Aceite de oliva virgen extra",
       "categoria": "aceite-y-garrofa",
@@ -212,6 +182,36 @@
       "variacion": {
         "euros": -0.05,
         "porcentaje": -1.4,
+        "respectoA": {
+          "anyo": 2021,
+          "semana": 19
+        }
+      },
+      "anterior": {
+        "anyo": 2021,
+        "semana": 19,
+        "lunes": "2021-05-03"
+      }
+    },
+    {
+      "slug": "garrofa",
+      "nombre": "Garrofa entera",
+      "categoria": "aceite-y-garrofa",
+      "provincia": "Castellón",
+      "unidad": "€/kg",
+      "posicion": "entrada almacén",
+      "cotizaEstaSemana": true,
+      "ultimo": {
+        "anyo": 2021,
+        "semana": 20,
+        "lunes": "2021-05-10",
+        "min": 0.95,
+        "medio": 1,
+        "max": 1.05
+      },
+      "variacion": {
+        "euros": 0,
+        "porcentaje": 0,
         "respectoA": {
           "anyo": 2021,
           "semana": 19

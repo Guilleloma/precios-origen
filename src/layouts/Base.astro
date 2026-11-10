@@ -70,12 +70,15 @@ const enPortada = Astro.url.pathname === base || Astro.url.pathname === unirRuta
       <div class="contenedor">
         <p class="pie__aviso">Web no oficial, sin relación con la Generalitat Valenciana.</p>
         <p>
-          Datos: Generalitat Valenciana, Conselleria de Agricultura,
-          <a href={resumen.fuente.urlDataset}>«Precios agrarios de origen de la Comunitat Valenciana»</a>
-          (datos abiertos,
-          <a href="https://creativecommons.org/licenses/by/4.0/deed.es">CC BY 4.0</a>). Se muestran sin alterar.
+          Datos: Generalitat Valenciana, Conselleria de Agricultura,{' '}
+          <a href={resumen.fuente.urlDataset}>«Precios agrarios de origen de la Comunitat Valenciana»</a> (datos
+          abiertos, <a href="https://creativecommons.org/licenses/by/4.0/deed.es">CC&nbsp;BY&nbsp;4.0</a>). Se muestran sin
+          alterar.
         </p>
-        <p><a href={unirRuta(base, 'sobre-los-datos/')}>Sobre los datos</a> · Sin cookies ni analítica.</p>
+        <p class="pie__enlaces">
+          <a href={unirRuta(base, 'sobre-los-datos/')}>Sobre los datos</a>
+          <span>Sin cookies ni analítica</span>
+        </p>
       </div>
     </footer>
   </body>
@@ -132,8 +135,16 @@ const enPortada = Astro.url.pathname === base || Astro.url.pathname === unirRuta
     font-weight: 600;
   }
 
-  .pie a {
-    display: inline-block;
-    padding: 0.35rem 0;
+  .pie__enlaces {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 1.25rem;
+  }
+
+  .pie__enlaces a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tactil);
   }
 </style>

@@ -1,0 +1,16 @@
+---
+/** Etiqueta de variación: la flecha es visual; el lector de pantalla oye «Sube», «Baja» o «Sin cambios». */
+import type { VariacionFormateada } from '../formato/variacion.ts';
+
+interface Props {
+  variacion: VariacionFormateada;
+}
+
+const { variacion } = Astro.props;
+---
+
+<span class="variacion cifra" data-sentido={variacion.sentido}>
+  <span class="flecha" aria-hidden="true">{variacion.flecha}</span>
+  <span class="sr-only">{variacion.palabra}:</span>
+  {variacion.texto}
+</span>

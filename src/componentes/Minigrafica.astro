@@ -1,0 +1,74 @@
+---
+/** Minigráfica de 52 semanas, generada en el build. Decorativa: la fila ya dice el precio y la variación. */
+import { filtrarRango } from '../grafico/rango.ts';
+import type { Punto } from '../grafico/serie.ts';
+import { dibujar, LIENZO_MINI } from '../grafico/trazado.ts';
+
+interface Props {
+  puntos: Punto[];
+  /** Lunes de la semana de referencia, en ms. */
+  referencia: number;
+  apagada?: boolean;
+}
+
+const SEMANAS = 52;
+const { puntos, referencia, apagada = false } = Astro.props;
+const ventana = filtrarRango(puntos, referencia, SEMANAS);
+const dibujo = dibujar(ventana, LIENZO_MINI, true);
+const ultimo = ventana.puntos.at(-1);
+const final = ultimo ? `M${dibujo.ex(ultimo.t)} ${dibujo.ey(ultimo.medio)}h0` : '';
+---
+
+<svg
+  class:list={['mini', { 'mini--apagada': apagada }]}
+  viewBox={`0 0 ${LIENZO_MINI.ancho} ${LIENZO_MINI.alto}`}
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path class="mini__base" d={`M0 ${LIENZO_MINI.alto - 0.5}H${LIENZO_MINI.ancho}`}></path>
+  <path class="mini__linea" d={dibujo.linea}></path>
+  <path class="mini__punto" d={dibujo.aislados.puntos}></path>
+  <path class="mini__final" d={final}></path>
+</svg>
+
+<style>
+  .mini {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .mini path {
+    fill: none;
+    vector-effect: non-scaling-stroke;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mini__base {
+    stroke: var(--linea);
+    stroke-width: 1;
+    stroke-dasharray: 2 3;
+  }
+
+  .mini__linea {
+    stroke: var(--grafico-linea);
+    stroke-width: 1.75;
+  }
+
+  .mini__punto {
+    stroke: var(--grafico-linea);
+    stroke-width: 3.5;
+  }
+
+  .mini__final {
+    stroke: var(--grafico-linea);
+    stroke-width: 6;
+  }
+
+  .mini--apagada {
+    opacity: 0.55;
+  }
+</style>

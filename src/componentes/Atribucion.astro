@@ -17,10 +17,9 @@ const { fuente, provincia, semana } = Astro.props;
 ---
 
 <p class="atribucion">
-  Fuente:
-  <a href={fuente.urlDataset}>Generalitat Valenciana, Conselleria de Agricultura</a>
-  (datos abiertos, CC BY 4.0) · {provincia ?? 'precio por provincia, indicada en cada producto'} · {semana} ·
-  actualizado el {formatearFecha(fuente.actualizadoEl)}
+  Fuente: <a href={fuente.urlDataset}>Generalitat Valenciana, Conselleria de Agricultura</a> (datos abiertos, CC&nbsp;BY&nbsp;4.0)
+  · {provincia ?? 'precio por provincia, indicada en cada producto'} · {semana} · actualizado el{' '}
+  {formatearFecha(fuente.actualizadoEl)}
 </p>
 
 <style>

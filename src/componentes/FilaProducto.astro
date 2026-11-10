@@ -1,0 +1,175 @@
+---
+/** Fila de la lista: toda la fila es el enlace al detalle del producto. */
+import type { ProductoResumen } from '../../scripts/ingesta/contrato.ts';
+import { rutaProducto } from '../datos/rutas.ts';
+import { formatearPrecio } from '../formato/numeros.ts';
+import { estadoFila } from '../formato/variacion.ts';
+import type { Punto } from '../grafico/serie.ts';
+import Minigrafica from './Minigrafica.astro';
+import Variacion from './Variacion.astro';
+
+interface Props {
+  producto: ProductoResumen;
+  puntos: Punto[];
+  referencia: number;
+  orden: number;
+}
+
+const { producto, puntos, referencia, orden } = Astro.props;
+const estado = estadoFila(producto);
+const apagada = estado.tipo === 'sinCotizacion';
+const nota =
+  estado.tipo === 'variacion'
+    ? estado.respectoA
+    : estado.tipo === 'primeraDeLaSerie'
+      ? 'Primera cotización'
+      : estado.texto;
+---
+
+<li class:list={['fila', { 'fila--apagada': apagada }]} style={`--orden: ${orden}`}>
+  <a class="fila__enlace" href={rutaProducto(import.meta.env.BASE_URL, producto.slug)}>
+    <span class="fila__nombre">{producto.nombre}</span>
+    <span class="fila__detalle">
+      {producto.provincia} · {producto.posicion} · sem.&nbsp;{producto.ultimo.semana}
+    </span>
+    <span class="fila__mini"><Minigrafica puntos={puntos} referencia={referencia} apagada={apagada} /></span>
+    <span class="fila__precio cifra">
+      <span class="sr-only">Precio medio:</span>
+      {formatearPrecio(producto.ultimo.medio)}<span class="fila__unidad">{producto.unidad}</span>
+    </span>
+    <span class="fila__estado">
+      {estado.tipo === 'variacion' && <Variacion variacion={estado.variacion} />}
+    </span>
+    {nota && <span class="fila__nota">{nota}</span>}
+  </a>
+</li>
+
+<style>
+  .fila {
+    border-bottom: 1px solid var(--linea);
+    animation: aparecer 420ms ease-out both;
+    animation-delay: calc(var(--orden) * 45ms);
+  }
+
+  .fila__enlace {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'nombre precio'
+      'detalle estado'
+      'nota nota'
+      'mini mini';
+    column-gap: 0.75rem;
+    row-gap: 0.2rem;
+    align-items: center;
+    padding: 0.85rem 0.5rem 0.7rem;
+    margin: 0 -0.5rem;
+    min-height: 4.5rem;
+    color: inherit;
+    text-decoration: none;
+    border-radius: var(--radio);
+    transition: background-color 120ms ease;
+  }
+
+  .fila__enlace:hover {
+    background: var(--superficie);
+  }
+
+  .fila__enlace:hover .fila__nombre {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  .fila__nombre {
+    grid-area: nombre;
+    font-family: var(--letra-titulos);
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .fila__detalle {
+    grid-area: detalle;
+    font-size: 0.8125rem;
+    color: var(--tinta-suave);
+    line-height: 1.3;
+  }
+
+  .fila__mini {
+    grid-area: mini;
+    align-self: center;
+    margin-top: 0.35rem;
+    height: 1.75rem;
+  }
+
+  .fila__precio {
+    grid-area: precio;
+    justify-self: end;
+    font-size: 1.375rem;
+    font-weight: 650;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .fila__unidad {
+    margin-left: 0.2em;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--tinta-suave);
+  }
+
+  .fila__estado {
+    grid-area: estado;
+    justify-self: end;
+  }
+
+  .fila__nota {
+    grid-area: nota;
+    justify-self: end;
+    text-align: right;
+    font-size: 0.8125rem;
+    color: var(--tinta-suave);
+  }
+
+  .fila--apagada .fila__precio {
+    color: var(--tinta-suave);
+  }
+
+  .fila--apagada .fila__nota {
+    color: var(--tinta);
+  }
+
+  @media (min-width: 40rem) {
+    .fila__enlace {
+      grid-template-columns: minmax(0, 1fr) 8rem 8.75rem;
+      grid-template-areas:
+        'nombre mini precio'
+        'detalle mini estado'
+        'nota nota nota';
+      column-gap: 1.25rem;
+      padding: 1rem 0.75rem;
+      margin: 0 -0.75rem;
+    }
+
+    .fila__mini {
+      margin-top: 0;
+      height: 2.5rem;
+    }
+
+    .fila__nombre {
+      font-size: 1.25rem;
+    }
+
+    .fila__precio {
+      font-size: 1.5rem;
+    }
+  }
+
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+</style>

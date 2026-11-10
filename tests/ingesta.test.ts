@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ErrorIngesta } from '../scripts/ingesta/errores.ts';
 import { ejecutarIngesta, type DependenciasIngesta } from '../scripts/ingesta/ingesta.ts';
-import { main } from '../scripts/ingesta/main.ts';
+import { formatoVariacion, main } from '../scripts/ingesta/main.ts';
 import { CABECERA, RUTA_MUESTRA, leerMuestra } from './factorias.ts';
 
 const AHORA_MUESTRA = new Date('2021-05-19T16:31:10Z');
@@ -215,5 +215,18 @@ describe('npm run ingesta (proceso real)', () => {
     expect(proceso.status).toBe(1);
     expect(proceso.stderr).toContain('CSV_NO_LEGIBLE');
     expect(existsSync(salida)).toBe(false);
+  });
+});
+
+describe('consola de la ingesta', () => {
+  const respectoA = { anyo: 2026, semana: 43 };
+
+  it('should print the weekly change with a decimal comma and a sign, like the web', () => {
+    expect(formatoVariacion({ euros: 0.01, porcentaje: 3.8, respectoA })).toBe('+0,01 € (+3,8 %)');
+    expect(formatoVariacion({ euros: -0.03, porcentaje: -7.9, respectoA })).toBe('-0,03 € (-7,9 %)');
+  });
+
+  it('should print no sign when the price does not change', () => {
+    expect(formatoVariacion({ euros: 0, porcentaje: 0, respectoA })).toBe('0,00 € (0,0 %)');
   });
 });

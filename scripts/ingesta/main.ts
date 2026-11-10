@@ -1,6 +1,7 @@
 import { setTimeout as esperar } from 'node:timers/promises';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
+import type { Variacion } from './contrato.ts';
 import { URL_CSV } from './descarga.ts';
 import { ErrorIngesta } from './errores.ts';
 import { ejecutarIngesta, type DependenciasIngesta, type ResultadoIngesta } from './ingesta.ts';
@@ -21,7 +22,14 @@ const DEPENDENCIAS: DependenciasIngesta = {
   ahora: () => new Date(),
 };
 
-const formatoPrecio = (n: number) => n.toFixed(2).replace('.', ',');
+const conComa = (n: number, decimales: number) => n.toFixed(decimales).replace('.', ',');
+const formatoPrecio = (n: number) => conComa(n, 2);
+const conSigno = (n: number, decimales: number) => `${n > 0 ? '+' : ''}${conComa(n, decimales)}`;
+
+/** «+0,01 € (+3,8 %)»: con coma decimal, como la web. */
+export function formatoVariacion({ euros, porcentaje }: Variacion): string {
+  return `${conSigno(euros, 2)} € (${conSigno(porcentaje, 1)} %)`;
+}
 
 function informar({ estado, publicacion }: ResultadoIngesta, salida: string): void {
   const { resumen, series } = publicacion;
@@ -36,7 +44,7 @@ function informar({ estado, publicacion }: ResultadoIngesta, salida: string): vo
     const puntos = series.find((s) => s.slug === p.slug)?.puntos.length ?? 0;
     const u = p.ultimo;
     const variacion = p.variacion
-      ? `${p.variacion.euros >= 0 ? '+' : ''}${formatoPrecio(p.variacion.euros)} € (${p.variacion.porcentaje} %) vs sem. ${p.variacion.respectoA.semana}/${p.variacion.respectoA.anyo}`
+      ? `${formatoVariacion(p.variacion)} vs sem. ${p.variacion.respectoA.semana}/${p.variacion.respectoA.anyo}`
       : 'sin variación';
     console.log(
       `  ${p.slug.padEnd(22)} ${String(puntos).padStart(3)} semanas · sem. ${u.semana}/${u.anyo}: ${formatoPrecio(u.min)} / ${formatoPrecio(u.medio)} / ${formatoPrecio(u.max)} ${p.unidad} · ${p.cotizaEstaSemana ? 'cotiza' : 'no cotiza esta semana'} · ${variacion}`,

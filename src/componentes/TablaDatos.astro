@@ -1,0 +1,107 @@
+---
+/** Tabla con todas las cotizaciones de la serie: alternativa accesible al gráfico. La más reciente, arriba. */
+import type { PuntoSerie } from '../../scripts/ingesta/contrato.ts';
+import { etiquetaSemana } from '../formato/fechas.ts';
+import { formatearPrecio } from '../formato/numeros.ts';
+
+interface Props {
+  serie: PuntoSerie[];
+  nombre: string;
+  provincia: string;
+  unidad: string;
+}
+
+const { serie, nombre, provincia, unidad } = Astro.props;
+const filas = [...serie].reverse();
+---
+
+<details class="datos">
+  <summary>Ver todos los datos en una tabla ({filas.length} semanas)</summary>
+  <div class="datos__tabla" tabindex="0" role="region" aria-label={`Cotizaciones semanales de ${nombre}`}>
+    <table>
+      <caption>
+        {nombre}, {provincia}. Precio semanal en origen, en {unidad}. Solo semanas con cotización.
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Semana</th>
+          <th scope="col">Mínimo</th>
+          <th scope="col">Medio</th>
+          <th scope="col">Máximo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          filas.map(([, anyo, semana, min, medio, max]) => (
+            <tr>
+              <th scope="row">{etiquetaSemana({ anyo, semana })}</th>
+              <td>{formatearPrecio(min)}</td>
+              <td>{formatearPrecio(medio)}</td>
+              <td>{formatearPrecio(max)}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</details>
+
+<style>
+  .datos {
+    margin-top: 2rem;
+    border-top: 1px solid var(--linea);
+    border-bottom: 1px solid var(--linea);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    min-height: var(--tactil);
+    padding: 0.5rem 0;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--acento);
+  }
+
+  .datos__tabla {
+    max-height: 26rem;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  caption {
+    text-align: left;
+    font-size: 0.8125rem;
+    color: var(--tinta-suave);
+    padding-bottom: 0.5rem;
+  }
+
+  th,
+  td {
+    padding: 0.4rem 0.5rem;
+    border-bottom: 1px solid var(--linea);
+    text-align: right;
+  }
+
+  th[scope='row'],
+  thead th:first-child {
+    text-align: left;
+    font-weight: 500;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background: var(--fondo);
+    font-size: 0.8125rem;
+    color: var(--tinta-suave);
+    border-bottom-color: var(--linea-fuerte);
+  }
+</style>

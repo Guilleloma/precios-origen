@@ -10,6 +10,8 @@ Web estática pública con los precios agrarios en origen de la Comunitat Valenc
 
 | Comando | Qué hace |
 |---|---|
+| `npm run dev` | Web en desarrollo (`http://localhost:4321/precios-origen/`) |
+| `npm run build` | Genera la web estática en `dist/` (lee `data/`) |
 | `npm test` | Tests (Vitest) |
 | `npm run typecheck` | Comprobación de tipos |
 | `npm run ingesta` | Descarga el CSV, lo valida y genera `data/` |

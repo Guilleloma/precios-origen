@@ -123,7 +123,65 @@ Cada punto es `[lunes, año, semana, mínimo, medio, máximo]`. Tamaño con los 
 
 ## Web
 
-> **Pendiente (frontend-expert, tareas F1–F5):** comandos de la web, estructura de `src/`, cómo lee `data/` en el build y capturas de verificación.
+Sitio estático con [Astro](https://astro.build) 7.3 y TypeScript, sin librería de gráficos ni de interfaz. Necesita los datos de `data/` (si no están, `npm run ingesta`).
+
+```sh
+npm run dev       # servidor de desarrollo: http://localhost:4321/precios-origen/
+npm run build     # genera dist/
+npm run preview   # sirve dist/ en http://localhost:4321/precios-origen/
+```
+
+| Variable de entorno | Para qué | Por defecto |
+|---|---|---|
+| `DATOS_DIR` | Carpeta con `resumen.json` y `series/` | `data` |
+| `SITIO_URL` | Dominio de publicación (`https://<usuario>.github.io`). Sin él, la imagen de la vista previa sale con ruta relativa y WhatsApp no la enseña: **el workflow de publicación debe definirlo** | sin definir |
+| `RUTA_BASE` | Ruta base de la web | `/precios-origen/` |
+
+La dirección de publicación no se escribe en el código porque lleva el usuario de GitHub.
+
+Los scripts desactivan la telemetría de Astro (`ASTRO_TELEMETRY_DISABLED=1`). El build no genera source maps, no carga nada de otros dominios (tipografías del sistema) y marca todas las páginas con `noindex`.
+
+### Páginas
+
+| Ruta | Qué muestra |
+|---|---|
+| `/` | Lista de productos: precio medio, variación con flecha y signo, provincia, posición, semana y minigráfica de 52 semanas |
+| `/<slug>/` | Detalle: precio, horquilla, atribución completa, gráfico con rangos de 6 meses, 1 año, 3 años y todo, y tabla con todas las semanas |
+| `/sobre-los-datos/` | Fuente, licencia, qué es el precio medio, provincia de cada producto y cómo se calcula la variación |
+
+### Estructura de `src/`
+
+```
+src/
+├── datos/        # cargar.ts lee data/ en el build (valida el esquema); rutas.ts une rutas con la base
+├── formato/      # funciones puras en es-ES: precios, fechas, variación y estado de cada fila,
+│                 # aviso de dato atrasado y textos de la vista previa al compartir
+├── grafico/      # funciones puras del gráfico (tramos, escalas, trazados, rangos, lectura)
+│                 # e interaccion.ts, lo único que corre en el navegador junto con el aviso
+├── componentes/  # FilaProducto, Minigrafica, Variacion, Grafico, SelectorRango, TablaDatos, Atribucion, AvisoAtraso
+├── estilos/      # global.css: colores de los dos temas (contraste AA) y tipografía
+├── layouts/      # Base.astro: cabecera, aviso, pie legal, Open Graph y noindex
+└── pages/        # index.astro, [slug].astro, sobre-los-datos.astro
+public/           # favicon.svg y og.png (1200×630, sin metadatos)
+```
+
+Cómo funciona:
+
+- **Todo se calcula en el build.** Las páginas salen en HTML con el gráfico ya dibujado en SVG. Sin JavaScript se ve todo, incluido el cambio de rango (botones de opción y CSS). Con JavaScript, además, se señala cada semana con el ratón, el dedo o el teclado.
+- **Las mismas funciones** (`src/grafico/`, `src/formato/`) dibujan en el build y en el navegador, y tienen tests en `tests/web-*.test.ts`.
+- **Huecos**: dos puntos solo se unen si sus lunes están a 7 días; un punto aislado se dibuja como punto con su horquilla. El eje X es tiempo continuo, así que las semanas sin cotización quedan en blanco.
+- **Aviso de dato atrasado**: el navegador compara la fecha del dispositivo con el domingo de la última semana; a partir de 5 días (el viernes) muestra «El dato de la semana N aún no se ha publicado».
+- **Accesibilidad**: el gráfico se anuncia como control deslizante con el precio de la semana señalada y un resumen de la serie; la tabla de datos es la alternativa completa. Objetivos táctiles de 44 px, `prefers-reduced-motion` y subida o bajada siempre con flecha y signo, no solo con color.
+- **Astro 7.3 y no 7.4**: la 7.4 exige Node 22.22 o superior. `astro check` no se usa porque no funciona con TypeScript 7; por eso la lógica vive en `.ts` (comprobados con `npm run typecheck`) y los `.astro` solo pintan.
+
+Para probar la web con los estados que no se dan con los datos de hoy (producto sin cotización esta semana), se puede construir con la muestra de los tests:
+
+```sh
+npm run ingesta -- --csv tests/fixtures/muestra.csv --actualizado-el 2021-05-12 --salida /tmp/datos-muestra --permitir-desfase
+DATOS_DIR=/tmp/datos-muestra npm run build
+```
+
+Las capturas de verificación no van al repo (regla de capturas): se guardan fuera, en la caché local de quien verifica.
 
 ## Publicación
 

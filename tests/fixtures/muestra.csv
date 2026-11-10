@@ -1,0 +1,280 @@
+anyo_precio;semana_precio;codigo_grupo_producto;grupo_producto_castellano;grupo_producto_valenciano;codigo_producto;producto_castellano;producto_valenciano;codigo_variedad;variedad_castellano;variedad_valenciano;codigo_zona;zona_castellano;zona_valenciano;precio_minimo;precio_medio;precio_maximo
+2020;36;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,23;0,30;0,36
+2020;36;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,19;0,23;0,28
+2020;37;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,23;0,29;0,34
+2020;37;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,17;0,21;0,25
+2020;38;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,23;0,29;0,34
+2020;38;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,18;0,22;0,25
+2020;39;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,35;0,40;0,45
+2020;39;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,23;0,29;0,34
+2020;39;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,17;0,21;0,25
+2020;40;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,30;0,36;0,42
+2020;40;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,23;0,29;0,34
+2020;40;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,18;0,22;0,27
+2020;41;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,30;0,35;0,40
+2020;41;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,23;0,30;0,36
+2020;41;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,18;0,22;0,25
+2020;42;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,30;0,35;0,40
+2020;42;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,23;0,29;0,34
+2020;42;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,18;0,22;0,25
+2020;43;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,30;0,35;0,40
+2020;43;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,23;0,28;0,33
+2020;43;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,18;0,21;0,23
+2020;44;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"03";"Alicante";"Alacant";0,28;0,29;0,31
+2020;44;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,20;0,23;0,27
+2020;44;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,28;0,32;0,35
+2020;44;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";191;"Limón Fino/Primofiori (1corte)";"Lima fina/Primofiori (1tall)";"03";"Alicante";"Alacant";0,38;0,44;0,50
+2020;44;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,24;0,28;0,31
+2020;44;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"12";"Castellón";"Castelló";0,22;0,24;0,26
+2020;44;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"46";"Valencia";"València";0,22;0,26;0,30
+2020;44;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,17;0,20;0,23
+2020;45;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"03";"Alicante";"Alacant";0,28;0,28;0,28
+2020;45;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,19;0,22;0,26
+2020;45;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,24;0,29;0,35
+2020;45;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";191;"Limón Fino/Primofiori (1corte)";"Lima fina/Primofiori (1tall)";"03";"Alicante";"Alacant";0,38;0,44;0,50
+2020;45;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,24;0,28;0,31
+2020;45;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"12";"Castellón";"Castelló";0,18;0,22;0,26
+2020;45;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"46";"Valencia";"València";0,22;0,26;0,30
+2020;45;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,18;0,21;0,23
+2020;46;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"03";"Alicante";"Alacant";0,27;0,27;0,28
+2020;46;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,22;0,23;0,25
+2020;46;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,24;0,29;0,35
+2020;46;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,23;0,25;0,27
+2020;46;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"12";"Castellón";"Castelló";0,18;0,21;0,23
+2020;46;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"46";"Valencia";"València";0,17;0,20;0,23
+2020;46;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,15;0,17;0,20
+2020;47;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,21;0,23;0,25
+2020;47;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,25;0,30;0,35
+2020;47;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,18;0,23;0,27
+2020;47;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"12";"Castellón";"Castelló";0,18;0,21;0,23
+2020;47;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"46";"Valencia";"València";0,17;0,21;0,25
+2020;47;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,15;0,19;0,23
+2020;48;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,20;0,22;0,24
+2020;48;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,24;0,29;0,35
+2020;48;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,18;0,23;0,27
+2020;48;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"12";"Castellón";"Castelló";0,16;0,19;0,21
+2020;48;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"46";"Valencia";"València";0,17;0,21;0,25
+2020;48;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,15;0,19;0,23
+2020;49;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"03";"Alicante";"Alacant";0,18;0,24;0,30
+2020;49;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,17;0,20;0,23
+2020;49;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,20;0,25;0,30
+2020;49;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,16;0,22;0,27
+2020;49;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"12";"Castellón";"Castelló";0,16;0,18;0,21
+2020;49;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"46";"Valencia";"València";0,15;0,19;0,23
+2020;49;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,13;0,16;0,19
+2020;50;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"03";"Alicante";"Alacant";0,18;0,24;0,30
+2020;50;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,17;0,20;0,23
+2020;50;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,20;0,25;0,30
+2020;50;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,16;0,22;0,28
+2020;50;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"12";"Castellón";"Castelló";0,16;0,16;0,16
+2020;50;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"46";"Valencia";"València";0,15;0,18;0,21
+2020;50;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,14;0,16;0,18
+2020;51;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"03";"Alicante";"Alacant";0,18;0,21;0,25
+2020;51;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,15;0,18;0,22
+2020;51;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,18;0,21;0,25
+2020;51;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,16;0,21;0,27
+2020;51;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"12";"Castellón";"Castelló";0,18;0,18;0,18
+2020;51;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"46";"Valencia";"València";0,15;0,18;0,22
+2020;51;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,14;0,16;0,18
+2020;52;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"03";"Alicante";"Alacant";0,20;0,21;0,22
+2020;52;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,18;0,20;0,22
+2020;52;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,15;0,18;0,22
+2020;52;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,15;0,20;0,25
+2020;52;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"12";"Castellón";"Castelló";0,18;0,18;0,18
+2020;52;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"46";"Valencia";"València";0,15;0,18;0,21
+2020;52;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,11;0,14;0,18
+2020;36;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2020;36;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";4,86;4,91;4,96
+2020;36;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,20;2,25;2,30
+2020;36;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,60;0,65;0,69
+2020;37;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";3,06;3,11;3,16
+2020;37;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,06;5,11;5,16
+2020;37;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,20;2,27;2,35
+2020;37;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,68;0,69;0,69
+2020;37;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,68;0,69;0,69
+2020;38;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";3,26;3,31;3,36
+2020;38;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,16;5,21;5,26
+2020;38;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,30;2,35;2,40
+2020;38;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,70;0,70;0,71
+2020;39;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";3,36;3,41;3,46
+2020;39;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,26;5,31;5,36
+2020;39;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,30;2,35;2,40
+2020;39;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,65;0,68;0,71
+2020;40;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";3,21;3,26;3,31
+2020;40;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,26;5,31;5,36
+2020;40;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";3,00;3,00;3,00
+2020;40;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,68;0,69;0,71
+2020;41;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";3,21;3,26;3,31
+2020;41;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,36;5,41;5,46
+2020;41;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,60;2,62;2,65
+2020;41;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,63;0,66;0,69
+2020;42;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";3,21;3,26;3,31
+2020;42;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,36;5,41;5,46
+2020;42;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,60;2,62;2,65
+2020;42;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,60;0,62;0,65
+2020;43;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";3,01;3,06;3,11
+2020;43;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,46;5,51;5,56
+2020;43;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";3,00;3,00;3,00
+2020;43;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,61;0,62;0,64
+2020;44;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2020;44;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,56;5,61;5,66
+2020;44;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,80;2,83;2,85
+2020;44;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,60;0,62;0,65
+2020;44;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"46";"Valencia";"València";3,00;3,00;3,00
+2020;44;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"46";"Valencia";"València";5,50;5,50;5,50
+2020;45;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2020;45;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,61;5,66;5,71
+2020;45;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,90;2,92;2,95
+2020;45;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,55;0,59;0,64
+2020;45;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"46";"Valencia";"València";3,00;3,00;3,00
+2020;45;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"46";"Valencia";"València";5,50;5,50;5,50
+2020;46;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2020;46;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,66;5,71;5,76
+2020;46;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,70;2,75;2,80
+2020;46;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,55;0,59;0,64
+2020;46;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"46";"Valencia";"València";3,00;3,00;3,00
+2020;46;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"46";"Valencia";"València";5,80;5,80;5,80
+2020;47;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2020;47;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,66;5,71;5,76
+2020;47;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,70;2,75;2,80
+2020;47;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,55;0,59;0,64
+2020;47;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"46";"Valencia";"València";3,00;3,00;3,00
+2020;47;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"46";"Valencia";"València";5,80;5,80;5,80
+2020;48;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2020;48;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,66;5,71;5,76
+2020;48;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,50;2,55;2,60
+2020;48;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,61;0,62;0,64
+2020;48;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"46";"Valencia";"València";3,00;3,00;3,00
+2020;48;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"46";"Valencia";"València";5,90;5,90;5,90
+2020;49;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2020;49;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,66;5,71;5,76
+2020;49;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,40;2,50;2,60
+2020;49;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,56;0,59;0,62
+2020;49;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"46";"Valencia";"València";3,00;3,00;3,00
+2020;49;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"46";"Valencia";"València";6,00;6,00;6,00
+2020;50;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2020;50;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,66;5,71;5,76
+2020;50;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,40;2,42;2,45
+2020;50;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,58;0,60;0,62
+2020;50;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"46";"Valencia";"València";3,00;3,00;3,00
+2020;50;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"46";"Valencia";"València";6,00;6,00;6,00
+2020;51;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2020;51;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,66;5,71;5,76
+2020;51;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,50;2,55;2,60
+2020;51;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,58;0,60;0,62
+2020;52;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2020;52;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,66;5,71;5,76
+2020;52;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,70;2,73;2,75
+2020;52;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,61;0,62;0,62
+2021;1;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2021;1;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,66;5,71;5,76
+2021;1;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"03";"Alicante";"Alacant";0,20;0,21;0,22
+2021;1;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,15;0,17;0,20
+2021;1;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,15;0,18;0,22
+2021;1;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,15;0,20;0,25
+2021;1;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"12";"Castellón";"Castelló";0,18;0,18;0,18
+2021;1;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"46";"Valencia";"València";0,15;0,19;0,23
+2021;1;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"46";"Valencia";"València";0,11;0,14;0,17
+2021;2;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"03";"Alicante";"Alacant";0,18;0,20;0,22
+2021;2;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,17;0,18;0,20
+2021;2;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,15;0,18;0,22
+2021;2;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,14;0,18;0,23
+2021;3;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"03";"Alicante";"Alacant";0,18;0,20;0,22
+2021;3;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,13;0,17;0,20
+2021;3;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,15;0,17;0,20
+2021;3;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"12";"Castellón";"Castelló";0,12;0,16;0,20
+2021;4;1;"01 Cítricos";"01 Citrics";27;"02- Clementinas";"02- Clementines";3;"Clementina Clemenules";"Clementina Clemenules";"03";"Alicante";"Alacant";0,18;0,20;0,22
+2021;4;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,16;0,17;0,18
+2021;4;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,15;0,17;0,20
+2021;5;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,17;0,18;0,20
+2021;5;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,15;0,17;0,20
+2021;6;1;"01 Cítricos";"01 Citrics";70;"04- Naranjas Navel";"04- Taronges Navel";85;"Naranja Navelina";"Taronja navelina";"03";"Alicante";"Alacant";0,19;0,20;0,20
+2021;6;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,12;0,17;0,22
+2021;7;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,15;0,17;0,20
+2021;8;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,15;0,17;0,20
+2021;9;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,15;0,17;0,20
+2021;10;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,15;0,17;0,20
+2021;11;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,13;0,17;0,20
+2021;12;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,13;0,17;0,20
+2021;13;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,12;0,16;0,20
+2021;14;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,12;0,16;0,20
+2021;14;1;"01 Cítricos";"01 Citrics";59;"06- Limón Fino";"06- Llima Fina";355;"Limón Fino";"Llima fina";"03";"Alicante";"Alacant";0,12;0,16;0,20
+2021;1;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,50;2,60;2,70
+2021;1;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,61;0,62;0,62
+2021;2;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2021;2;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,66;5,71;5,76
+2021;2;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,50;2,60;2,70
+2021;2;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,61;0,62;0,62
+2021;3;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2021;3;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,66;5,71;5,76
+2021;3;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,65;2,67;2,70
+2021;3;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,61;0,63;0,64
+2021;4;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2021;4;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,66;5,71;5,76
+2021;4;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,80;2,90;3,00
+2021;4;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,61;0,63;0,64
+2021;5;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2021;5;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";5,86;5,91;5,96
+2021;5;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,80;2,90;3,00
+2021;5;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,61;0,63;0,65
+2021;6;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";3,06;3,11;3,16
+2021;6;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,01;6,06;6,11
+2021;6;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,80;2,83;2,85
+2021;6;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,61;0,66;0,70
+2021;7;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";3,01;3,06;3,11
+2021;7;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,06;6,11;6,16
+2021;7;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,80;2,83;2,85
+2021;7;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,63;0,68;0,72
+2021;8;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,96;3,01;3,06
+2021;8;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,06;6,11;6,16
+2021;8;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,75;2,77;2,80
+2021;8;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,70;0,71;0,72
+2021;9;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2021;9;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,06;6,11;6,16
+2021;9;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,75;2,80;2,85
+2021;9;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,70;0,73;0,76
+2021;10;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2021;10;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,06;6,11;6,16
+2021;10;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,80;2,83;2,85
+2021;10;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,70;0,75;0,80
+2021;11;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2021;11;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,06;6,11;6,16
+2021;11;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,80;2,83;2,85
+2021;11;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,75;0,78;0,80
+2021;12;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2021;12;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,06;6,11;6,16
+2021;12;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,80;2,83;2,85
+2021;12;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,70;0,77;0,84
+2021;13;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2021;13;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,06;6,11;6,16
+2021;13;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";2,90;2,95;3,00
+2021;13;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,70;0,79;0,87
+2021;14;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2021;14;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,06;6,11;6,16
+2021;14;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";3,00;3,00;3,00
+2021;14;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,70;0,80;0,90
+2021;15;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2021;15;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,06;6,11;6,16
+2021;15;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";3,10;3,10;3,10
+2021;15;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,80;0,86;0,93
+2021;16;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2021;16;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,06;6,11;6,16
+2021;16;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";3,20;3,23;3,25
+2021;16;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,95;0,97;1,00
+2021;17;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2021;17;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,11;6,16;6,21
+2021;17;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";3,40;3,50;3,60
+2021;17;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";1,00;1,02;1,05
+2021;18;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2021;18;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,11;6,16;6,21
+2021;18;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";3,45;3,50;3,55
+2021;18;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";1,00;1,02;1,05
+2021;19;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2021;19;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,11;6,16;6,21
+2021;19;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";3,45;3,50;3,55
+2021;19;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,95;1,00;1,05
+2021;20;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";23;"Almendra Comuna";"Ametla comuna";"03";"Alicante";"Alacant";2,91;2,96;3,01
+2021;20;4;"04 Frutos secos";"04 Fruita Seca";6;"Almendra";"Ametla";40;"Almendra Marcona";"Ametla marcona";"03";"Alicante";"Alacant";6,11;6,16;6,21
+2021;20;8;"08 Industriales";"08 Industrials";8;"Aceite Oliva";"Oli Oliva";76;"Aceite Oliva Virgen Extra<0,8º";"Oli oliva verge extra<0,8º";"12";"Castellón";"Castelló";3,40;3,45;3,50
+2021;20;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,95;1,00;1,05
+2021;20;8;"08 Industriales";"08 Industrials";40;"Garrofa";"Garrofa";165;"Garrofa Entera";"Garrofa Sencera";"12";"Castellón";"Castelló";0,95;1,00;1,05

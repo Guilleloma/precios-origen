@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2023",
-    "lib": ["es2023"],
+    "lib": ["es2023", "dom", "dom.iterable"],
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "types": ["node"],
@@ -15,5 +15,5 @@
     "noEmit": true,
     "skipLibCheck": true
   },
-  "include": ["config", "scripts", "tests", "vitest.config.ts"]
+  "include": ["config", "scripts", "src", "tests", "vitest.config.ts"]
 }

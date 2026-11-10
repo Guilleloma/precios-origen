@@ -1,6 +1,7 @@
 import { setTimeout as esperar } from 'node:timers/promises';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
+import { PRODUCTOS, type Producto } from '../../config/productos.ts';
 import type { Variacion } from './contrato.ts';
 import { URL_CSV } from './descarga.ts';
 import { ErrorIngesta } from './errores.ts';
@@ -53,7 +54,11 @@ function informar({ estado, publicacion }: ResultadoIngesta, salida: string): vo
 }
 
 /** Devuelve el código de salida: 0 bien, 1 fallo de validación o de la fuente, 2 uso o error inesperado. */
-export async function main(argv: string[], deps: DependenciasIngesta = DEPENDENCIAS): Promise<number> {
+export async function main(
+  argv: string[],
+  deps: DependenciasIngesta = DEPENDENCIAS,
+  productos: readonly Producto[] = PRODUCTOS,
+): Promise<number> {
   let valores;
   try {
     ({ values: valores } = parseArgs({
@@ -80,6 +85,7 @@ export async function main(argv: string[], deps: DependenciasIngesta = DEPENDENC
         csv: valores.csv,
         actualizadoEl: valores['actualizado-el'],
         permitirDesfase: valores['permitir-desfase'],
+        productos,
       },
       deps,
     );

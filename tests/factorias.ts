@@ -1,12 +1,26 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import type { Producto } from '../config/productos.ts';
+import { PRODUCTOS, type Producto } from '../config/productos.ts';
 import { COLUMNAS, type FilaCsv } from '../scripts/ingesta/csv.ts';
 import { ErrorIngesta } from '../scripts/ingesta/errores.ts';
 
 export const RUTA_MUESTRA = fileURLToPath(new URL('./fixtures/muestra.csv', import.meta.url));
 export const leerMuestra = () => readFileSync(RUTA_MUESTRA, 'utf8');
 export const CABECERA = COLUMNAS.join(';');
+
+/** Productos que tienen filas en la muestra: los siete del MVP. Los demás no cotizan entre 2020 y 2021 en el recorte. */
+export const SLUGS_MUESTRA = [
+  'naranja-navelina',
+  'clementina-clemenules',
+  'almendra-comuna',
+  'almendra-marcona',
+  'garrofa',
+  'aceite-virgen-extra',
+  'limon-fino',
+] as const;
+export const PRODUCTOS_MUESTRA: readonly Producto[] = PRODUCTOS.filter((p) =>
+  (SLUGS_MUESTRA as readonly string[]).includes(p.slug),
+);
 
 export const PRODUCTO_GARROFA: Producto = {
   slug: 'garrofa',

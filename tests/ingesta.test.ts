@@ -7,7 +7,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ErrorIngesta } from '../scripts/ingesta/errores.ts';
 import { ejecutarIngesta, type DependenciasIngesta } from '../scripts/ingesta/ingesta.ts';
 import { formatoVariacion, main } from '../scripts/ingesta/main.ts';
-import { CABECERA, RUTA_MUESTRA, leerMuestra } from './factorias.ts';
+import { CABECERA, PRODUCTOS_MUESTRA, RUTA_MUESTRA, leerMuestra } from './factorias.ts';
 
 const AHORA_MUESTRA = new Date('2021-05-19T16:31:10Z');
 const LAST_MODIFIED = 'Wed, 19 May 2021 12:21:40 GMT';
@@ -41,7 +41,7 @@ function instantanea(carpeta: string): Record<string, string> {
 
 async function publicarMuestra(): Promise<Record<string, string>> {
   await ejecutarIngesta(
-    { url: 'x', salida, csv: RUTA_MUESTRA, actualizadoEl: '2021-05-19' },
+    { url: 'x', salida, csv: RUTA_MUESTRA, actualizadoEl: '2021-05-19', productos: PRODUCTOS_MUESTRA },
     dependencias(),
   );
   return instantanea(salida);
@@ -86,7 +86,7 @@ describe('ejecutarIngesta con la muestra real', () => {
   it('should not rewrite anything when only the generation time would change', async () => {
     const antes = await publicarMuestra();
     const resultado = await ejecutarIngesta(
-      { url: 'x', salida, csv: RUTA_MUESTRA, actualizadoEl: '2021-05-19' },
+      { url: 'x', salida, csv: RUTA_MUESTRA, actualizadoEl: '2021-05-19', productos: PRODUCTOS_MUESTRA },
       dependencias({ ahora: () => new Date('2021-05-20T16:31:10Z') }),
     );
     expect(resultado.estado).toBe('sin-cambios');
@@ -95,17 +95,28 @@ describe('ejecutarIngesta con la muestra real', () => {
 
   it('should take the update date from the Last-Modified header when downloading', async () => {
     const deps = dependencias({ fetch: respuestaCsv(leerMuestra() + RELLENO) });
-    const { publicacion } = await ejecutarIngesta({ url: 'x', salida }, deps);
+    const { publicacion } = await ejecutarIngesta({ url: 'x', salida, productos: PRODUCTOS_MUESTRA }, deps);
     expect(publicacion.resumen.fuente.actualizadoEl).toBe('2021-05-19');
   });
 
   it('should fail on stale data unless --permitir-desfase is used', async () => {
     const tarde = { ahora: () => new Date('2021-05-26T10:00:00Z') };
-    const opciones = { url: 'x', salida, csv: RUTA_MUESTRA, actualizadoEl: '2021-05-19' };
+    const opciones = { url: 'x', salida, csv: RUTA_MUESTRA, actualizadoEl: '2021-05-19', productos: PRODUCTOS_MUESTRA };
     expect(await codigoDe(ejecutarIngesta(opciones, dependencias(tarde)))).toBe('DATOS_DESFASADOS');
     expect(existsSync(salida)).toBe(false);
     const { estado } = await ejecutarIngesta({ ...opciones, permitirDesfase: true }, dependencias(tarde));
     expect(estado).toBe('publicado');
+  });
+
+  it('should not treat a product out of season as stale data: the lag is measured on the whole CSV', async () => {
+    const { estado, publicacion } = await ejecutarIngesta(
+      { url: 'x', salida, csv: RUTA_MUESTRA, actualizadoEl: '2021-05-19', productos: PRODUCTOS_MUESTRA },
+      dependencias(),
+    );
+    expect(estado).toBe('publicado');
+    expect(publicacion.resumen.ultimaSemana).toMatchObject({ anyo: 2021, semana: 20 });
+    const navelina = publicacion.resumen.productos.find((p) => p.slug === 'naranja-navelina');
+    expect(navelina).toMatchObject({ cotizaEstaSemana: false, ultimo: { anyo: 2021, semana: 1 } });
   });
 
   it('should require --actualizado-el with --csv', async () => {
@@ -128,7 +139,7 @@ describe('fallos de la fuente: código de salida distinto de 0 y data/ intacto',
   it('should retry 3 times and exit 1 when the download fails', async () => {
     const antes = await publicarMuestra();
     const deps = dependencias();
-    expect(await main(['--salida', salida], deps)).toBe(1);
+    expect(await main(['--salida', salida], deps, PRODUCTOS_MUESTRA)).toBe(1);
     expect(deps.fetch).toHaveBeenCalledTimes(4);
     expect(deps.esperar).toHaveBeenCalledTimes(3);
     expect(errores.join()).toContain('[DESCARGA_FALLIDA]');
@@ -146,7 +157,9 @@ describe('fallos de la fuente: código de salida distinto de 0 y data/ intacto',
         throw new TypeError('fetch failed');
       }),
     ];
-    for (const fetch of casos) expect(await main(['--salida', salida], dependencias({ fetch }))).toBe(1);
+    for (const fetch of casos) {
+      expect(await main(['--salida', salida], dependencias({ fetch }), PRODUCTOS_MUESTRA)).toBe(1);
+    }
     expect(errores).toHaveLength(4);
     for (const motivo of ['bytes (mínimo', 'Last-Modified', 'encoded data was not valid', 'fetch failed']) {
       expect(errores.join()).toContain(motivo);
@@ -159,7 +172,7 @@ describe('fallos de la fuente: código de salida distinto de 0 y data/ intacto',
     const fetch = vi.fn(async () => {
       throw new TypeError('fetch failed', { cause: rechazada });
     });
-    expect(await main(['--salida', salida], dependencias({ fetch }))).toBe(1);
+    expect(await main(['--salida', salida], dependencias({ fetch }), PRODUCTOS_MUESTRA)).toBe(1);
     expect(errores.at(-1)).toContain('[DESCARGA_FALLIDA]');
     expect(errores.at(-1)).toContain('fetch failed (ECONNREFUSED: connect ECONNREFUSED 192.0.2.1:443)');
   });
@@ -167,7 +180,7 @@ describe('fallos de la fuente: código de salida distinto de 0 y data/ intacto',
   it('should download from the address given with --url', async () => {
     const deps = dependencias();
     const url = 'https://dadesobertes.gva.es/no-existe/precios.csv';
-    expect(await main(['--salida', salida, '--url', url], deps)).toBe(1);
+    expect(await main(['--salida', salida, '--url', url], deps, PRODUCTOS_MUESTRA)).toBe(1);
     expect(deps.fetch).toHaveBeenCalledTimes(4);
     expect(vi.mocked(deps.fetch).mock.calls.every(([destino]) => destino === url)).toBe(true);
     expect(existsSync(salida)).toBe(false);
@@ -176,13 +189,15 @@ describe('fallos de la fuente: código de salida distinto de 0 y data/ intacto',
   it('should exit 1 before writing anything when the CSV has an unexpected format', async () => {
     const antes = await publicarMuestra();
     const cambiada = leerMuestra().replace(CABECERA, CABECERA.replace('precio_medio', 'precio_mitja'));
-    expect(await main(['--salida', salida], dependencias({ fetch: respuestaCsv(cambiada + RELLENO) }))).toBe(1);
+    const depsCambiada = dependencias({ fetch: respuestaCsv(cambiada + RELLENO) });
+    expect(await main(['--salida', salida], depsCambiada, PRODUCTOS_MUESTRA)).toBe(1);
     expect(errores.at(-1)).toContain('[CSV_CABECERA_INESPERADA]');
     // Última fila de la Navelina de Valencia (semana 1 de 2021) con punto decimal.
     const navelina = '"46";"Valencia";"València";0,11;0,14;0,17';
     expect(leerMuestra()).toContain(navelina);
     const conPunto = leerMuestra().replace(navelina, navelina.replace('0,14', '0.14'));
-    expect(await main(['--salida', salida], dependencias({ fetch: respuestaCsv(conPunto + RELLENO) }))).toBe(1);
+    const depsConpunto = dependencias({ fetch: respuestaCsv(conPunto + RELLENO) });
+    expect(await main(['--salida', salida], depsConpunto, PRODUCTOS_MUESTRA)).toBe(1);
     expect(errores.at(-1)).toContain('[PRECIO_FORMATO_INESPERADO]');
     expect(instantanea(salida)).toEqual(antes);
   });
@@ -194,13 +209,13 @@ describe('fallos de la fuente: código de salida distinto de 0 y data/ intacto',
       .filter((linea) => !linea.startsWith('2021;20;'))
       .join('\n');
     const deps = dependencias({ fetch: respuestaCsv(recortada + RELLENO) });
-    expect(await main(['--salida', salida, '--permitir-desfase'], deps)).toBe(1);
+    expect(await main(['--salida', salida, '--permitir-desfase'], deps, PRODUCTOS_MUESTRA)).toBe(1);
     expect(errores.at(-1)).toContain('[RETROCESO_SEMANA]');
     expect(instantanea(salida)).toEqual(antes);
   });
 
   it('should exit 2 on unknown options', async () => {
-    expect(await main(['--salidas', salida], dependencias())).toBe(2);
+    expect(await main(['--salidas', salida], dependencias(), PRODUCTOS_MUESTRA)).toBe(2);
   });
 });
 

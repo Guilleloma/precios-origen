@@ -55,8 +55,8 @@ describe('config/productos', () => {
     }
   });
 
-  it('should use one of the commercial positions published by the GVA, in €/kg', () => {
-    const posiciones = ['sobre árbol', 'sobre cepa', 'grano, entrada descascaradora', 'entrada almacén'];
+  it('should use one of the commercial positions published by the GVA, or the neutral one, in €/kg', () => {
+    const posiciones = ['sobre árbol', 'sobre cepa', 'grano, entrada descascaradora', 'entrada almacén', 'precio en origen'];
     for (const p of PRODUCTOS) {
       expect(posiciones, p.slug).toContain(p.posicion);
       expect(p.unidad).toBe('€/kg');
@@ -72,6 +72,12 @@ describe('config/productos', () => {
     }
     expect(posicionDe('caqui-rojo-brillante')).toBe('sobre árbol');
     expect(posicionDe('granada-mollar')).toBe('entrada almacén');
+  });
+
+  it('should not claim a position for melon, watermelon and avocado, which the GVA does not give', () => {
+    for (const slug of ['melon-piel-de-sapo', 'sandia-sin-pepitas', 'aguacate-hass']) {
+      expect(PRODUCTOS.find((p) => p.slug === slug)?.posicion, slug).toBe('precio en origen');
+    }
   });
 
   it('should keep the province of the seven MVP products', () => {

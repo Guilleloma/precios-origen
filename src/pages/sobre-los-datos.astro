@@ -29,8 +29,8 @@ const categoriasConProductos = resumen.categorias
     <p>
       Es lo que se paga por el producto en origen, antes de pasar por el almacén de confección o la industria. El punto
       exacto depende del producto: sobre el árbol, sobre la cepa, a la entrada del almacén o, en la almendra, en grano a
-      la entrada de la descascaradora. La tabla de más abajo dice el de cada uno. Todos los precios van en euros por
-      kilo, sin IVA.
+      la entrada de la descascaradora. La tabla de más abajo dice el de cada uno cuando la Conselleria lo indica. Todos
+      los precios van en euros por kilo, sin IVA.
     </p>
 
     <h2>Un precio por semana, no por día</h2>
@@ -82,6 +82,10 @@ const categoriasConProductos = resumen.categorias
         }
       </table>
     </div>
+    <p class="nota-tabla">
+      Del melón, la sandía y el aguacate la Conselleria no dice en qué punto se fija el precio. Por eso figuran solo como
+      «precio en origen».
+    </p>
 
     <h2>Por qué muchos productos no tienen precio parte del año</h2>
     <p>
@@ -193,6 +197,11 @@ const categoriasConProductos = resumen.categorias
 
   tbody th {
     font-weight: 600;
+  }
+
+  .nota-tabla {
+    font-size: 0.9375rem;
+    color: var(--tinta-suave);
   }
 
   .grupo th {

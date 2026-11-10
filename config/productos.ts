@@ -42,13 +42,18 @@ export interface Producto {
 /**
  * Posición comercial: dónde se fija el precio. El CSV no la trae; sale de la descripción del dataset y
  * del pie del informe semanal de la GVA. Cítricos y caqui, sobre árbol; uva de mesa, sobre cepa;
- * almendra, en grano a la entrada de la descascaradora; el resto de fruta (también melón y sandía,
- * que la GVA cuenta como hortalizas), aceite y garrofa, a la entrada del almacén.
+ * almendra, en grano a la entrada de la descascaradora; frutales no cítricos, aceite y garrofa, a la
+ * entrada del almacén.
  */
 const ARBOL = 'sobre árbol';
 const CEPA = 'sobre cepa';
 const DESCASCARADORA = 'grano, entrada descascaradora';
 const ALMACEN = 'entrada almacén';
+/**
+ * Melón y sandía (que la GVA cuenta como hortalizas) y aguacate (que la descripción del dataset no nombra):
+ * la GVA no dice en qué punto se fija su precio, así que no se afirma ninguno.
+ */
+const SIN_POSICION_PUBLICADA = 'precio en origen';
 
 /**
  * Provincia de cada producto: la que tiene más semanas con dato en las dos últimas campañas (en empate,
@@ -185,7 +190,7 @@ export const PRODUCTOS: readonly Producto[] = [
     codigoZona: '03',
     nombreEsperado: 'Hass',
     unidad: '€/kg',
-    posicion: ALMACEN,
+    posicion: SIN_POSICION_PUBLICADA,
   },
   {
     slug: 'albaricoque-temprano',
@@ -275,7 +280,7 @@ export const PRODUCTOS: readonly Producto[] = [
     codigoZona: '12',
     nombreEsperado: 'Melón Piel De Sapo',
     unidad: '€/kg',
-    posicion: ALMACEN,
+    posicion: SIN_POSICION_PUBLICADA,
   },
   {
     slug: 'nectarina-amarilla',
@@ -305,7 +310,7 @@ export const PRODUCTOS: readonly Producto[] = [
     codigoZona: '12',
     nombreEsperado: 'Sandía sin pepitas',
     unidad: '€/kg',
-    posicion: ALMACEN,
+    posicion: SIN_POSICION_PUBLICADA,
   },
   {
     slug: 'uva-red-globe',

@@ -170,7 +170,7 @@ Cómo funciona:
 - **Todo se calcula en el build.** Las páginas salen en HTML con el gráfico ya dibujado en SVG. Sin JavaScript se ve todo, incluido el cambio de rango (botones de opción y CSS). Con JavaScript, además, se señala cada semana con el ratón, el dedo o el teclado.
 - **Las mismas funciones** (`src/grafico/`, `src/formato/`) dibujan en el build y en el navegador, y tienen tests en `tests/web-*.test.ts`.
 - **Huecos**: dos puntos solo se unen si sus lunes están a 7 días; un punto aislado se dibuja como punto con su horquilla. El eje X es tiempo continuo, así que las semanas sin cotización quedan en blanco.
-- **Aviso de dato atrasado**: el navegador compara la fecha del dispositivo con el domingo de la última semana; a partir de 5 días (el viernes) muestra «El dato de la semana N aún no se ha publicado».
+- **Aviso de dato atrasado**: la GVA publica cada semana el miércoles siguiente, 10 días después del domingo de la última semana que tenemos (el mismo `DIAS_DESFASE` de la ingesta). El navegador compara la fecha del dispositivo con ese domingo y, a partir de 11 días (el jueves, si el miércoles no salió la semana nueva), muestra «El dato de la semana N se retrasa: tenía que salir el miércoles D y aún no se ha publicado».
 - **Accesibilidad**: el gráfico se anuncia como control deslizante con el precio de la semana señalada y un resumen de la serie; la tabla de datos es la alternativa completa. Objetivos táctiles de 44 px, `prefers-reduced-motion` y subida o bajada siempre con flecha y signo, no solo con color.
 - **Astro 7.3 y no 7.4**: la 7.4 exige Node 22.22 o superior. `astro check` no se usa porque no funciona con TypeScript 7; por eso la lógica vive en `.ts` (comprobados con `npm run typecheck`) y los `.astro` solo pintan.
 

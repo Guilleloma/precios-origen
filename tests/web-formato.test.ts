@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import type { Resumen } from '../scripts/ingesta/contrato.ts';
-import { hayAtraso, semanaPendiente, textoAtraso } from '../src/formato/atraso.ts';
+import { DIAS_DESFASE } from '../scripts/ingesta/validar.ts';
+import {
+  DIAS_HASTA_PUBLICACION,
+  DIAS_PARA_AVISO,
+  hayAtraso,
+  publicacionPrevista,
+  semanaPendiente,
+  textoAtraso,
+} from '../src/formato/atraso.ts';
 import { descripcionPortada, descripcionProducto, tituloProducto } from '../src/formato/compartir.ts';
 import {
   etiquetaSemana,
@@ -147,19 +155,28 @@ describe('estadoFila', () => {
 describe('aviso de dato atrasado', () => {
   const ultima = { anyo: 2026, semana: 44, lunes: '2026-10-26' };
 
-  it('should not warn 4 days after the last Sunday', () => {
-    expect(hayAtraso('2026-11-01', '2026-11-05')).toBe(false);
+  // Semana 44: domingo 1 nov. La 45 sale el miércoles 11 nov (día 10).
+  it('should not warn on the day before or the day of the usual Wednesday publication', () => {
+    expect(hayAtraso('2026-11-01', '2026-11-06')).toBe(false); // viernes: la 45 aún no ha terminado
+    expect(hayAtraso('2026-11-01', '2026-11-10')).toBe(false); // martes 10 nov
+    expect(hayAtraso('2026-11-01', '2026-11-11')).toBe(false); // miércoles 11 nov, día 10
   });
 
-  it('should warn from 5 days after the last Sunday', () => {
-    expect(hayAtraso('2026-11-01', '2026-11-06')).toBe(true);
+  it('should warn from the Thursday after the usual publication if the week is still missing', () => {
+    expect(hayAtraso('2026-11-01', '2026-11-12')).toBe(true); // jueves 12 nov, día 11
     expect(hayAtraso('2026-11-01', '2026-11-20')).toBe(true);
   });
 
-  it('should name the missing week', () => {
+  it('should publish on the same day the ingesta considers the data stale', () => {
+    expect(DIAS_HASTA_PUBLICACION).toBe(DIAS_DESFASE);
+    expect(DIAS_PARA_AVISO).toBe(DIAS_DESFASE + 1);
+  });
+
+  it('should name the missing week and the Wednesday it was due', () => {
     expect(semanaPendiente(ultima)).toBe(45);
+    expect(publicacionPrevista(ultima)).toBe('2026-11-11');
     expect(textoAtraso(ultima)).toBe(
-      'El dato de la semana 45 aún no se ha publicado. Ves los precios de la semana 44.',
+      'El dato de la semana 45 se retrasa: tenía que salir el miércoles 11 nov y aún no se ha publicado. Ves los precios de la semana 44.',
     );
   });
 

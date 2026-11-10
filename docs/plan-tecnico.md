@@ -105,7 +105,7 @@ La ingesta valida antes de escribir. Si algo falla, sale con error, no toca `dat
 | Retroceso | La última semana es anterior a la ya publicada, o una serie pierde más de 2 puntos respecto a `datos` |
 | Desfase | Han pasado 10 días o más desde el domingo de la última semana (la fuente lleva una semana sin actualizar) |
 
-La web, además, muestra un aviso por su cuenta: un script mínimo compara la fecha de hoy con `ultimaSemana.domingo` y, si han pasado 5 días o más (viernes), pinta «El dato de la semana N aún no se ha publicado».
+La web, además, muestra un aviso por su cuenta: un script mínimo compara la fecha de hoy con `ultimaSemana.domingo` y, si han pasado 11 días o más, pinta «El dato de la semana N se retrasa: tenía que salir el miércoles D y aún no se ha publicado». La semana siguiente sale normalmente el miércoles, día 10 (el mismo umbral que el desfase de arriba); el aviso espera a que acabe ese miércoles, así que aparece desde el jueves y nunca en una semana normal.
 
 ## 4. Reglas de cálculo
 
@@ -153,7 +153,7 @@ Notas para B5: crea la rama `datos` huérfana si no existe. Los commits del bot 
 | F2 | Lista: fila por producto con nombre, precio medio, variación, unidad y posición, provincia, semana y minigráfica de 52 semanas en SVG generada en el build. Estados: cotiza, sin cotización, sin variación | Capturas de los tres estados (con la muestra) | Formato de precio, de variación y de los textos de estado |
 | F3 | Funciones puras del gráfico (`src/grafico/`): segmentos, escalas, trazados de línea y banda, filtro por rango, punto más cercano | Tests | Serie continua → 1 segmento; hueco → 2; punto aislado; rango vacío; mínimo = máximo |
 | F4 | Página de detalle `/<slug>/`: gráfico interactivo (ratón, tacto y teclado), selector de rango, cabecera con precio y atribución completa, tabla de datos en un `<details>` | Capturas de los 4 rangos en móvil; se maneja con teclado | Los de F3 cubren la lógica; aquí, el selector de rango |
-| F5 | Open Graph (título y descripción con el último precio por página, `og.png` de 1200×630 y menos de 300 KB enlazada desde el layout), aviso de dato atrasado, `noindex`, favicon y repaso de accesibilidad | Etiquetas en el HTML de `dist/`; aviso visible simulando la fecha | Función del aviso: 4 días → no; 5 días → sí |
+| F5 | Open Graph (título y descripción con el último precio por página, `og.png` de 1200×630 y menos de 300 KB enlazada desde el layout), aviso de dato atrasado, `noindex`, favicon y repaso de accesibilidad | Etiquetas en el HTML de `dist/`; aviso visible simulando la fecha | Función del aviso: 10 días (miércoles) → no; 11 días (jueves) → sí |
 
 Requisitos de front que no se negocian:
 - **Atribución en cada precio**: «Fuente: Generalitat Valenciana, Conselleria de Agricultura (datos abiertos, CC BY 4.0) · Castellón · semana 44 (26 oct–1 nov 2026) · actualizado el 4 nov 2026», con enlace al dataset. En la lista puede ir abreviada por fila (provincia y semana) y completa una vez bajo la lista.

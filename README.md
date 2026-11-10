@@ -145,7 +145,7 @@ Una por producto. Un punto por semana con cotización, ordenados por fecha, sin 
 }
 ```
 
-Cada punto es `[lunes, año, semana, mínimo, medio, máximo]`. Tamaño con los datos de noviembre de 2026 y 36 productos: de 1 a 19 KB por serie (290 KB en total, 40 KB comprimido) y 22 KB el resumen. Los JSON no se sirven al navegador: el build los lee y los pinta en el HTML (la portada pesa 65 KB, 9 KB comprimida).
+Cada punto es `[lunes, año, semana, mínimo, medio, máximo]`. Tamaño con los datos de noviembre de 2026 y 36 productos: de 1 a 19 KB por serie (290 KB en total, 40 KB comprimido) y 22 KB el resumen. Los JSON no se sirven al navegador: el build los lee y los pinta en el HTML (la portada pesa 71 KB, 9 KB comprimida).
 
 ## Web
 
@@ -171,20 +171,22 @@ Los scripts desactivan la telemetría de Astro (`ASTRO_TELEMETRY_DISABLED=1`). E
 
 | Ruta | Qué muestra |
 |---|---|
-| `/` | Lista de productos: precio medio, variación con flecha y signo, provincia, posición, semana y minigráfica de 52 semanas. **Pendiente de frontend**: agruparla por `categorias` (hoy sale una lista única, ya en el orden de las categorías) |
-| `/<slug>/` | Detalle: precio, horquilla, atribución completa, gráfico con rangos de 6 meses, 1 año, 3 años y todo, y tabla con todas las semanas |
-| `/sobre-los-datos/` | Fuente, licencia, qué es el precio medio, provincia de cada producto y cómo se calcula la variación |
+| `/` | Productos agrupados por categoría (`categorias`, en su orden), con una fila de accesos a cada categoría y una línea con cuántos tienen precio en la semana. Cada fila: precio medio, variación con flecha y signo, provincia, posición, semana y minigráfica de 52 semanas |
+| `/<slug>/` | Detalle: ruta hasta su categoría en la portada, precio, horquilla, atribución completa, gráfico con rangos de 6 meses, 1 año, 3 años y todo, y tabla con todas las semanas |
+| `/sobre-los-datos/` | Fuente, licencia, qué es el precio medio, provincia y posición de cada producto por categorías (sale de `resumen.json`), por qué muchos productos no tienen precio parte del año y cómo se calcula la variación |
 
 ### Estructura de `src/`
 
 ```
 src/
-├── datos/        # cargar.ts lee data/ en el build (valida el esquema); rutas.ts une rutas con la base
+├── datos/        # cargar.ts lee data/ en el build (valida el esquema); rutas.ts une rutas con la base;
+│                 # categorias.ts agrupa la portada por categoría
 ├── formato/      # funciones puras en es-ES: precios, fechas, variación y estado de cada fila,
-│                 # aviso de dato atrasado y textos de la vista previa al compartir
+│                 # recuentos por categoría, aviso de dato atrasado y textos de la vista previa al compartir
 ├── grafico/      # funciones puras del gráfico (tramos, escalas, trazados, rangos, lectura)
 │                 # e interaccion.ts, lo único que corre en el navegador junto con el aviso
-├── componentes/  # FilaProducto, Minigrafica, Variacion, Grafico, SelectorRango, TablaDatos, Atribucion, AvisoAtraso
+├── componentes/  # SeccionCategoria, NavCategorias, FilaProducto, NombreProducto, Minigrafica, Variacion,
+│                 # Grafico, SelectorRango, TablaDatos, Atribucion, AvisoAtraso
 ├── estilos/      # global.css: colores de los dos temas (contraste AA) y tipografía
 ├── layouts/      # Base.astro: cabecera, aviso, pie legal, Open Graph y noindex
 └── pages/        # index.astro, [slug].astro, sobre-los-datos.astro
@@ -198,10 +200,14 @@ Cómo funciona:
 - **Huecos**: dos puntos solo se unen si sus lunes están a 7 días; un punto aislado se dibuja como punto con su horquilla. El eje X es tiempo continuo, así que las semanas sin cotización quedan en blanco.
 - **Aviso de dato atrasado**: la GVA publica cada semana el miércoles siguiente, 10 días después del domingo de la última semana que tenemos (el mismo `DIAS_DESFASE` de la ingesta). El navegador compara la fecha del dispositivo con ese domingo y, a partir de 11 días (el jueves, si el miércoles no salió la semana nueva), muestra «El dato de la semana N se retrasa: tenía que salir el miércoles D y aún no se ha publicado».
 - **Accesibilidad**: el gráfico se anuncia como control deslizante con el precio de la semana señalada y un resumen de la serie; la tabla de datos es la alternativa completa. Objetivos táctiles de 44 px, `prefers-reduced-motion` y subida o bajada siempre con flecha y signo, no solo con color.
-- **Pendiente de frontend tras la ampliación a 36 productos**: agrupar la portada por categorías; la descripción de la vista previa de la portada (`descripcionPortada`) enumera todos los productos y con 36 queda muy larga; y el texto de «Sobre los datos» que explica la posición comercial solo nombra cítricos, almendra, aceite y garrofa (faltan fruta y melón y sandía a la entrada del almacén, el caqui sobre el árbol y la uva de mesa sobre la cepa).
+- **Portada por categorías** (`agruparPorCategoria`): una sección por categoría con encabezado `h2`, el número de productos y cuántos tienen precio en la semana. Dentro de cada una, primero los que cotizan y después, bajo «Sin precio en la sem. N», los que no, atenuados (nombre y precio en gris; en el móvil sin minigráfica) y con «Sin cotización desde la sem. N (mes de año)» y su último precio. Los dos grupos conservan el orden del contrato. Las categorías sin productos no salen; un producto con una categoría que no está en `categorias` rompe el build.
+- **Accesos a las categorías**: anclas `#categoria-<id>` (funcionan sin JavaScript) en una fila que se queda fija arriba y, si no cabe, se desplaza en horizontal dentro de sí misma, sin mover la página. El detalle enlaza a la misma ancla.
+- **Semana de referencia, no «esta semana»**: los recuentos dicen «en la semana 44» o «en la sem. 44» para cuadrar con el aviso de dato atrasado, que cuenta qué semana se está viendo cuando la siguiente se retrasa.
+- **Vista previa de la portada**: el título dice cuántos productos hay y la descripción, las categorías y cuántos tienen precio en la semana (ya no enumera los precios, que con 36 no caben). Cada detalle mantiene su título con el último precio.
+- **Nombres largos**: `NombreProducto` deja partir el nombre tras la barra («Satsuma Clausellina/Okitsu»), para que en 360 px no se corte por cualquier letra.
 - **Astro 7.3 y no 7.4**: la 7.4 exige Node 22.22 o superior. `astro check` no se usa porque no funciona con TypeScript 7; por eso la lógica vive en `.ts` (comprobados con `npm run typecheck`) y los `.astro` solo pintan.
 
-Para probar la web con los estados que no se dan con los datos de hoy (producto sin cotización esta semana), se puede construir con la muestra de los tests:
+Para probar la web con otros datos (por ejemplo, los siete productos del MVP en 2021), se puede construir con la muestra de los tests:
 
 ```sh
 npm run ingesta -- --csv tests/fixtures/muestra.csv --actualizado-el 2021-05-12 --salida /tmp/datos-muestra --permitir-desfase

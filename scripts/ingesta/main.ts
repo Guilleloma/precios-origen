@@ -5,10 +5,11 @@ import { URL_CSV } from './descarga.ts';
 import { ErrorIngesta } from './errores.ts';
 import { ejecutarIngesta, type DependenciasIngesta, type ResultadoIngesta } from './ingesta.ts';
 
-const USO = `Uso: npm run ingesta -- [--csv <ruta> --actualizado-el AAAA-MM-DD] [--salida <carpeta>] [--permitir-desfase]
+const USO = `Uso: npm run ingesta -- [--csv <ruta> --actualizado-el AAAA-MM-DD | --url <url>] [--salida <carpeta>] [--permitir-desfase]
 
   Sin opciones descarga el CSV de la GVA y escribe data/.
   --csv               Usa un CSV local en lugar de descargarlo (trabajo sin red).
+  --url               Descarga el CSV de otra dirección (por defecto, la de la GVA).
   --actualizado-el    Fecha de actualización de la fuente; obligatoria con --csv.
   --salida            Carpeta de salida (por defecto, data).
   --permitir-desfase  Solo en local: si la fuente lleva 10 días o más sin datos, avisa en vez de fallar.`;
@@ -52,6 +53,7 @@ export async function main(argv: string[], deps: DependenciasIngesta = DEPENDENC
       strict: true,
       options: {
         csv: { type: 'string' },
+        url: { type: 'string', default: URL_CSV },
         'actualizado-el': { type: 'string' },
         salida: { type: 'string', default: 'data' },
         'permitir-desfase': { type: 'boolean', default: false },
@@ -65,7 +67,7 @@ export async function main(argv: string[], deps: DependenciasIngesta = DEPENDENC
   try {
     const resultado = await ejecutarIngesta(
       {
-        url: URL_CSV,
+        url: valores.url,
         salida: valores.salida,
         csv: valores.csv,
         actualizadoEl: valores['actualizado-el'],

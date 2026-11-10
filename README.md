@@ -23,6 +23,7 @@ npm run ingesta -- --csv <ruta> --actualizado-el 2026-11-04   # con un CSV local
 | `--csv <ruta>` | Usa un CSV local en lugar de descargarlo |
 | `--actualizado-el AAAA-MM-DD` | Fecha de actualización de la fuente. Obligatoria con `--csv` (al descargar sale de `Last-Modified`) |
 | `--salida <carpeta>` | Carpeta de salida. Por defecto, `data` |
+| `--url <url>` | Descarga el CSV de otra dirección. Por defecto, la de la GVA. El workflow la usa para la prueba de fallo de la fuente |
 | `--permitir-desfase` | **Solo en local.** Si la fuente lleva 10 días o más sin datos, avisa en vez de fallar. El workflow no la usa |
 
 Qué hace, en orden:
@@ -35,7 +36,7 @@ Códigos de salida: `0` bien (con o sin cambios), `1` fallo de la fuente o de va
 
 | Código | Qué ha pasado |
 |---|---|
-| `DESCARGA_FALLIDA` | La descarga falló 4 veces: HTTP distinto de 200, menos de 1 MB, sin `Last-Modified`, no es UTF-8 o tiempo agotado (el motivo va en el mensaje) |
+| `DESCARGA_FALLIDA` | La descarga falló 4 veces: HTTP distinto de 200, menos de 1 MB, sin `Last-Modified`, no es UTF-8, tiempo agotado o fallo de conexión (el motivo va en el mensaje; en un fallo de conexión, con su causa de red, como `ECONNREFUSED` o `UND_ERR_CONNECT_TIMEOUT`) |
 | `CSV_CABECERA_INESPERADA`, `CSV_FORMATO_INESPERADO`, `CSV_MAL_FORMADO`, `CSV_VACIO` | El CSV no tiene la forma esperada |
 | `PRECIO_FORMATO_INESPERADO`, `PRECIO_INCOHERENTE` | Un precio de nuestras series no es `0,00` con coma y dos decimales, es cero, o mínimo > medio > máximo no se cumple |
 | `PRODUCTO_SIN_FILAS`, `PRODUCTO_NOMBRE_INESPERADO` | Un producto configurado no tiene filas o su código de variedad ha cambiado de nombre |

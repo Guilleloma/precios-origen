@@ -154,6 +154,25 @@ describe('fallos de la fuente: código de salida distinto de 0 y data/ intacto',
     expect(instantanea(salida)).toEqual(antes);
   });
 
+  it('should name the network cause when the connection itself fails', async () => {
+    const rechazada = Object.assign(new Error('connect ECONNREFUSED 192.0.2.1:443'), { code: 'ECONNREFUSED' });
+    const fetch = vi.fn(async () => {
+      throw new TypeError('fetch failed', { cause: rechazada });
+    });
+    expect(await main(['--salida', salida], dependencias({ fetch }))).toBe(1);
+    expect(errores.at(-1)).toContain('[DESCARGA_FALLIDA]');
+    expect(errores.at(-1)).toContain('fetch failed (ECONNREFUSED: connect ECONNREFUSED 192.0.2.1:443)');
+  });
+
+  it('should download from the address given with --url', async () => {
+    const deps = dependencias();
+    const url = 'https://dadesobertes.gva.es/no-existe/precios.csv';
+    expect(await main(['--salida', salida, '--url', url], deps)).toBe(1);
+    expect(deps.fetch).toHaveBeenCalledTimes(4);
+    expect(vi.mocked(deps.fetch).mock.calls.every(([destino]) => destino === url)).toBe(true);
+    expect(existsSync(salida)).toBe(false);
+  });
+
   it('should exit 1 before writing anything when the CSV has an unexpected format', async () => {
     const antes = await publicarMuestra();
     const cambiada = leerMuestra().replace(CABECERA, CABECERA.replace('precio_medio', 'precio_mitja'));

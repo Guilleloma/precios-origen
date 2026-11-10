@@ -5,6 +5,7 @@ Web estática pública con los precios agrarios en origen de la Comunitat Valenc
 - Producto y alcance: `docs/one-pager.md`
 - Plan técnico, reglas de cálculo y contrato de datos: `docs/plan-tecnico.md`
 - Cómo funciona la ingesta y forma del JSON: `README.md`
+- Publicación (workflow `publicar.yml`, rama `datos`, GitHub Pages, qué hacer si falla): `README.md`, sección «Publicación»
 
 ## Comandos
 

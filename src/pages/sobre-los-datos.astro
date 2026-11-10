@@ -2,10 +2,15 @@
 import Base from '../layouts/Base.astro';
 import Atribucion from '../componentes/Atribucion.astro';
 import { cargarResumen } from '../datos/cargar.ts';
+import { listaCategorias, textoResumenSemana } from '../formato/categorias.ts';
 import { etiquetaSemanaConFechas } from '../formato/fechas.ts';
 
 const resumen = cargarResumen();
-const { ultimaSemana } = resumen;
+const { ultimaSemana, productos } = resumen;
+const conPrecio = productos.filter((producto) => producto.cotizaEstaSemana).length;
+const categoriasConProductos = resumen.categorias
+  .map((categoria) => ({ categoria, productos: productos.filter((producto) => producto.categoria === categoria.id) }))
+  .filter((grupo) => grupo.productos.length > 0);
 ---
 
 <Base
@@ -16,14 +21,16 @@ const { ultimaSemana } = resumen;
     <h1>Sobre los datos</h1>
     <p class="entradilla">
       Precios agrarios en origen de la Comunitat Valenciana, tal como los publica la Conselleria de Agricultura de la
-      Generalitat Valenciana en su portal de datos abiertos.
+      Generalitat Valenciana en su portal de datos abiertos. Esta web recoge {productos.length} productos:{' '}
+      {listaCategorias(categoriasConProductos.map((grupo) => grupo.categoria))}.
     </p>
 
     <h2>Qué es el precio en origen</h2>
     <p>
-      Es lo que se paga por el producto en origen, antes de pasar por el almacén de confección o la industria: los
-      cítricos, sobre el árbol; la almendra, en grano a la entrada de la descascaradora; el aceite y la garrofa, a la
-      entrada del almacén. Todos los precios van en euros por kilo, sin IVA.
+      Es lo que se paga por el producto en origen, antes de pasar por el almacén de confección o la industria. El punto
+      exacto depende del producto: sobre el árbol, sobre la cepa, a la entrada del almacén o, en la almendra, en grano a
+      la entrada de la descascaradora. La tabla de más abajo dice el de cada uno cuando la Conselleria lo indica. Todos
+      los precios van en euros por kilo, sin IVA.
     </p>
 
     <h2>Un precio por semana, no por día</h2>
@@ -42,12 +49,13 @@ const { ultimaSemana } = resumen;
 
     <h2>Una provincia por producto</h2>
     <p>
-      La Conselleria publica el precio por provincia, no por lonja. Para cada producto se usa una sola provincia, la que
-      tiene la serie más completa, y se indica siempre junto al precio.
+      La Conselleria publica el precio por provincia, no por lonja. Para cada producto se usa una sola provincia: la que
+      tiene más semanas con precio en las dos últimas campañas. Los siete primeros productos de la web mantienen la que
+      ya tenían. La provincia se indica siempre junto al precio.
     </p>
     <div class="tabla-envoltorio">
       <table>
-        <caption class="sr-only">Provincia y posición comercial de cada producto</caption>
+        <caption class="sr-only">Provincia y lugar donde se fija el precio de cada producto, por categorías</caption>
         <thead>
           <tr>
             <th scope="col">Producto</th>
@@ -55,24 +63,45 @@ const { ultimaSemana } = resumen;
             <th scope="col">Dónde se paga</th>
           </tr>
         </thead>
-        <tbody>
-          {
-            resumen.productos.map((producto) => (
-              <tr>
-                <th scope="row">{producto.nombre}</th>
-                <td>{producto.provincia}</td>
-                <td>{producto.posicion}</td>
+        {
+          categoriasConProductos.map((grupo) => (
+            <tbody>
+              <tr class="grupo">
+                <th scope="colgroup" colspan="3">
+                  {grupo.categoria.etiqueta}
+                </th>
               </tr>
-            ))
-          }
-        </tbody>
+              {grupo.productos.map((producto) => (
+                <tr>
+                  <th scope="row">{producto.nombre}</th>
+                  <td>{producto.provincia}</td>
+                  <td>{producto.posicion}</td>
+                </tr>
+              ))}
+            </tbody>
+          ))
+        }
       </table>
     </div>
+    <p class="nota-tabla">
+      Del melón, la sandía y el aguacate la Conselleria no dice en qué punto se fija el precio. Por eso figuran solo como
+      «precio en origen».
+    </p>
 
-    <h2>Semanas sin cotización</h2>
+    <h2>Por qué muchos productos no tienen precio parte del año</h2>
     <p>
-      Fuera de campaña un producto puede pasar semanas sin cotizar. En el gráfico esas semanas quedan en blanco: la línea
-      se corta y no se rellena ni se inventa ningún valor.
+      Cada fruta se recoge y se vende unas semanas o unos meses al año, su campaña: el níspero en primavera, la cereza de
+      mayo a julio, el melón y la sandía de junio a septiembre, el caqui de agosto a diciembre. Fuera de esa época la
+      Conselleria no publica precio. Con los cítricos pasa lo mismo por variedades: unas son tempranas y otras tardías, y
+      cada una cotiza en su temporada. La almendra, el aceite y la garrofa se guardan y se
+      venden a lo largo del año, así que cotizan la mayor parte de las semanas.
+    </p>
+    <p>
+      Por eso, según la época, buena parte de la lista está sin precio.{' '}
+      {textoResumenSemana(productos.length, conPrecio, `semana ${ultimaSemana.semana}`)}{' '}
+      En la portada, los que no cotizan salen al final de su grupo, atenuados, con su último precio y la semana desde la
+      que no tienen otro. En el gráfico, las semanas sin precio quedan en blanco: la línea se corta y no se rellena ni se
+      inventa ningún valor.
     </p>
 
     <h2>La variación es un cálculo de esta web</h2>
@@ -169,5 +198,18 @@ const { ultimaSemana } = resumen;
 
   tbody th {
     font-weight: 600;
+  }
+
+  .nota-tabla {
+    font-size: 0.9375rem;
+    color: var(--tinta-suave);
+  }
+
+  .grupo th {
+    padding-top: 1.25rem;
+    font-family: var(--letra-titulos);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    border-bottom-color: var(--linea-fuerte);
   }
 </style>

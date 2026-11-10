@@ -4,18 +4,32 @@
  */
 
 import type { ProductoResumen, Resumen } from '../../scripts/ingesta/contrato.ts';
+import { listaCategorias, textoResumenSemana } from './categorias.ts';
 import { etiquetaSemanaConFechas, formatearRango, sumarDias } from './fechas.ts';
 import { formatearPrecio, formatearPrecioConUnidad } from './numeros.ts';
 import { estadoFila } from './variacion.ts';
 
 const FUENTE_CORTA = 'Fuente: Generalitat Valenciana (datos abiertos, CC BY 4.0).';
 
-export function descripcionPortada(resumen: Resumen): string {
-  const { ultimaSemana } = resumen;
-  const precios = resumen.productos.map((p) => `${p.nombre} ${formatearPrecio(p.ultimo.medio)}`).join(' · ');
-  const semana = etiquetaSemanaConFechas(ultimaSemana, ultimaSemana.lunes);
-  return `Precio medio en origen, ${semana}, en €/kg: ${precios}. ${FUENTE_CORTA}`;
+/** «Precios en origen de 36 productos · Comunitat Valenciana» */
+export function tituloPortada(resumen: Pick<Resumen, 'productos'>): string {
+  return `Precios en origen de ${resumen.productos.length} productos · Comunitat Valenciana`;
 }
+
+/**
+ * Con 36 productos ya no caben todos los precios: se dicen las categorías y cuántos tienen precio
+ * en la semana, que es lo que cambia de una semana a otra.
+ */
+export function descripcionPortada(resumen: Resumen): string {
+  const { ultimaSemana, productos } = resumen;
+  const conPrecio = productos.filter((producto) => producto.cotizaEstaSemana).length;
+  const categorias = listaCategorias(resumen.categorias);
+  const semana = etiquetaSemanaConFechas(ultimaSemana, ultimaSemana.lunes);
+  const recuento = textoResumenSemana(productos.length, conPrecio, semana);
+  return `${mayuscula(categorias)}: precio medio semanal en origen, en €/kg. ${recuento} ${FUENTE_CORTA}`;
+}
+
+const mayuscula = (texto: string) => texto.charAt(0).toUpperCase() + texto.slice(1);
 
 export function tituloProducto(producto: ProductoResumen): string {
   return `${producto.nombre}: ${formatearPrecioConUnidad(producto.ultimo.medio, producto.unidad)} · Precios en origen`;

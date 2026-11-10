@@ -9,7 +9,7 @@ import {
   semanaPendiente,
   textoAtraso,
 } from '../src/formato/atraso.ts';
-import { descripcionPortada, descripcionProducto, tituloProducto } from '../src/formato/compartir.ts';
+import { descripcionPortada, descripcionProducto, tituloPortada, tituloProducto } from '../src/formato/compartir.ts';
 import {
   etiquetaSemana,
   etiquetaSemanaConFechas,
@@ -107,14 +107,14 @@ describe('estadoFila', () => {
     expect(estado).toMatchObject({ tipo: 'variacion', respectoA: null });
   });
 
-  it('should name the compared week after a gap of 1 to 3 weeks', () => {
+  it('should name the compared week, with its year, after a gap of 1 to 3 weeks in the same year', () => {
     const estado = estadoFila(
       productoResumen({
         variacion: { euros: 0.02, porcentaje: 8, respectoA: { anyo: 2026, semana: 41 } },
         anterior: { anyo: 2026, semana: 41, lunes: '2026-10-05' },
       }),
     );
-    expect(estado).toMatchObject({ tipo: 'variacion', respectoA: 'respecto a la sem. 41' });
+    expect(estado).toMatchObject({ tipo: 'variacion', respectoA: 'respecto a la sem. 41 de 2026' });
   });
 
   it('should add the year to the compared week when it belongs to the previous year', () => {
@@ -128,18 +128,40 @@ describe('estadoFila', () => {
     expect(estado).toMatchObject({ respectoA: 'respecto a la sem. 51 de 2025' });
   });
 
-  it('should announce the first quotation after a gap of 4 weeks or more', () => {
+  it('should announce the first quotation after a gap of 4 weeks or more, with the year of the previous one', () => {
     const estado = estadoFila(
       productoResumen({ variacion: null, anterior: { anyo: 2026, semana: 22, lunes: '2026-05-25' } }),
     );
-    expect(estado).toEqual({ tipo: 'primeraTrasHueco', texto: 'Primera cotización desde la sem. 22' });
+    expect(estado).toEqual({ tipo: 'primeraTrasHueco', texto: 'Primera cotización desde la sem. 22 de 2026' });
+  });
+
+  it('should add the year to the first quotation since week 1 of the same year (Mollar pomegranate case)', () => {
+    const estado = estadoFila(
+      productoResumen({
+        ultimo: { anyo: 2026, semana: 44, lunes: '2026-10-26', min: 1, medio: 1.2, max: 1.4 },
+        variacion: null,
+        anterior: { anyo: 2026, semana: 1, lunes: '2025-12-29' },
+      }),
+    );
+    expect(estado).toEqual({ tipo: 'primeraTrasHueco', texto: 'Primera cotización desde la sem. 1 de 2026' });
+  });
+
+  it('should add the year to the first quotation when the previous one is from an earlier year', () => {
+    const estado = estadoFila(
+      productoResumen({
+        ultimo: { anyo: 2026, semana: 3, lunes: '2026-01-12', min: 1, medio: 1.2, max: 1.4 },
+        variacion: null,
+        anterior: { anyo: 2025, semana: 40, lunes: '2025-09-29' },
+      }),
+    );
+    expect(estado).toEqual({ tipo: 'primeraTrasHueco', texto: 'Primera cotización desde la sem. 40 de 2025' });
   });
 
   it('should show no change for the first quotation of a series', () => {
     expect(estadoFila(productoResumen({ variacion: null, anterior: null }))).toEqual({ tipo: 'primeraDeLaSerie' });
   });
 
-  it('should say since when a product has no quotation, with month and year', () => {
+  it('should say since when a product has no quotation, with year and month', () => {
     const estado = estadoFila(
       productoResumen({
         cotizaEstaSemana: false,
@@ -148,7 +170,19 @@ describe('estadoFila', () => {
         anterior: { anyo: 2021, semana: 13, lunes: '2021-03-22' },
       }),
     );
-    expect(estado).toEqual({ tipo: 'sinCotizacion', texto: 'Sin cotización desde la sem. 14 (marzo de 2021)' });
+    expect(estado).toEqual({ tipo: 'sinCotizacion', texto: 'Sin cotización desde la sem. 14 de 2021 (marzo)' });
+  });
+
+  it('should keep the GVA year when a week without quotation starts in December of the previous year', () => {
+    const estado = estadoFila(
+      productoResumen({
+        cotizaEstaSemana: false,
+        ultimo: { anyo: 2026, semana: 1, lunes: '2025-12-29', min: 1, medio: 1.2, max: 1.4 },
+        variacion: null,
+        anterior: { anyo: 2025, semana: 52, lunes: '2025-12-22' },
+      }),
+    );
+    expect(estado).toEqual({ tipo: 'sinCotizacion', texto: 'Sin cotización desde la sem. 1 de 2026 (diciembre)' });
   });
 });
 
@@ -192,17 +226,30 @@ describe('vista previa al compartir', () => {
     generadoEl: '2026-11-04T16:31:10Z',
     fuente: { actualizadoEl: '2026-11-04', urlDataset: 'https://dadesobertes.gva.es/es/dataset/agr-obs-pre-origen' },
     ultimaSemana: { anyo: 2026, semana: 44, lunes: '2026-10-26', domingo: '2026-11-01' },
+    categorias: [{ id: 'citricos', etiqueta: 'Cítricos' }],
     productos: [
       productoResumen(),
       productoResumen({ slug: 'garrofa', nombre: 'Garrofa entera', ultimo: { anyo: 2026, semana: 44, lunes: '2026-10-26', min: 0.45, medio: 0.51, max: 0.56 } }),
     ],
   };
 
-  it('should list every product price of the week on the home page', () => {
+  it('should name the categories and how many products have a price on the home page', () => {
     expect(descripcionPortada(resumen)).toBe(
-      'Precio medio en origen, semana 44 (26 oct–1 nov 2026), en €/kg: Naranja Navelina 0,27 · Garrofa entera 0,51. ' +
+      'Cítricos: precio medio semanal en origen, en €/kg. Los 2 productos tienen precio en la semana 44 (26 oct–1 nov 2026). ' +
         'Fuente: Generalitat Valenciana (datos abiertos, CC BY 4.0).',
     );
+  });
+
+  it('should count the products without price in the home page description', () => {
+    const conUnoDormido: Resumen = {
+      ...resumen,
+      productos: [resumen.productos[0]!, { ...resumen.productos[1]!, cotizaEstaSemana: false, variacion: null }],
+    };
+    expect(descripcionPortada(conUnoDormido)).toContain('1 de 2 productos tiene precio en la semana 44');
+  });
+
+  it('should give the size of the catalogue in the home page title', () => {
+    expect(tituloPortada(resumen)).toBe('Precios en origen de 2 productos · Comunitat Valenciana');
   });
 
   it('should put the latest price in the product title', () => {
@@ -223,7 +270,7 @@ describe('vista previa al compartir', () => {
       variacion: null,
     });
     expect(descripcionProducto(producto)).toContain(
-      `Sin cotización desde la sem. 14 (marzo de 2021). Último precio medio: 0,16${NB}€/kg.`,
+      `Sin cotización desde la sem. 14 de 2021 (marzo). Último precio medio: 0,16${NB}€/kg.`,
     );
   });
 });

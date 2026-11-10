@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
-import type { Producto } from '../config/productos.ts';
+import { PRODUCTOS, type Producto } from '../config/productos.ts';
 import { COLUMNAS, type FilaCsv } from '../scripts/ingesta/csv.ts';
 import { ErrorIngesta } from '../scripts/ingesta/errores.ts';
 
@@ -8,9 +8,24 @@ export const RUTA_MUESTRA = fileURLToPath(new URL('./fixtures/muestra.csv', impo
 export const leerMuestra = () => readFileSync(RUTA_MUESTRA, 'utf8');
 export const CABECERA = COLUMNAS.join(';');
 
+/** Productos con filas en la muestra: los siete del MVP. El recorte no trae filas de los demás. */
+export const SLUGS_MUESTRA = [
+  'naranja-navelina',
+  'clementina-clemenules',
+  'almendra-comuna',
+  'almendra-marcona',
+  'garrofa',
+  'aceite-virgen-extra',
+  'limon-fino',
+] as const;
+export const PRODUCTOS_MUESTRA: readonly Producto[] = PRODUCTOS.filter((p) =>
+  (SLUGS_MUESTRA as readonly string[]).includes(p.slug),
+);
+
 export const PRODUCTO_GARROFA: Producto = {
   slug: 'garrofa',
   nombre: 'Garrofa entera',
+  categoria: 'aceite-y-garrofa',
   codigoVariedad: '165',
   codigoZona: '12',
   nombreEsperado: 'Garrofa Entera',

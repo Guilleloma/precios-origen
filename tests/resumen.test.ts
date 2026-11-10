@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { PRODUCTOS } from '../config/productos.ts';
-import { calcularVariacion, construirResumen, construirSerieJson } from '../scripts/ingesta/resumen.ts';
+import { CATEGORIAS, PRODUCTOS } from '../config/productos.ts';
+import { calcularVariacion, construirResumen, construirSerieJson, ordenarPorCategoria } from '../scripts/ingesta/resumen.ts';
 import type { Cotizacion } from '../scripts/ingesta/series.ts';
 import { sumarDias } from '../scripts/ingesta/semanas.ts';
 
@@ -96,11 +96,50 @@ describe('construirResumen', () => {
     expect(producto).toMatchObject({
       slug: 'naranja-navelina',
       nombre: 'Naranja Navelina',
+      categoria: 'citricos',
       provincia: 'Valencia',
       unidad: '€/kg',
       posicion: 'sobre árbol',
       anterior: null,
     });
+  });
+});
+
+describe('categorías en el resumen', () => {
+  const semanas = [{ anyo: 2026, semana: 44, lunes: '2026-10-26' }];
+  const resumirTodos = () =>
+    construirResumen(
+      { semanas, series: new Map(PRODUCTOS.map((p) => [p.slug, [cotizacion(44, 27)]])) },
+      PRODUCTOS,
+      { actualizadoEl: '2026-11-04', generadoEl: '2026-11-04T16:31:10Z' },
+    );
+
+  it('should list every category with its label in the fixed order', () => {
+    expect(resumirTodos().categorias).toEqual(CATEGORIAS.map(({ id, etiqueta }) => ({ id, etiqueta })));
+  });
+
+  it('should group the products by category in that order and keep the configuration order inside each one', () => {
+    const { productos } = resumirTodos();
+    expect(productos).toHaveLength(PRODUCTOS.length);
+    const orden = CATEGORIAS.map((c) => c.id);
+    const indices = productos.map((p) => orden.indexOf(p.categoria));
+    expect(indices).toEqual([...indices].sort((a, b) => a - b));
+    for (const { id } of CATEGORIAS) {
+      const enResumen = productos.filter((p) => p.categoria === id).map((p) => p.slug);
+      const enConfig = PRODUCTOS.filter((p) => p.categoria === id).map((p) => p.slug);
+      expect(enResumen).toEqual(enConfig);
+    }
+  });
+
+  it('should sort a mixed list by category without reordering products of the same category', () => {
+    const lista = [
+      { slug: 'a', categoria: 'aceite-y-garrofa' },
+      { slug: 'b', categoria: 'citricos' },
+      { slug: 'c', categoria: 'frutos-secos' },
+      { slug: 'd', categoria: 'citricos' },
+      { slug: 'e', categoria: 'fruta' },
+    ];
+    expect(ordenarPorCategoria(lista).map((p) => p.slug)).toEqual(['b', 'd', 'e', 'c', 'a']);
   });
 });
 

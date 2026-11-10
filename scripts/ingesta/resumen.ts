@@ -1,4 +1,4 @@
-import { ZONAS, type Producto } from '../../config/productos.ts';
+import { CATEGORIAS, ZONAS, type Producto } from '../../config/productos.ts';
 import { ESQUEMA, URL_DATASET, type ProductoResumen, type Resumen, type SerieJson, type Variacion } from './contrato.ts';
 import type { Cotizacion, SeriesConstruidas } from './series.ts';
 import { diasEntre, sumarDias } from './semanas.ts';
@@ -42,6 +42,7 @@ function resumirProducto(producto: Producto, serie: readonly Cotizacion[], lunes
   return {
     slug: producto.slug,
     nombre: producto.nombre,
+    categoria: producto.categoria,
     provincia: ZONAS[producto.codigoZona],
     unidad: producto.unidad,
     posicion: producto.posicion,
@@ -59,6 +60,14 @@ function resumirProducto(producto: Producto, serie: readonly Cotizacion[], lunes
   };
 }
 
+const ORDEN_CATEGORIA = new Map<string, number>(CATEGORIAS.map((c, i) => [c.id, i]));
+
+/** Agrupa por categoría en el orden de CATEGORIAS; dentro de cada una conserva el orden de entrada (sort estable). */
+export function ordenarPorCategoria<T extends { categoria: string }>(productos: readonly T[]): T[] {
+  const posicion = (p: T) => ORDEN_CATEGORIA.get(p.categoria) ?? CATEGORIAS.length;
+  return [...productos].sort((a, b) => posicion(a) - posicion(b));
+}
+
 export function construirResumen(
   { semanas, series }: SeriesConstruidas,
   productos: readonly Producto[],
@@ -71,7 +80,8 @@ export function construirResumen(
     generadoEl,
     fuente: { actualizadoEl, urlDataset: URL_DATASET },
     ultimaSemana: { ...referencia, domingo: sumarDias(referencia.lunes, 6) },
-    productos: productos.map((p) => resumirProducto(p, series.get(p.slug) ?? [], referencia.lunes)),
+    categorias: CATEGORIAS.map(({ id, etiqueta }) => ({ id, etiqueta })),
+    productos: ordenarPorCategoria(productos).map((p) => resumirProducto(p, series.get(p.slug) ?? [], referencia.lunes)),
   };
 }
 

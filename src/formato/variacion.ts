@@ -4,7 +4,7 @@
  */
 
 import type { ProductoResumen, Variacion } from '../../scripts/ingesta/contrato.ts';
-import { diasEntre, etiquetaSemanaRelativa, formatearMesAnyo } from './fechas.ts';
+import { diasEntre, etiquetaSemana, formatearMes } from './fechas.ts';
 import { ESPACIO_DURO, formatearConSigno } from './numeros.ts';
 
 export type Sentido = 'sube' | 'baja' | 'igual';
@@ -34,28 +34,31 @@ export type EstadoFila =
   | { tipo: 'primeraDeLaSerie' }
   | { tipo: 'sinCotizacion'; texto: string };
 
+/**
+ * Las semanas citadas llevan siempre el año de la GVA («sem. 1 de 2026»): nunca son la inmediatamente
+ * anterior, y sin año «sem. 1» puede leerse como de cualquier campaña. El mes de «Sin cotización» es el
+ * del lunes de esa semana, así que la sem. 1 de 2026 puede ser de diciembre.
+ */
 export function estadoFila(producto: ProductoResumen): EstadoFila {
   const { ultimo, anterior, variacion } = producto;
 
   if (!producto.cotizaEstaSemana) {
     return {
       tipo: 'sinCotizacion',
-      texto: `Sin cotización desde la sem. ${ultimo.semana} (${formatearMesAnyo(ultimo.lunes)})`,
+      texto: `Sin cotización desde la ${etiquetaSemana(ultimo)} (${formatearMes(ultimo.lunes)})`,
     };
   }
 
   if (variacion) {
     const hayHueco = anterior !== null && diasEntre(anterior.lunes, ultimo.lunes) > 7;
-    const respectoA = hayHueco
-      ? `respecto a la ${etiquetaSemanaRelativa(variacion.respectoA, ultimo.anyo)}`
-      : null;
+    const respectoA = hayHueco ? `respecto a la ${etiquetaSemana(variacion.respectoA)}` : null;
     return { tipo: 'variacion', variacion: formatearVariacion(variacion), respectoA };
   }
 
   if (anterior) {
     return {
       tipo: 'primeraTrasHueco',
-      texto: `Primera cotización desde la ${etiquetaSemanaRelativa(anterior, ultimo.anyo)}`,
+      texto: `Primera cotización desde la ${etiquetaSemana(anterior)}`,
     };
   }
 

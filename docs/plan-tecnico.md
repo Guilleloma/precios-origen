@@ -35,6 +35,8 @@ Fecha: 2026-11-10 · Autor: superdev · Entrada: `docs/one-pager.md` · Estado: 
 | `aceite-virgen-extra` | Aceite de oliva virgen extra | 76 | Castellón (12) | 455 | entrada almacén |
 | `limon-fino` | Limón Fino | 355 | Alicante (03) | 252 | sobre árbol |
 
+**Ampliación del 2026-11-10:** la web pasa a 36 productos en cinco categorías, con el mismo filtro y las mismas reglas. Inventario, criterio de selección y provincia de cada uno: [`inventario-productos.md`](inventario-productos.md). La tabla de abajo es la del MVP.
+
 Por qué esas provincias: la garrofa, el aceite y el limón solo cotizan en una. En la almendra, Alicante tiene la serie completa (Valencia solo unas 10 semanas al año y siempre sin horquilla). En la Navelina, Valencia tiene campañas continuas y siempre con horquilla (Castellón tiene la mitad de semanas). En la Clemenules, Castellón es la serie más larga. Ojo con el limón: los códigos 191 («Fino/Primofiori 1 corte») y 57 («Redrojo») son otras series; se usa el 355.
 
 ### Lo que no cuadra con el one-pager
@@ -116,10 +118,10 @@ La web, además, muestra un aviso por su cuenta: un script mínimo compara la fe
 5. **Semana de referencia.** La última semana presente en el CSV para cualquier producto. Un producto «cotiza esta semana» si tiene fila en ella.
 6. **Variación semanal.** Se calcula en céntimos enteros contra la cotización anterior de la misma serie.
    - Semana anterior con dato: variación normal.
-   - Hueco de 1 a 3 semanas: se compara con la última cotización y se rotula «respecto a la sem. N».
-   - Hueco de 4 semanas o más: sin variación; se muestra «Primera cotización desde la sem. N».
+   - Hueco de 1 a 3 semanas: se compara con la última cotización y se rotula «respecto a la sem. N de AAAA».
+   - Hueco de 4 semanas o más: sin variación; se muestra «Primera cotización desde la sem. N de AAAA».
    - Porcentaje con un decimal; euros con dos. Se rotula como cálculo propio, no como dato de la GVA.
-7. **Sin cotización esta semana.** La fila muestra el último precio atenuado y «Sin cotización desde la sem. N (mes año)», sin variación. No se infiere si es fin de campaña: el texto es el mismo para todos.
+7. **Sin cotización esta semana.** La fila muestra el último precio atenuado y «Sin cotización desde la sem. N de AAAA (mes)», sin variación. No se infiere si es fin de campaña: el texto es el mismo para todos.
 8. **Gráfico.**
    - Línea = precio medio. Banda = área entre mínimo y máximo.
    - Dos puntos se unen solo si están a 7 días exactos. Cualquier semana sin dato corta la línea y la banda; no se interpola. Un punto aislado se dibuja como punto.

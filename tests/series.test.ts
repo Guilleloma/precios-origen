@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { PRODUCTOS } from '../config/productos.ts';
 import { leerFilas } from '../scripts/ingesta/csv.ts';
 import { construirSerie, construirSeries, resolverDuplicado, seleccionarFilas } from '../scripts/ingesta/series.ts';
-import { PRODUCTO_GARROFA, codigoDe, filaCsv, leerMuestra } from './factorias.ts';
+import { PRODUCTOS_MUESTRA, PRODUCTO_GARROFA, codigoDe, filaCsv, leerMuestra } from './factorias.ts';
 
 const lunesFijo = () => '2026-09-14';
 const filasMuestra = leerFilas(leerMuestra());
@@ -105,7 +105,7 @@ describe('construirSerie', () => {
 });
 
 describe('construirSeries con la muestra real', () => {
-  const { semanas, series } = construirSeries(filasMuestra, PRODUCTOS);
+  const { semanas, series } = construirSeries(filasMuestra, PRODUCTOS_MUESTRA);
 
   it('should cover the 2020–2021 change without jumps', () => {
     expect(semanas[0]).toEqual({ anyo: 2020, semana: 36, lunes: '2020-08-31' });
@@ -129,7 +129,7 @@ describe('construirSeries con la muestra real', () => {
   });
 
   it('should build the seven configured series', () => {
-    expect([...series.keys()]).toEqual(PRODUCTOS.map((p) => p.slug));
+    expect([...series.keys()]).toEqual(PRODUCTOS_MUESTRA.map((p) => p.slug));
     for (const serie of series.values()) {
       const fechas = serie.map((c) => c.lunes);
       expect(fechas).toEqual([...fechas].sort());
@@ -139,6 +139,6 @@ describe('construirSeries con la muestra real', () => {
 
   it('should fail when a week is missing from the global calendar', () => {
     const sinSemana = filasMuestra.filter((f) => !(f.anyo === 2021 && f.semana === 5));
-    expect(codigoDe(() => construirSeries(sinSemana, PRODUCTOS))).toBe('CALENDARIO_SALTO');
+    expect(codigoDe(() => construirSeries(sinSemana, PRODUCTOS_MUESTRA))).toBe('CALENDARIO_SALTO');
   });
 });

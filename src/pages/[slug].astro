@@ -3,8 +3,10 @@ import Base from '../layouts/Base.astro';
 import Atribucion from '../componentes/Atribucion.astro';
 import Grafico from '../componentes/Grafico.astro';
 import TablaDatos from '../componentes/TablaDatos.astro';
+import NombreProducto from '../componentes/NombreProducto.astro';
 import Variacion from '../componentes/Variacion.astro';
 import type { ProductoResumen } from '../../scripts/ingesta/contrato.ts';
+import { anclaCategoria, categoriaDe } from '../datos/categorias.ts';
 import { cargarResumen, cargarSerie } from '../datos/cargar.ts';
 import { descripcionProducto, tituloProducto } from '../formato/compartir.ts';
 import { etiquetaSemana, etiquetaSemanaConFechas, fechaAMs } from '../formato/fechas.ts';
@@ -25,6 +27,8 @@ const { ultimaSemana } = resumen;
 const serie = cargarSerie(producto.slug).puntos;
 const { ultimo } = producto;
 const estado = estadoFila(producto);
+const categoria = categoriaDe(resumen, producto);
+const base = import.meta.env.BASE_URL;
 const semana = producto.cotizaEstaSemana ? etiquetaSemanaConFechas(ultimo, ultimo.lunes) : etiquetaSemana(ultimo);
 const nota =
   estado.tipo === 'variacion'
@@ -35,10 +39,15 @@ const nota =
 ---
 
 <Base titulo={tituloProducto(producto)} descripcion={descripcionProducto(producto)}>
-  <a class="volver" href={import.meta.env.BASE_URL}><span aria-hidden="true">←</span> Precios en origen</a>
+  <nav class="ruta" aria-label="Ruta de navegación">
+    <ol role="list">
+      <li><a href={base}>Precios en origen</a></li>
+      <li><a href={`${base}#${anclaCategoria(categoria.id)}`}>{categoria.etiqueta}</a></li>
+    </ol>
+  </nav>
 
   <header class="ficha">
-    <h1>{producto.nombre}</h1>
+    <h1><NombreProducto nombre={producto.nombre} /></h1>
     <p class="ficha__lugar">{producto.provincia} · {producto.posicion} · {producto.unidad} sin IVA</p>
 
     <div class:list={['ficha__precio', { 'ficha__precio--apagado': !producto.cotizaEstaSemana }]}>
@@ -61,13 +70,27 @@ const nota =
 </Base>
 
 <style>
-  .volver {
+  .ruta ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.9375rem;
+  }
+
+  .ruta li + li::before {
+    content: '›';
+    content: '›' / '';
+    margin: 0 0.5rem;
+    color: var(--tinta-suave);
+  }
+
+  .ruta a {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
     min-height: var(--tactil);
-    margin-top: 0.5rem;
-    font-size: 0.9375rem;
   }
 
   .ficha {

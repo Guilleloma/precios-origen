@@ -11,10 +11,33 @@
     "lunes": "2021-05-10",
     "domingo": "2021-05-16"
   },
+  "categorias": [
+    {
+      "id": "citricos",
+      "etiqueta": "Cítricos"
+    },
+    {
+      "id": "fruta",
+      "etiqueta": "Fruta"
+    },
+    {
+      "id": "uva",
+      "etiqueta": "Uva de mesa"
+    },
+    {
+      "id": "frutos-secos",
+      "etiqueta": "Frutos secos"
+    },
+    {
+      "id": "aceite-y-garrofa",
+      "etiqueta": "Aceite y garrofa"
+    }
+  ],
   "productos": [
     {
       "slug": "naranja-navelina",
       "nombre": "Naranja Navelina",
+      "categoria": "citricos",
       "provincia": "Valencia",
       "unidad": "€/kg",
       "posicion": "sobre árbol",
@@ -37,6 +60,7 @@
     {
       "slug": "clementina-clemenules",
       "nombre": "Clementina Clemenules",
+      "categoria": "citricos",
       "provincia": "Castellón",
       "unidad": "€/kg",
       "posicion": "sobre árbol",
@@ -57,8 +81,32 @@
       }
     },
     {
+      "slug": "limon-fino",
+      "nombre": "Limón Fino",
+      "categoria": "citricos",
+      "provincia": "Alicante",
+      "unidad": "€/kg",
+      "posicion": "sobre árbol",
+      "cotizaEstaSemana": false,
+      "ultimo": {
+        "anyo": 2021,
+        "semana": 14,
+        "lunes": "2021-03-29",
+        "min": 0.12,
+        "medio": 0.16,
+        "max": 0.2
+      },
+      "variacion": null,
+      "anterior": {
+        "anyo": 2021,
+        "semana": 13,
+        "lunes": "2021-03-22"
+      }
+    },
+    {
       "slug": "almendra-comuna",
       "nombre": "Almendra Comuna",
+      "categoria": "frutos-secos",
       "provincia": "Alicante",
       "unidad": "€/kg",
       "posicion": "grano, entrada descascaradora",
@@ -88,6 +136,7 @@
     {
       "slug": "almendra-marcona",
       "nombre": "Almendra Marcona",
+      "categoria": "frutos-secos",
       "provincia": "Alicante",
       "unidad": "€/kg",
       "posicion": "grano, entrada descascaradora",
@@ -115,37 +164,9 @@
       }
     },
     {
-      "slug": "garrofa",
-      "nombre": "Garrofa entera",
-      "provincia": "Castellón",
-      "unidad": "€/kg",
-      "posicion": "entrada almacén",
-      "cotizaEstaSemana": true,
-      "ultimo": {
-        "anyo": 2021,
-        "semana": 20,
-        "lunes": "2021-05-10",
-        "min": 0.95,
-        "medio": 1,
-        "max": 1.05
-      },
-      "variacion": {
-        "euros": 0,
-        "porcentaje": 0,
-        "respectoA": {
-          "anyo": 2021,
-          "semana": 19
-        }
-      },
-      "anterior": {
-        "anyo": 2021,
-        "semana": 19,
-        "lunes": "2021-05-03"
-      }
-    },
-    {
       "slug": "aceite-virgen-extra",
       "nombre": "Aceite de oliva virgen extra",
+      "categoria": "aceite-y-garrofa",
       "provincia": "Castellón",
       "unidad": "€/kg",
       "posicion": "entrada almacén",
@@ -173,25 +194,33 @@
       }
     },
     {
-      "slug": "limon-fino",
-      "nombre": "Limón Fino",
-      "provincia": "Alicante",
+      "slug": "garrofa",
+      "nombre": "Garrofa entera",
+      "categoria": "aceite-y-garrofa",
+      "provincia": "Castellón",
       "unidad": "€/kg",
-      "posicion": "sobre árbol",
-      "cotizaEstaSemana": false,
+      "posicion": "entrada almacén",
+      "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2021,
-        "semana": 14,
-        "lunes": "2021-03-29",
-        "min": 0.12,
-        "medio": 0.16,
-        "max": 0.2
+        "semana": 20,
+        "lunes": "2021-05-10",
+        "min": 0.95,
+        "medio": 1,
+        "max": 1.05
       },
-      "variacion": null,
+      "variacion": {
+        "euros": 0,
+        "porcentaje": 0,
+        "respectoA": {
+          "anyo": 2021,
+          "semana": 19
+        }
+      },
       "anterior": {
         "anyo": 2021,
-        "semana": 13,
-        "lunes": "2021-03-22"
+        "semana": 19,
+        "lunes": "2021-05-03"
       }
     }
   ]

@@ -69,6 +69,11 @@ export function formatearMesAnyo(fechaIso: string): string {
   return `${MESES[mes - 1]} de ${anyo}`;
 }
 
+/** «diciembre» */
+export function formatearMes(fechaIso: string): string {
+  return MESES[partes(fechaIso).mes - 1] ?? '';
+}
+
 /** Semana del histórico tal como la numera la GVA: «sem. 12 de 2021». */
 export function etiquetaSemana(semana: SemanaRef): string {
   return `sem. ${semana.semana} de ${semana.anyo}`;
@@ -77,11 +82,6 @@ export function etiquetaSemana(semana: SemanaRef): string {
 /** Semana de referencia con sus días: «semana 44 (26 oct–1 nov 2026)». */
 export function etiquetaSemanaConFechas(semana: SemanaRef, lunes: string): string {
   return `semana ${semana.semana} (${formatearRango(lunes, sumarDias(lunes, 6))})`;
-}
-
-/** «sem. 43», o «sem. 52 de 2025» si es de otro año que `deReferencia`. */
-export function etiquetaSemanaRelativa(semana: SemanaRef, anyoReferencia: number): string {
-  return semana.anyo === anyoReferencia ? `sem. ${semana.semana}` : etiquetaSemana(semana);
 }
 
 /** Fecha local del dispositivo en AAAA-MM-DD (para comparar con las fechas de los datos). */

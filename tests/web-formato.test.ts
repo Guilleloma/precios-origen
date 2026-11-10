@@ -9,7 +9,7 @@ import {
   semanaPendiente,
   textoAtraso,
 } from '../src/formato/atraso.ts';
-import { descripcionPortada, descripcionProducto, tituloProducto } from '../src/formato/compartir.ts';
+import { descripcionPortada, descripcionProducto, tituloPortada, tituloProducto } from '../src/formato/compartir.ts';
 import {
   etiquetaSemana,
   etiquetaSemanaConFechas,
@@ -199,11 +199,23 @@ describe('vista previa al compartir', () => {
     ],
   };
 
-  it('should list every product price of the week on the home page', () => {
+  it('should name the categories and how many products have a price on the home page', () => {
     expect(descripcionPortada(resumen)).toBe(
-      'Precio medio en origen, semana 44 (26 oct–1 nov 2026), en €/kg: Naranja Navelina 0,27 · Garrofa entera 0,51. ' +
+      'Cítricos: precio medio semanal en origen, en €/kg. Los 2 productos tienen precio en la semana 44 (26 oct–1 nov 2026). ' +
         'Fuente: Generalitat Valenciana (datos abiertos, CC BY 4.0).',
     );
+  });
+
+  it('should count the products without price in the home page description', () => {
+    const conUnoDormido: Resumen = {
+      ...resumen,
+      productos: [resumen.productos[0]!, { ...resumen.productos[1]!, cotizaEstaSemana: false, variacion: null }],
+    };
+    expect(descripcionPortada(conUnoDormido)).toContain('1 de 2 productos tiene precio en la semana 44');
+  });
+
+  it('should give the size of the catalogue in the home page title', () => {
+    expect(tituloPortada(resumen)).toBe('Precios en origen de 2 productos · Comunitat Valenciana');
   });
 
   it('should put the latest price in the product title', () => {

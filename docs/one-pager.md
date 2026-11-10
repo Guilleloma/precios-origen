@@ -4,9 +4,9 @@ Fecha: 2026-11-10 (v2) · Autor: product-manager (Atlas) · Estado: discovery, p
 
 ## 1. Problema y alcance
 
-Guillermo lo pidió así: «una aplicación web que me mida el valor de materia prima tipo olivos, algarrobos, naranjas, almendros… etc y que se vea tipo stock price». Después aclaró: «quiero algo que le pueda pasar a alguien y pueda ver esta información». Ese «alguien» son colegas que quieren ver los precios.
+Quien lo encargó lo pidió así: «una aplicación web que me mida el valor de materia prima tipo olivos, algarrobos, naranjas, almendros… etc y que se vea tipo stock price». Después aclaró: «quiero algo que le pueda pasar a alguien y pueda ver esta información». Ese «alguien» son colegas que quieren ver los precios.
 
-**Decidido por Guillermo:**
+**Decidido por quien lo encargó:**
 - **Web pública de solo lectura** a la que se entra con un enlace, sin registro, y que se vea bien en el **móvil**, porque el enlace se pasará por WhatsApp.
 - Es para colegas: **no es un producto comercial**. No hay captación, cuentas ni monetización.
 
@@ -61,7 +61,7 @@ Al ser una web pública, **solo puede mostrar datos que se puedan republicar**. 
 3. Selector de provincia y más productos del mismo CSV (limón, caqui, aguacate, arroz…), sin coste de datos.
 4. «Valor de mi cosecha» (kg × precio). Hay que convertir unidades: la almendra cotiza en grano, la aceituna se vende como fruto y los cítricos cotizan sobre el árbol.
 
-## 4. Preguntas para Guillermo
+## 4. Preguntas para quien lo encargó
 
 1. **¿Les vale a tus colegas un precio semanal?** Es como lo publica la administración: el dato del lunes al domingo aparece el miércoles siguiente. Recomendado: **sí**. El único dato diario que existe, el del aceite, no se puede republicar.
 2. **¿Estos seis productos o cambias alguno?** Recomendado: **naranja Navelina, clementina Clemenules, almendra Comuna, almendra Marcona, garrofa y AOVE**. Si tus colegas siguen otra variedad (por ejemplo, Lanelate o limón Fino), está en el mismo CSV y no cuesta nada añadirla.
@@ -76,7 +76,7 @@ Al ser una web pública, **solo puede mostrar datos que se puedan republicar**. 
   - **Dependencia de una sola fuente**: si la GVA deja de actualizar el dataset, la web se queda parada. Se mitiga con el aviso de dato no recibido y, como plan B, con el informe en Excel del mismo organismo.
   - **El dato es por provincia, no por lonja**: hay que rotularlo bien para no confundir a quien conozca los precios de la Lonja de Valencia.
   - **Cumplimiento de la licencia**: cada precio debe llevar fuente y fecha, y la web debe aclarar que no está respaldada por la Generalitat. Ya está incluido en el MVP.
-- **Métrica de éxito:** durante 8 semanas seguidas, la web muestra el dato nuevo antes del jueves sin intervención manual, y Guillermo ha pasado el enlace al menos a 3 colegas que vuelven a abrirlo.
+- **Métrica de éxito:** durante 8 semanas seguidas, la web muestra el dato nuevo antes del jueves sin intervención manual, y quien lo encargó ha pasado el enlace al menos a 3 colegas que vuelven a abrirlo.
 
 ## Fuentes comprobadas
 - GVA, dataset abierto de precios agrarios de origen (CSV y API, CC BY): https://dadesobertes.gva.es/es/dataset/agr-obs-pre-origen

@@ -179,7 +179,7 @@ Requisitos de front que no se negocian:
 4. **Móvil** a 375 px en claro y en oscuro; vista previa del enlace (etiquetas Open Graph y peso de la imagen).
 5. **Fallo de la fuente**: la prueba manual de B5.
 6. **Seguridad y datos personales**:
-   - El `dist/` no contiene nombre, correo, teléfono ni nada de Guillermo; `package.json` sin `author`.
+   - El `dist/` no contiene nombre, correo, teléfono ni nada del autor; `package.json` sin `author`.
    - **El repo es público**: los commits deben ir con el correo `noreply` de GitHub, no con el personal. Comprobar con `git log --format='%ae' | sort -u` antes del primer push.
    - Sin secretos, sin `.env`, sin source maps, sin peticiones a terceros (ni fuentes ni analítica), sin EXIF en `og.png`.
    - Los textos del CSV se pintan escapados (nada de `set:html`).
@@ -209,7 +209,7 @@ precios-origen/
 ├── CLAUDE.md, README.md
 ```
 
-## 8. Decisiones para Guillermo
+## 8. Decisiones para quien lo encargó
 
 Solo dos, y las dos tienen opción por defecto para no bloquear:
 

@@ -1,0 +1,15 @@
+---
+/**
+ * Nombre de producto que puede partirse tras la barra («Satsuma Clausellina/<wbr>Okitsu»): sin ese
+ * punto de corte, el navegador trata «Clausellina/Okitsu» como una sola palabra y en 360 px la parte
+ * por cualquier letra.
+ */
+interface Props {
+  nombre: string;
+}
+
+const { nombre } = Astro.props;
+const partes = nombre.split('/');
+---
+
+{partes.map((parte, i) => (i < partes.length - 1 ? <>{parte}/<wbr /></> : parte))}

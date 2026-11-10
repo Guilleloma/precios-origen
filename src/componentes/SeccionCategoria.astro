@@ -1,0 +1,146 @@
+---
+/**
+ * Una categoría de la portada: encabezado con el recuento y dos listas, primero los productos con
+ * precio en la semana y después, atenuados, los que no cotizan (fuera de campaña), que no se ocultan.
+ */
+import type { GrupoCategoria } from '../datos/categorias.ts';
+import { textoRecuentoCategoria } from '../formato/categorias.ts';
+import type { Punto } from '../grafico/serie.ts';
+import FilaProducto from './FilaProducto.astro';
+
+interface Props {
+  grupo: GrupoCategoria;
+  semana: number;
+  referencia: number;
+  puntosDe: (slug: string) => Punto[];
+  /** Posición de la primera fila en toda la portada, para escalonar la animación de entrada. */
+  ordenInicial: number;
+}
+
+const { grupo, semana, referencia, puntosDe, ordenInicial } = Astro.props;
+const idTitulo = `${grupo.ancla}-titulo`;
+const recuento = textoRecuentoCategoria(grupo.total, grupo.cotizan.length, semana);
+const ordenSinCotizar = ordenInicial + grupo.cotizan.length;
+---
+
+<section class="categoria" id={grupo.ancla} aria-labelledby={idTitulo}>
+  <header class="categoria__cabecera">
+    <h2 id={idTitulo}>{grupo.categoria.etiqueta}</h2>
+    <p class="categoria__recuento cifra">{recuento}</p>
+  </header>
+  <div class="columnas" aria-hidden="true">
+    <span>Producto</span>
+    <span class="columnas__centro">Último año</span>
+    <span class="columnas__derecha">Precio medio</span>
+  </div>
+
+  {
+    grupo.cotizan.length > 0 && (
+      <ul class="lista" role="list">
+        {grupo.cotizan.map((producto, i) => (
+          <FilaProducto producto={producto} puntos={puntosDe(producto.slug)} referencia={referencia} orden={ordenInicial + i} />
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    grupo.sinCotizar.length > 0 && (
+      <>
+        <h3 class="categoria__subtitulo">Sin precio en la sem. {semana}</h3>
+        <ul class="lista lista--sin-cotizar" role="list">
+          {grupo.sinCotizar.map((producto, i) => (
+            <FilaProducto
+              producto={producto}
+              puntos={puntosDe(producto.slug)}
+              referencia={referencia}
+              orden={ordenSinCotizar + i}
+            />
+          ))}
+        </ul>
+      </>
+    )
+  }
+</section>
+
+<style>
+  .categoria {
+    margin-top: 2rem;
+    /* Que la fila fija de categorías no tape el encabezado al saltar a él. */
+    scroll-margin-top: 4.25rem;
+  }
+
+  .categoria__cabecera {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.15rem 1rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 2px solid var(--linea-fuerte);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .categoria__recuento {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--tinta-suave);
+  }
+
+  .categoria__subtitulo {
+    margin: 1.1rem 0 0;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--linea);
+    font-family: var(--letra-texto);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+  }
+
+  /* Rótulos de columna: solo en pantallas anchas, donde la minigráfica es una columna propia. */
+  .columnas {
+    display: none;
+  }
+
+  .lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media (min-width: 40rem) {
+    .categoria {
+      margin-top: 2.5rem;
+    }
+
+    h2 {
+      font-size: 1.75rem;
+    }
+
+    .columnas {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 8rem 8.75rem;
+      column-gap: 1.25rem;
+      padding: 0.5rem 0 0.35rem;
+      border-bottom: 1px solid var(--linea);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--tinta-suave);
+    }
+
+    .columnas__centro {
+      text-align: center;
+    }
+
+    .columnas__derecha {
+      text-align: right;
+    }
+  }
+</style>

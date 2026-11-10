@@ -1,42 +1,57 @@
 ---
 import Base from '../layouts/Base.astro';
 import Atribucion from '../componentes/Atribucion.astro';
-import FilaProducto from '../componentes/FilaProducto.astro';
+import NavCategorias from '../componentes/NavCategorias.astro';
+import SeccionCategoria from '../componentes/SeccionCategoria.astro';
+import { agruparPorCategoria } from '../datos/categorias.ts';
 import { cargarResumen, cargarSerie } from '../datos/cargar.ts';
 import { unirRuta } from '../datos/rutas.ts';
+import { textoResumenSemana } from '../formato/categorias.ts';
+import { descripcionPortada, tituloPortada } from '../formato/compartir.ts';
 import { etiquetaSemanaConFechas, fechaAMs, formatearRango } from '../formato/fechas.ts';
-import { descripcionPortada } from '../formato/compartir.ts';
 import { puntosDeSerie } from '../grafico/serie.ts';
 
 const resumen = cargarResumen();
-const { ultimaSemana } = resumen;
+const { ultimaSemana, productos } = resumen;
 const referencia = fechaAMs(ultimaSemana.lunes);
-const filas = resumen.productos.map((producto) => ({
-  producto,
-  puntos: puntosDeSerie(cargarSerie(producto.slug).puntos),
-}));
+const puntosDe = (slug: string) => puntosDeSerie(cargarSerie(slug).puntos);
+const grupos = agruparPorCategoria(resumen);
+const conPrecio = productos.filter((producto) => producto.cotizaEstaSemana).length;
+const resumenSemana = textoResumenSemana(productos.length, conPrecio, `semana ${ultimaSemana.semana}`);
+const ordenesIniciales = grupos.map((_, i) => grupos.slice(0, i).reduce((suma, grupo) => suma + grupo.total, 0));
 ---
 
-<Base titulo="Precios en origen · Comunitat Valenciana" descripcion={descripcionPortada(resumen)}>
+<Base titulo={tituloPortada(resumen)} descripcion={descripcionPortada(resumen)}>
   <section class="portada" aria-labelledby="titulo-lista">
     <p class="antetitulo">Precio semanal en origen</p>
     <h1 id="titulo-lista">Semana {ultimaSemana.semana}</h1>
     <p class="fechas cifra">
       {formatearRango(ultimaSemana.lunes, ultimaSemana.domingo)} · Comunitat Valenciana
     </p>
-
-    <div class="cabecera-lista" aria-hidden="true">
-      <span>Producto</span>
-      <span class="cabecera-lista__mini">Último año</span>
-      <span class="cabecera-lista__precio">Precio medio</span>
-    </div>
-    <ul class="lista" role="list">
+    <p class="resumen-semana">
+      <strong class="cifra">{resumenSemana}</strong>
       {
-        filas.map(({ producto, puntos }, orden) => (
-          <FilaProducto producto={producto} puntos={puntos} referencia={referencia} orden={orden} />
-        ))
+        conPrecio < productos.length && (
+          <span>
+            {' '}Los demás, casi siempre fuera de campaña, van al final de su grupo con su último precio.
+          </span>
+        )
       }
-    </ul>
+    </p>
+
+    <NavCategorias grupos={grupos} />
+
+    {
+      grupos.map((grupo, i) => (
+        <SeccionCategoria
+          grupo={grupo}
+          semana={ultimaSemana.semana}
+          referencia={referencia}
+          puntosDe={puntosDe}
+          ordenInicial={ordenesIniciales[i] ?? 0}
+        />
+      ))
+    }
 
     <div class="notas">
       <p class="pequeno">
@@ -67,40 +82,24 @@ const filas = resumen.productos.map((producto) => ({
   }
 
   .fechas {
-    margin: 0.35rem 0 1.5rem;
+    margin: 0.35rem 0 0.75rem;
     color: var(--tinta-suave);
   }
 
-  .cabecera-lista {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: 0.75rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 2px solid var(--linea-fuerte);
-    font-size: 0.75rem;
+  .resumen-semana {
+    margin: 0 0 1rem;
+    max-width: 36rem;
+    font-size: 0.9375rem;
+    color: var(--tinta-suave);
+  }
+
+  .resumen-semana strong {
     font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--tinta-suave);
-  }
-
-  .cabecera-lista__mini {
-    display: none;
-    text-align: center;
-  }
-
-  .cabecera-lista__precio {
-    text-align: right;
-  }
-
-  .lista {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    color: var(--tinta);
   }
 
   .notas {
-    margin-top: 1.25rem;
+    margin-top: 2rem;
     display: grid;
     gap: 0.5rem;
   }
@@ -112,15 +111,6 @@ const filas = resumen.productos.map((producto) => ({
   @media (min-width: 40rem) {
     h1 {
       font-size: 2.75rem;
-    }
-
-    .cabecera-lista {
-      grid-template-columns: minmax(0, 1fr) 8rem 8.75rem;
-      column-gap: 1.25rem;
-    }
-
-    .cabecera-lista__mini {
-      display: block;
     }
   }
 </style>

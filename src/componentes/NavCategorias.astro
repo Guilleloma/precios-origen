@@ -1,0 +1,95 @@
+---
+/**
+ * Accesos a cada categoría de la portada. Son anclas: funcionan sin JavaScript. En el móvil la fila
+ * se desplaza en horizontal dentro de sí misma, sin mover la página, y se queda fija arriba para
+ * saltar de una categoría a otra sin volver al principio.
+ */
+import type { GrupoCategoria } from '../datos/categorias.ts';
+
+interface Props {
+  grupos: GrupoCategoria[];
+}
+
+const { grupos } = Astro.props;
+---
+
+<nav class="categorias" aria-label="Categorías">
+  <ul class="categorias__lista" role="list">
+    {
+      grupos.map((grupo) => (
+        <li>
+          <a class="categorias__enlace" href={`#${grupo.ancla}`}>
+            {grupo.categoria.etiqueta}
+            <span class="categorias__numero cifra" aria-hidden="true">
+              {grupo.total}
+            </span>
+            <span class="sr-only">({grupo.total} productos)</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .categorias {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin: 0 calc(-1 * var(--hueco));
+    padding: 0.4rem 0;
+    background: var(--fondo);
+    border-bottom: 1px solid var(--linea);
+  }
+
+  .categorias__lista {
+    /* Contiene el texto para lectores de pantalla (posición absoluta) dentro de la zona desplazable. */
+    position: relative;
+    display: flex;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0 var(--hueco);
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    scroll-padding: 0 var(--hueco);
+  }
+
+  .categorias__lista::-webkit-scrollbar {
+    display: none;
+  }
+
+  .categorias__lista li {
+    flex: none;
+  }
+
+  .categorias__enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: var(--tactil);
+    padding: 0 0.85rem;
+    border: 1px solid var(--linea);
+    border-radius: 999px;
+    background: var(--superficie);
+    color: var(--tinta);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+    transition:
+      border-color 120ms ease,
+      background-color 120ms ease;
+  }
+
+  .categorias__enlace:hover {
+    border-color: var(--linea-fuerte);
+  }
+
+  .categorias__numero {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--tinta-suave);
+  }
+</style>

@@ -25,6 +25,7 @@ export const PRODUCTOS_MUESTRA: readonly Producto[] = PRODUCTOS.filter((p) =>
 export const PRODUCTO_GARROFA: Producto = {
   slug: 'garrofa',
   nombre: 'Garrofa entera',
+  categoria: 'aceite-y-garrofa',
   codigoVariedad: '165',
   codigoZona: '12',
   nombreEsperado: 'Garrofa Entera',

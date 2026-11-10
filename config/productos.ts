@@ -14,9 +14,24 @@ export const ZONAS = {
 
 export type CodigoZona = keyof typeof ZONAS;
 
+/**
+ * Conjunto cerrado de categorías, en el orden en que salen en la web. El resumen ordena los productos
+ * por este orden y, dentro de cada categoría, por el orden de `PRODUCTOS`.
+ */
+export const CATEGORIAS = [
+  { id: 'citricos', etiqueta: 'Cítricos' },
+  { id: 'fruta', etiqueta: 'Fruta' },
+  { id: 'uva', etiqueta: 'Uva de mesa' },
+  { id: 'frutos-secos', etiqueta: 'Frutos secos' },
+  { id: 'aceite-y-garrofa', etiqueta: 'Aceite y garrofa' },
+] as const;
+
+export type CategoriaId = (typeof CATEGORIAS)[number]['id'];
+
 export interface Producto {
   slug: string;
   nombre: string;
+  categoria: CategoriaId;
   codigoVariedad: string;
   codigoZona: CodigoZona;
   nombreEsperado: string;
@@ -27,6 +42,7 @@ export interface Producto {
 export const PRODUCTOS: readonly Producto[] = [
   {
     slug: 'naranja-navelina',
+    categoria: 'citricos',
     nombre: 'Naranja Navelina',
     codigoVariedad: '85',
     codigoZona: '46',
@@ -36,6 +52,7 @@ export const PRODUCTOS: readonly Producto[] = [
   },
   {
     slug: 'clementina-clemenules',
+    categoria: 'citricos',
     nombre: 'Clementina Clemenules',
     codigoVariedad: '3',
     codigoZona: '12',
@@ -45,6 +62,7 @@ export const PRODUCTOS: readonly Producto[] = [
   },
   {
     slug: 'almendra-comuna',
+    categoria: 'frutos-secos',
     nombre: 'Almendra Comuna',
     codigoVariedad: '23',
     codigoZona: '03',
@@ -54,6 +72,7 @@ export const PRODUCTOS: readonly Producto[] = [
   },
   {
     slug: 'almendra-marcona',
+    categoria: 'frutos-secos',
     nombre: 'Almendra Marcona',
     codigoVariedad: '40',
     codigoZona: '03',
@@ -63,6 +82,7 @@ export const PRODUCTOS: readonly Producto[] = [
   },
   {
     slug: 'garrofa',
+    categoria: 'aceite-y-garrofa',
     nombre: 'Garrofa entera',
     codigoVariedad: '165',
     codigoZona: '12',
@@ -72,6 +92,7 @@ export const PRODUCTOS: readonly Producto[] = [
   },
   {
     slug: 'aceite-virgen-extra',
+    categoria: 'aceite-y-garrofa',
     nombre: 'Aceite de oliva virgen extra',
     codigoVariedad: '76',
     codigoZona: '12',
@@ -82,6 +103,7 @@ export const PRODUCTOS: readonly Producto[] = [
   {
     // Ojo: el 191 («Limón Fino/Primofiori (1corte)») y el 57 («Limón Fino Redrojo») son otras series.
     slug: 'limon-fino',
+    categoria: 'citricos',
     nombre: 'Limón Fino',
     codigoVariedad: '355',
     codigoZona: '03',

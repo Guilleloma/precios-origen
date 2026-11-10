@@ -4,6 +4,10 @@
  * `anyo` y `semana` son siempre los que publica la GVA; `lunes` es la fecha calculada.
  */
 
+import type { CategoriaId } from '../../config/productos.ts';
+
+export type { CategoriaId };
+
 export const ESQUEMA = 1;
 export const URL_DATASET = 'https://dadesobertes.gva.es/es/dataset/agr-obs-pre-origen';
 
@@ -25,9 +29,17 @@ export interface Variacion {
   respectoA: SemanaRef;
 }
 
+export interface Categoria {
+  id: CategoriaId;
+  /** Etiqueta legible en español («Frutos secos»). */
+  etiqueta: string;
+}
+
 export interface ProductoResumen {
   slug: string;
   nombre: string;
+  /** `id` de una de las `categorias` del resumen. Añadido en la ampliación de productos (compatible). */
+  categoria: CategoriaId;
   provincia: string;
   unidad: string;
   posicion: string;
@@ -48,6 +60,9 @@ export interface Resumen {
   fuente: { actualizadoEl: string; urlDataset: string };
   /** Semana de referencia: la última del CSV para cualquier producto. */
   ultimaSemana: SemanaConLunes & { domingo: string };
+  /** Todas las categorías, en el orden en que se muestran (aunque alguna se quedara sin productos). */
+  categorias: Categoria[];
+  /** Agrupados por categoría, en el orden de `categorias`, y dentro de cada una en el orden de la configuración. */
   productos: ProductoResumen[];
 }
 

@@ -192,6 +192,7 @@ describe('vista previa al compartir', () => {
     generadoEl: '2026-11-04T16:31:10Z',
     fuente: { actualizadoEl: '2026-11-04', urlDataset: 'https://dadesobertes.gva.es/es/dataset/agr-obs-pre-origen' },
     ultimaSemana: { anyo: 2026, semana: 44, lunes: '2026-10-26', domingo: '2026-11-01' },
+    categorias: [{ id: 'citricos', etiqueta: 'Cítricos' }],
     productos: [
       productoResumen(),
       productoResumen({ slug: 'garrofa', nombre: 'Garrofa entera', ultimo: { anyo: 2026, semana: 44, lunes: '2026-10-26', min: 0.45, medio: 0.51, max: 0.56 } }),

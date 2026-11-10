@@ -41,6 +41,9 @@ function informar({ estado, publicacion }: ResultadoIngesta, salida: string): vo
       : `Sin cambios: ${salida}/ ya tiene estos datos y no se ha escrito nada`,
   );
   console.log(`Semana de referencia: ${semana}/${anyo} (${lunes} a ${domingo}) · fuente actualizada el ${resumen.fuente.actualizadoEl}`);
+  const anchoSlug = Math.max(...resumen.productos.map((p) => p.slug.length));
+  const anchoCategoria = Math.max(...resumen.productos.map((p) => p.categoria.length));
+  const anchoProvincia = Math.max(...resumen.productos.map((p) => p.provincia.length));
   for (const p of resumen.productos) {
     const puntos = series.find((s) => s.slug === p.slug)?.puntos.length ?? 0;
     const u = p.ultimo;
@@ -48,7 +51,7 @@ function informar({ estado, publicacion }: ResultadoIngesta, salida: string): vo
       ? `${formatoVariacion(p.variacion)} vs sem. ${p.variacion.respectoA.semana}/${p.variacion.respectoA.anyo}`
       : 'sin variación';
     console.log(
-      `  ${p.slug.padEnd(22)} ${String(puntos).padStart(3)} semanas · sem. ${u.semana}/${u.anyo}: ${formatoPrecio(u.min)} / ${formatoPrecio(u.medio)} / ${formatoPrecio(u.max)} ${p.unidad} · ${p.cotizaEstaSemana ? 'cotiza' : 'no cotiza esta semana'} · ${variacion}`,
+      `  ${p.slug.padEnd(anchoSlug)} ${p.categoria.padEnd(anchoCategoria)} ${p.provincia.padEnd(anchoProvincia)} ${String(puntos).padStart(3)} semanas · sem. ${u.semana}/${u.anyo}: ${formatoPrecio(u.min)} / ${formatoPrecio(u.medio)} / ${formatoPrecio(u.max)} ${p.unidad} · ${p.cotizaEstaSemana ? 'cotiza' : 'no cotiza esta semana'} · ${variacion}`,
     );
   }
 }

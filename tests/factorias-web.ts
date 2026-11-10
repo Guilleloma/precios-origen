@@ -7,6 +7,7 @@ export function productoResumen(datos: Partial<ProductoResumen> = {}): ProductoR
   return {
     slug: 'naranja-navelina',
     nombre: 'Naranja Navelina',
+    categoria: 'citricos',
     provincia: 'Valencia',
     unidad: '€/kg',
     posicion: 'sobre árbol',

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PRODUCTOS, ZONAS } from '../config/productos.ts';
+import { CATEGORIAS, PRODUCTOS, ZONAS } from '../config/productos.ts';
 
 describe('config/productos', () => {
   it('should not repeat slugs', () => {
@@ -21,6 +21,20 @@ describe('config/productos', () => {
       expect(Object.keys(ZONAS)).toContain(p.codigoZona);
       expect(p.codigoVariedad).toMatch(/^\d+$/);
       expect(p.nombreEsperado.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('should assign every product to one of the closed set of categories', () => {
+    const ids = CATEGORIAS.map((c) => c.id);
+    for (const p of PRODUCTOS) expect(ids, p.slug).toContain(p.categoria);
+  });
+
+  it('should define categories with unique ids, kebab-case and a non-empty Spanish label', () => {
+    expect(new Set(CATEGORIAS.map((c) => c.id)).size).toBe(CATEGORIAS.length);
+    expect(new Set(CATEGORIAS.map((c) => c.etiqueta)).size).toBe(CATEGORIAS.length);
+    for (const c of CATEGORIAS) {
+      expect(c.id).toMatch(/^[a-z]+(-[a-z]+)*$/);
+      expect(c.etiqueta.trim().length).toBeGreaterThan(0);
     }
   });
 });

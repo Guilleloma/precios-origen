@@ -65,7 +65,7 @@ GitHub Actions (cada día, 16:30 UTC)
 | Tests | Vitest | Para la ingesta y para las funciones del gráfico |
 | Sin | Analítica, cookies, fuentes externas, source maps | Nada de terceros: no hace falta aviso de cookies |
 
-El workflow `publicar.yml` se dispara con `schedule`, `workflow_dispatch` y `push` a `main`. El job de ingesta solo corre en los dos primeros; un push de código publica con los datos que ya hay en `datos`.
+El workflow `publicar.yml` se dispara con `schedule`, `workflow_dispatch` y `push` a `main`. **Cambio en B5:** la ingesta corre también con el push, para que el primer push cree la rama `datos` sin intervención; si falla, el push publica igualmente el código nuevo con los datos que ya hay en `datos` y la ejecución queda en error. Detalle en el README, sección «Publicación».
 
 ### Contrato de datos (rama `datos`, carpeta `data/` en el build)
 

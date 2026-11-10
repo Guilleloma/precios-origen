@@ -23,7 +23,8 @@ npm run ingesta -- --csv <ruta> --actualizado-el 2026-11-04   # con un CSV local
 | `--csv <ruta>` | Usa un CSV local en lugar de descargarlo |
 | `--actualizado-el AAAA-MM-DD` | Fecha de actualización de la fuente. Obligatoria con `--csv` (al descargar sale de `Last-Modified`) |
 | `--salida <carpeta>` | Carpeta de salida. Por defecto, `data` |
-| `--permitir-desfase` | **Solo en local.** Si la fuente lleva 10 días o más sin datos, avisa en vez de fallar. El workflow no la usa |
+| `--url <url>` | Descarga el CSV de otra dirección. Por defecto, la de la GVA. El workflow la usa para la prueba de fallo de la fuente |
+| `--permitir-desfase` | Si la fuente lleva 10 días o más sin datos, avisa en vez de fallar. Para trabajo local y para el primer arranque manual del workflow; la ejecución diaria nunca la usa |
 
 Qué hace, en orden:
 
@@ -35,7 +36,7 @@ Códigos de salida: `0` bien (con o sin cambios), `1` fallo de la fuente o de va
 
 | Código | Qué ha pasado |
 |---|---|
-| `DESCARGA_FALLIDA` | La descarga falló 4 veces: HTTP distinto de 200, menos de 1 MB, sin `Last-Modified`, no es UTF-8 o tiempo agotado (el motivo va en el mensaje) |
+| `DESCARGA_FALLIDA` | La descarga falló 4 veces: HTTP distinto de 200, menos de 1 MB, sin `Last-Modified`, no es UTF-8, tiempo agotado o fallo de conexión (el motivo va en el mensaje; en un fallo de conexión, con su causa de red, como `ECONNREFUSED` o `UND_ERR_CONNECT_TIMEOUT`) |
 | `CSV_CABECERA_INESPERADA`, `CSV_FORMATO_INESPERADO`, `CSV_MAL_FORMADO`, `CSV_VACIO` | El CSV no tiene la forma esperada |
 | `PRECIO_FORMATO_INESPERADO`, `PRECIO_INCOHERENTE` | Un precio de nuestras series no es `0,00` con coma y dos decimales, es cero, o mínimo > medio > máximo no se cumple |
 | `PRODUCTO_SIN_FILAS`, `PRODUCTO_NOMBRE_INESPERADO` | Un producto configurado no tiene filas o su código de variedad ha cambiado de nombre |
@@ -134,8 +135,8 @@ npm run preview   # sirve dist/ en http://localhost:4321/precios-origen/
 | Variable de entorno | Para qué | Por defecto |
 |---|---|---|
 | `DATOS_DIR` | Carpeta con `resumen.json` y `series/` | `data` |
-| `SITIO_URL` | Dominio de publicación (`https://<usuario>.github.io`). Sin él, la imagen de la vista previa sale con ruta relativa y WhatsApp no la enseña: **el workflow de publicación debe definirlo** | sin definir |
-| `RUTA_BASE` | Ruta base de la web | `/precios-origen/` |
+| `SITIO_URL` | Dominio de publicación (`https://<usuario>.github.io`). Sin él, la imagen de la vista previa sale con ruta relativa y WhatsApp no la enseña. El workflow de publicación lo saca de GitHub Pages | sin definir |
+| `RUTA_BASE` | Ruta base de la web. El workflow también la saca de GitHub Pages | `/precios-origen/` |
 
 La dirección de publicación no se escribe en el código porque lleva el usuario de GitHub.
 
@@ -185,4 +186,69 @@ Las capturas de verificación no van al repo (regla de capturas): se guardan fue
 
 ## Publicación
 
-> **Pendiente (backend-expert, tarea B5):** workflow `publicar.yml`, rama `datos`, GitHub Pages y prueba manual de fallo de la fuente.
+La web se publica en GitHub Pages con el workflow [`publicar.yml`](.github/workflows/publicar.yml), sin secretos: le basta el `GITHUB_TOKEN`. La dirección es `https://<usuario>.github.io/precios-origen/`, pero el workflow la lee de la configuración de Pages (`actions/configure-pages`), así que el usuario no aparece en el código.
+
+### Cómo funciona
+
+| Job | Qué hace | Permisos |
+|---|---|---|
+| `ingesta` | Ejecuta la ingesta sobre la rama `datos` con [`scripts/ci/actualizar-datos.sh`](scripts/ci/actualizar-datos.sh). Si hay datos nuevos, hace el commit `Datos: semana 45 de 2026` como `github-actions[bot]` y lo sube; si no, no toca nada. Si la rama no existe, la crea huérfana | `contents: write` |
+| `construir` | `main` + rama `datos` → `npm ci`, tests y tipos → `npm run build` con `SITIO_URL` y `RUTA_BASE` de Pages → [`scripts/ci/comprobar-build.sh`](scripts/ci/comprobar-build.sh) comprueba que cada página lleva la vista previa con dirección absoluta y que no hay source maps | `contents: read`, `pages: read` |
+| `desplegar` | Publica el build en GitHub Pages (entorno `github-pages`) | `pages: write`, `id-token: write` |
+
+Cuándo corre y qué publica:
+
+| Disparador | Ingesta | Publica |
+|---|---|---|
+| Cada día a las 16:30 UTC | Sí | Solo si hay datos nuevos. Sin datos nuevos, ni commit ni despliegue |
+| Push a `main` | Sí | Siempre, porque hay código nuevo: con los datos nuevos o, si la ingesta falla, con los últimos de `datos`. La ejecución queda en rojo igualmente, para que el fallo de la fuente no pase desapercibido |
+| A mano | Sí | Si la ingesta termina bien, haya datos nuevos o no: sirve para republicar |
+
+- La GVA publica los miércoles a mediodía. Los demás días la ejecución termina en un minuto sin hacer nada. GitHub puede retrasar las ejecuciones programadas varios minutos.
+- Una sola ejecución a la vez (`concurrency`), para que dos ingestas no se pisen al subir a `datos`.
+- La rama `datos` solo tiene `resumen.json`, `series/` y un README. Su historial guarda cada semana y cada revisión de la GVA. Los commits del bot no lanzan el workflow otra vez.
+- Node 24 en el runner. Las acciones están fijadas por SHA de commit, con la versión en un comentario; para actualizar una, se cambian los dos juntos (el SHA de una versión sale con `git ls-remote https://github.com/actions/<acción> refs/tags/<versión>`).
+
+### Lanzarlo a mano
+
+En GitHub, Actions › Publicar › Run workflow, o con `gh workflow run publicar.yml` (añadiendo `-f permitir_desfase=true` o `-f probar_fallo_fuente=true` si hace falta).
+
+| Entrada | Por defecto | Para qué |
+|---|---|---|
+| `permitir_desfase` | no | **Solo para el primer arranque.** Publica aunque la GVA lleve 10 días o más sin semana nueva (`DATOS_DESFASADOS`). La ejecución diaria nunca la usa |
+| `probar_fallo_fuente` | no | Prueba de fallo: descarga de una dirección de la GVA que no existe (ver abajo) |
+
+### Si falla
+
+GitHub manda un correo de la ejecución fallida. La anotación de error y el resumen de la ejecución dicen qué ha pasado. **Si falla la ingesta, no se sube nada a `datos` y la web sigue con el último dato bueno.**
+
+| Error | Qué ha pasado | Qué hacer |
+|---|---|---|
+| `DESCARGA_FALLIDA` | No se puede descargar el CSV; el formato ni se ha llegado a comprobar. El mensaje lleva el motivo: código HTTP, tiempo agotado o causa de red (`ECONNREFUSED`, `UND_ERR_CONNECT_TIMEOUT`…) | Si es un día suelto, nada: se reintenta al día siguiente. Si falla todos los días por la red, la GVA puede estar bloqueando las IP de GitHub: plan B del plan técnico (ejecutar la ingesta desde una máquina de casa y subir la rama `datos`) |
+| `DATOS_DESFASADOS` | La GVA no ha publicado la semana nueva: han pasado 10 días o más desde el domingo de la última | Esperar. Pasa con algún miércoles festivo; la web avisa del retraso a partir del jueves |
+| `CSV_*`, `PRECIO_*`, `PRODUCTO_*`, `DUPLICADO_*`, `CALENDARIO_*` | El CSV ha cambiado de formato o de contenido | Descargar el CSV, reproducir con `npm run ingesta -- --csv <ruta> --actualizado-el <fecha>` y adaptar la ingesta o `config/productos.ts` |
+| `RETROCESO_SEMANA`, `RETROCESO_SERIE` | El CSV trae menos datos que lo ya publicado | Revisar a mano: puede ser una revisión de la GVA o un fichero roto |
+| «No hay datos que publicar» | Push a `main` sin rama `datos`: la ingesta no ha terminado bien nunca | Ver «Primer arranque» |
+| Tests, tipos o comprobación del build | Fallo del código | Arreglarlo en una rama y mergear a `main`, que publica |
+| Despliegue | Fallo de GitHub Pages | Relanzar a mano |
+
+Si la ingesta sube datos nuevos pero luego falla el build o el despliegue, la ejecución del día siguiente ya no tiene datos nuevos y no republica: tras arreglarlo, lanzarlo a mano.
+
+### Primer arranque
+
+1. Crear el repo público `precios-origen` y activar Pages con origen **GitHub Actions**: Settings › Pages › Build and deployment › Source «GitHub Actions», o `gh api -X POST repos/<usuario>/precios-origen/pages -f build_type=workflow`. Sin esto, el job `construir` falla en el paso «Dirección de GitHub Pages».
+2. Subir `main`. El push lanza el workflow, que crea la rama `datos`, la llena y publica.
+3. Si la ingesta falla con `DATOS_DESFASADOS` porque la GVA aún no ha publicado la semana nueva, lanzarlo a mano con `permitir_desfase`: publica la última semana disponible y la ejecución diaria se pone al día en cuanto salga la nueva.
+4. Comprobar que llegan los correos de las ejecuciones fallidas (en la cuenta de GitHub, Settings › Notifications › Actions).
+
+### Prueba de fallo de la fuente
+
+Lanzarlo a mano con `probar_fallo_fuente`. Resultado esperado:
+
+- El job `ingesta` falla en algo más de un minuto, tras 4 intentos, con `DESCARGA_FALLIDA` y «HTTP 404».
+- `construir` y `desplegar` no se ejecutan.
+- La rama `datos` no tiene commit nuevo y la web sigue igual (misma semana y mismo «actualizado el»).
+
+### Revisión de enero de 2027
+
+2026 tiene 53 semanas ISO y la GVA puede numerar la última como semana 53 de 2026 o como semana 1 de 2027, como pasó en 2021 (regla 1 del plan técnico). La ingesta detecta un calendario incoherente (`CALENDARIO_SALTO`, `CALENDARIO_SEMANA_REPETIDA`), pero **hay que revisar la web a mano la primera semana de enero de 2027**, cuando salga el dato de la semana del 28 de diciembre al 3 de enero: número de semana, fecha del rótulo y que el gráfico no tenga un hueco ni un salto de una semana.

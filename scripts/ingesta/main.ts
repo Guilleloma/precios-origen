@@ -1,14 +1,16 @@
 import { setTimeout as esperar } from 'node:timers/promises';
 import { pathToFileURL } from 'node:url';
 import { parseArgs } from 'node:util';
+import type { Variacion } from './contrato.ts';
 import { URL_CSV } from './descarga.ts';
 import { ErrorIngesta } from './errores.ts';
 import { ejecutarIngesta, type DependenciasIngesta, type ResultadoIngesta } from './ingesta.ts';
 
-const USO = `Uso: npm run ingesta -- [--csv <ruta> --actualizado-el AAAA-MM-DD] [--salida <carpeta>] [--permitir-desfase]
+const USO = `Uso: npm run ingesta -- [--csv <ruta> --actualizado-el AAAA-MM-DD | --url <url>] [--salida <carpeta>] [--permitir-desfase]
 
   Sin opciones descarga el CSV de la GVA y escribe data/.
   --csv               Usa un CSV local en lugar de descargarlo (trabajo sin red).
+  --url               Descarga el CSV de otra dirección (por defecto, la de la GVA).
   --actualizado-el    Fecha de actualización de la fuente; obligatoria con --csv.
   --salida            Carpeta de salida (por defecto, data).
   --permitir-desfase  Solo en local: si la fuente lleva 10 días o más sin datos, avisa en vez de fallar.`;
@@ -20,7 +22,14 @@ const DEPENDENCIAS: DependenciasIngesta = {
   ahora: () => new Date(),
 };
 
-const formatoPrecio = (n: number) => n.toFixed(2).replace('.', ',');
+const conComa = (n: number, decimales: number) => n.toFixed(decimales).replace('.', ',');
+const formatoPrecio = (n: number) => conComa(n, 2);
+const conSigno = (n: number, decimales: number) => `${n > 0 ? '+' : ''}${conComa(n, decimales)}`;
+
+/** «+0,01 € (+3,8 %)»: con coma decimal, como la web. */
+export function formatoVariacion({ euros, porcentaje }: Variacion): string {
+  return `${conSigno(euros, 2)} € (${conSigno(porcentaje, 1)} %)`;
+}
 
 function informar({ estado, publicacion }: ResultadoIngesta, salida: string): void {
   const { resumen, series } = publicacion;
@@ -35,7 +44,7 @@ function informar({ estado, publicacion }: ResultadoIngesta, salida: string): vo
     const puntos = series.find((s) => s.slug === p.slug)?.puntos.length ?? 0;
     const u = p.ultimo;
     const variacion = p.variacion
-      ? `${p.variacion.euros >= 0 ? '+' : ''}${formatoPrecio(p.variacion.euros)} € (${p.variacion.porcentaje} %) vs sem. ${p.variacion.respectoA.semana}/${p.variacion.respectoA.anyo}`
+      ? `${formatoVariacion(p.variacion)} vs sem. ${p.variacion.respectoA.semana}/${p.variacion.respectoA.anyo}`
       : 'sin variación';
     console.log(
       `  ${p.slug.padEnd(22)} ${String(puntos).padStart(3)} semanas · sem. ${u.semana}/${u.anyo}: ${formatoPrecio(u.min)} / ${formatoPrecio(u.medio)} / ${formatoPrecio(u.max)} ${p.unidad} · ${p.cotizaEstaSemana ? 'cotiza' : 'no cotiza esta semana'} · ${variacion}`,
@@ -52,6 +61,7 @@ export async function main(argv: string[], deps: DependenciasIngesta = DEPENDENC
       strict: true,
       options: {
         csv: { type: 'string' },
+        url: { type: 'string', default: URL_CSV },
         'actualizado-el': { type: 'string' },
         salida: { type: 'string', default: 'data' },
         'permitir-desfase': { type: 'boolean', default: false },
@@ -65,7 +75,7 @@ export async function main(argv: string[], deps: DependenciasIngesta = DEPENDENC
   try {
     const resultado = await ejecutarIngesta(
       {
-        url: URL_CSV,
+        url: valores.url,
         salida: valores.salida,
         csv: valores.csv,
         actualizadoEl: valores['actualizado-el'],

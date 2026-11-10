@@ -37,13 +37,21 @@ async function intentarDescarga(url: string, fetch: typeof globalThis.fetch): Pr
   return { texto, actualizadoEl: new Date(ultimaModificacion).toISOString().slice(0, 10) };
 }
 
+/** Motivo legible de un fallo. `fetch` esconde la causa de red (DNS, conexión rechazada, TLS...) en `cause`. */
+function motivoDeFallo(e: unknown): string {
+  if (!(e instanceof Error)) return String(e);
+  if (!(e.cause instanceof Error)) return e.message;
+  const codigo = (e.cause as NodeJS.ErrnoException).code;
+  return `${e.message} (${codigo ? `${codigo}: ` : ''}${e.cause.message})`;
+}
+
 /** Descarga el CSV con hasta 3 reintentos. Lanza ErrorIngesta con el último fallo si no lo consigue. */
 export async function descargarCsv(url: string, deps: DependenciasDescarga): Promise<CsvDescargado> {
   for (let intento = 0; ; intento++) {
     try {
       return await intentarDescarga(url, deps.fetch);
     } catch (e) {
-      const motivo = e instanceof Error ? e.message : String(e);
+      const motivo = motivoDeFallo(e);
       const espera = ESPERAS_REINTENTO_MS[intento];
       if (espera === undefined) {
         throw new ErrorIngesta('DESCARGA_FALLIDA', `No se pudo descargar el CSV tras ${intento + 1} intentos: ${motivo}`);

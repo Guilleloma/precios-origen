@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ErrorIngesta } from '../scripts/ingesta/errores.ts';
 import { ejecutarIngesta, type DependenciasIngesta } from '../scripts/ingesta/ingesta.ts';
-import { main } from '../scripts/ingesta/main.ts';
+import { formatoVariacion, main } from '../scripts/ingesta/main.ts';
 import { CABECERA, RUTA_MUESTRA, leerMuestra } from './factorias.ts';
 
 const AHORA_MUESTRA = new Date('2021-05-19T16:31:10Z');
@@ -154,6 +154,25 @@ describe('fallos de la fuente: código de salida distinto de 0 y data/ intacto',
     expect(instantanea(salida)).toEqual(antes);
   });
 
+  it('should name the network cause when the connection itself fails', async () => {
+    const rechazada = Object.assign(new Error('connect ECONNREFUSED 192.0.2.1:443'), { code: 'ECONNREFUSED' });
+    const fetch = vi.fn(async () => {
+      throw new TypeError('fetch failed', { cause: rechazada });
+    });
+    expect(await main(['--salida', salida], dependencias({ fetch }))).toBe(1);
+    expect(errores.at(-1)).toContain('[DESCARGA_FALLIDA]');
+    expect(errores.at(-1)).toContain('fetch failed (ECONNREFUSED: connect ECONNREFUSED 192.0.2.1:443)');
+  });
+
+  it('should download from the address given with --url', async () => {
+    const deps = dependencias();
+    const url = 'https://dadesobertes.gva.es/no-existe/precios.csv';
+    expect(await main(['--salida', salida, '--url', url], deps)).toBe(1);
+    expect(deps.fetch).toHaveBeenCalledTimes(4);
+    expect(vi.mocked(deps.fetch).mock.calls.every(([destino]) => destino === url)).toBe(true);
+    expect(existsSync(salida)).toBe(false);
+  });
+
   it('should exit 1 before writing anything when the CSV has an unexpected format', async () => {
     const antes = await publicarMuestra();
     const cambiada = leerMuestra().replace(CABECERA, CABECERA.replace('precio_medio', 'precio_mitja'));
@@ -196,5 +215,18 @@ describe('npm run ingesta (proceso real)', () => {
     expect(proceso.status).toBe(1);
     expect(proceso.stderr).toContain('CSV_NO_LEGIBLE');
     expect(existsSync(salida)).toBe(false);
+  });
+});
+
+describe('consola de la ingesta', () => {
+  const respectoA = { anyo: 2026, semana: 43 };
+
+  it('should print the weekly change with a decimal comma and a sign, like the web', () => {
+    expect(formatoVariacion({ euros: 0.01, porcentaje: 3.8, respectoA })).toBe('+0,01 € (+3,8 %)');
+    expect(formatoVariacion({ euros: -0.03, porcentaje: -7.9, respectoA })).toBe('-0,03 € (-7,9 %)');
+  });
+
+  it('should print no sign when the price does not change', () => {
+    expect(formatoVariacion({ euros: 0, porcentaje: 0, respectoA })).toBe('0,00 € (0,0 %)');
   });
 });

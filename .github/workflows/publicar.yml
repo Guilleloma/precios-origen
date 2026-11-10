@@ -1,0 +1,158 @@
+# Actualiza los datos desde el CSV de la GVA y publica la web en GitHub Pages.
+#
+#   ingesta    descarga y valida el CSV; si hay datos nuevos, los sube a la rama `datos`
+#   construir  main + rama `datos` → tests → build con la dirección pública de Pages
+#   desplegar  publica el build en GitHub Pages
+#
+# Cuándo se publica (README, sección «Publicación»):
+#   schedule           solo si la ingesta ha subido datos nuevos
+#   push a main        siempre: con los datos nuevos o, si la ingesta falla, con los últimos buenos
+#   workflow_dispatch  si la ingesta termina bien, haya datos nuevos o no
+# Si la ingesta falla, la ejecución queda en error (GitHub avisa por correo) y no se sube nada a `datos`.
+name: Publicar
+
+on:
+  schedule:
+    # La GVA publica los miércoles a mediodía. Los demás días no hay cambios: ni commit ni despliegue.
+    - cron: '30 16 * * *'
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      permitir_desfase:
+        description: 'Solo para el primer arranque: publica aunque la GVA lleve 10 días o más sin semana nueva'
+        type: boolean
+        default: false
+      probar_fallo_fuente:
+        description: 'Prueba de fallo: descarga de una dirección que no existe. No sube datos ni redespliega'
+        type: boolean
+        default: false
+
+permissions: {}
+
+# Una ejecución cada vez: dos ingestas a la vez se pisarían al subir a `datos`.
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+
+jobs:
+  ingesta:
+    name: Ingesta y rama datos
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    outputs:
+      datos_nuevos: ${{ steps.actualizar.outputs.datos_nuevos }}
+      sha_datos: ${{ steps.actualizar.outputs.sha_datos }}
+    steps:
+      - name: Código de main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Segundo clon con credenciales de escritura: el script saca en él la rama `datos` o la crea.
+      - name: Copia de trabajo para la rama datos
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: datos-trabajo
+
+      - name: Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: Descargar, validar y subir datos nuevos
+        id: actualizar
+        env:
+          PERMITIR_DESFASE: ${{ github.event_name == 'workflow_dispatch' && inputs.permitir_desfase }}
+          PROBAR_FALLO: ${{ github.event_name == 'workflow_dispatch' && inputs.probar_fallo_fuente }}
+        run: bash scripts/ci/actualizar-datos.sh datos-trabajo
+
+  construir:
+    name: Tests y build
+    needs: ingesta
+    if: >-
+      !cancelled() && (
+        github.event_name == 'push' ||
+        (github.event_name == 'workflow_dispatch' && needs.ingesta.result == 'success') ||
+        needs.ingesta.outputs.datos_nuevos == 'true'
+      )
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: read # configure-pages lee la dirección pública de la web
+    steps:
+      - name: Código de main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # El commit que acaba de subir la ingesta o, si ha fallado, el último bueno de `datos`.
+      - name: Datos (rama datos)
+        id: datos
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.ingesta.outputs.sha_datos || 'datos' }}
+          path: data
+          persist-credentials: false
+
+      - name: Explicar la falta de datos
+        if: failure() && steps.datos.outcome == 'failure'
+        run: >-
+          echo "::error title=No hay datos que publicar::La rama datos no existe todavía porque la ingesta no ha terminado bien nunca.
+          Mira el error del job de ingesta y, si es DATOS_DESFASADOS, lánzalo a mano con permitir_desfase (README, «Publicación»)."
+
+      - name: Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Dependencias
+        run: npm ci
+
+      - name: Tests
+        run: npm test
+
+      - name: Tipos
+        run: npm run typecheck
+
+      # Dirección pública sin escribir el usuario en el código: https://<usuario>.github.io y /precios-origen
+      - name: Dirección de GitHub Pages
+        id: pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - name: Build
+        env:
+          SITIO_URL: ${{ steps.pages.outputs.origin }}
+          RUTA_BASE: ${{ steps.pages.outputs.base_path }}/
+        run: npm run build
+
+      - name: Comprobar el build
+        env:
+          DIRECCION: ${{ steps.pages.outputs.base_url }}/
+        run: bash scripts/ci/comprobar-build.sh dist "$DIRECCION"
+
+      - name: Subir el build
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist/
+
+  desplegar:
+    name: Despliegue en GitHub Pages
+    needs: construir
+    if: ${{ !cancelled() && needs.construir.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - name: Publicar en GitHub Pages
+        id: despliegue
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

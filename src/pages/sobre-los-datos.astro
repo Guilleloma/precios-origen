@@ -35,7 +35,7 @@ const { ultimaSemana } = resumen;
 
     <h2>Mínimo, máximo y precio medio</h2>
     <p>
-      Para cada producto se publica una horquilla: el precio mínimo y el máximo de la semana. El <strong>precio medio</strong>
+      Para cada producto se publica una horquilla: el precio mínimo y el máximo de la semana. El <strong>precio medio</strong>{' '}
       que ves en grande es el punto medio de esa horquilla, tal como aparece en los datos abiertos. No es una media
       ponderada por kilos vendidos. En el gráfico, la línea es el precio medio y la banda sombreada va del mínimo al máximo.
     </p>
@@ -98,9 +98,10 @@ const { ultimaSemana } = resumen;
 
     <h2>Fuente y licencia</h2>
     <p>
-      Generalitat Valenciana, Conselleria de Agricultura,
+      Generalitat Valenciana, Conselleria de Agricultura,{' '}
       <a href={resumen.fuente.urlDataset}>«Precios agrarios de origen de la Comunitat Valenciana»</a>, publicado con
-      licencia <a href="https://creativecommons.org/licenses/by/4.0/deed.es">Creative Commons Reconocimiento 4.0 (CC BY 4.0)</a>.
+      licencia{' '}
+      <a href="https://creativecommons.org/licenses/by/4.0/deed.es">Creative Commons Reconocimiento 4.0 (CC BY 4.0)</a>.
       Los precios se muestran sin alterar. Esta web no es oficial y no tiene relación con la Generalitat Valenciana.
     </p>
     <Atribucion fuente={resumen.fuente} semana={etiquetaSemanaConFechas(ultimaSemana, ultimaSemana.lunes)} />

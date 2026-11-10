@@ -11,6 +11,6 @@ const { variacion } = Astro.props;
 
 <span class="variacion cifra" data-sentido={variacion.sentido}>
   <span class="flecha" aria-hidden="true">{variacion.flecha}</span>
-  <span class="sr-only">{variacion.palabra}:</span>
+  <span class="sr-only">{variacion.palabra}:</span>{' '}
   {variacion.texto}
 </span>

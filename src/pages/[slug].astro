@@ -43,7 +43,7 @@ const nota =
 
     <div class:list={['ficha__precio', { 'ficha__precio--apagado': !producto.cotizaEstaSemana }]}>
       <p class="ficha__cifra cifra">
-        <span class="sr-only">Precio medio:</span>
+        <span class="sr-only">Precio medio:</span>{' '}
         {formatearPrecio(ultimo.medio)}<span class="ficha__unidad">{producto.unidad}</span>
       </p>
       {estado.tipo === 'variacion' && <Variacion variacion={estado.variacion} />}

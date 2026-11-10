@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { fechaAMs, MS_SEMANA } from '../src/formato/fechas.ts';
 import { describirVentana } from '../src/grafico/descripcion.ts';
 import { dominioY, escalaLineal, marcasX, marcasY } from '../src/grafico/escala.ts';
+import { leerPunto, tiempoEnFraccion } from '../src/grafico/lectura.ts';
 import { filtrarRango, RANGO_POR_DEFECTO, RANGOS, ventanasPorRango } from '../src/grafico/rango.ts';
 import { indiceMasCercano, segmentar } from '../src/grafico/serie.ts';
 import { dibujar, LIENZO_GRAFICO, trazadoAislados, trazadoBanda, trazadoLinea } from '../src/grafico/trazado.ts';
@@ -190,5 +191,32 @@ describe('dibujar y describir', () => {
       'Precio medio semanal desde la sem. 1 de 2026 hasta la sem. 6 de 2026: entre 0,31 y 0,36 €/kg; ' +
         'el último, 0,36 €/kg. 4 semanas con cotización, 1 periodo sin cotización.',
     );
+  });
+});
+
+describe('lectura del punto señalado', () => {
+  const [punto] = puntos2026([44]);
+  if (!punto) throw new Error('falta el punto');
+
+  it('should label the latest week with its dates and give mean, minimum and maximum', () => {
+    expect(leerPunto(punto, { anyo: 2026, semana: 44 }, '€/kg')).toEqual({
+      semana: 'semana 44 (26 oct–1 nov 2026)',
+      medio: '0,74 €/kg',
+      horquilla: 'mín. 0,69 · máx. 0,79',
+      frase: 'semana 44 (26 oct–1 nov 2026): precio medio 0,74 €/kg, mínimo 0,69, máximo 0,79 €/kg',
+    });
+  });
+
+  it('should label historic weeks with the GVA week number', () => {
+    expect(leerPunto(punto, { anyo: 2026, semana: 45 }, '€/kg').semana).toBe('sem. 44 de 2026');
+  });
+
+  it('should turn a horizontal position into time, clamped to the window', () => {
+    const ventana = { inicio: 0, fin: 1000, puntos: [] };
+    const lienzo = { ancho: 1000, alto: 300, margenX: 100 };
+    expect(tiempoEnFraccion(ventana, lienzo, 0.5)).toBe(500);
+    expect(tiempoEnFraccion(ventana, lienzo, 0.1)).toBe(0);
+    expect(tiempoEnFraccion(ventana, lienzo, 0)).toBe(0);
+    expect(tiempoEnFraccion(ventana, lienzo, 1)).toBe(1000);
   });
 });

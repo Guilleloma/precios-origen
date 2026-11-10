@@ -1,0 +1,386 @@
+---
+/**
+ * Gráfico de detalle: un panel ya pintado por cada rango. Sin JavaScript, el selector de rango
+ * funciona con CSS; con JavaScript, además se puede señalar cada semana con ratón, tacto o teclado.
+ */
+import type { PuntoSerie, SemanaRef } from '../../scripts/ingesta/contrato.ts';
+import { formatearPrecio } from '../formato/numeros.ts';
+import { describirVentana } from '../grafico/descripcion.ts';
+import { marcasX, marcasY } from '../grafico/escala.ts';
+import { leerPunto } from '../grafico/lectura.ts';
+import { RANGO_POR_DEFECTO, RANGOS, ventanasPorRango } from '../grafico/rango.ts';
+import { puntosDeSerie } from '../grafico/serie.ts';
+import { dibujar, LIENZO_GRAFICO } from '../grafico/trazado.ts';
+import SelectorRango from './SelectorRango.astro';
+
+interface Props {
+  serie: PuntoSerie[];
+  /** Lunes de la semana de referencia, en ms. */
+  referencia: number;
+  ultimaSemana: SemanaRef;
+  unidad: string;
+}
+
+const { serie, referencia, ultimaSemana, unidad } = Astro.props;
+const { ancho, alto } = LIENZO_GRAFICO;
+const ventanas = ventanasPorRango(puntosDeSerie(serie), referencia);
+
+const paneles = RANGOS.map((rango) => {
+  const ventana = ventanas.get(rango.clave);
+  if (!ventana) throw new Error(`Falta la ventana del rango ${rango.clave}`);
+  const dibujo = dibujar(ventana, LIENZO_GRAFICO);
+  const pct = (valor: number, total: number) => `${(valor / total) * 100}%`;
+  return {
+    rango,
+    ventana,
+    dibujo,
+    descripcion: describirVentana(ventana, unidad),
+    marcasY: marcasY(dibujo.dominio).map((v) => ({ y: dibujo.ey(v), top: pct(dibujo.ey(v), alto), texto: formatearPrecio(v) })),
+    marcasX: marcasX(ventana.inicio, ventana.fin).map((m) => ({ left: pct(dibujo.ex(m.t), ancho), texto: m.etiqueta })),
+  };
+});
+
+const inicial = ventanas.get(RANGO_POR_DEFECTO)?.puntos.at(-1);
+const lectura = inicial ? leerPunto(inicial, ultimaSemana, unidad) : null;
+---
+
+<section
+  class="grafico"
+  aria-labelledby="titulo-grafico"
+  data-grafico
+  data-activo={RANGO_POR_DEFECTO}
+  data-puntos={JSON.stringify(serie)}
+  data-referencia={referencia}
+  data-anyo={ultimaSemana.anyo}
+  data-semana={ultimaSemana.semana}
+  data-unidad={unidad}
+>
+  <h2 id="titulo-grafico" class="grafico__titulo">Evolución del precio</h2>
+
+  <p class="lectura">
+    <span class="lectura__semana" data-lectura-semana>{lectura?.semana ?? 'Sin cotizaciones en este periodo'}</span>
+    <span class="lectura__valores">
+      <span class="lectura__medio cifra" data-lectura-medio>{lectura?.medio}</span>
+      <span class="lectura__horquilla cifra" data-lectura-horquilla>{lectura?.horquilla}</span>
+    </span>
+  </p>
+
+  {
+    paneles.map(({ rango, ventana, dibujo, descripcion, marcasY, marcasX }) => (
+      <div class="panel" data-rango={rango.clave}>
+        {ventana.puntos.length === 0 ? (
+          <div class="vacio">
+            <p>Sin cotizaciones en este periodo.</p>
+            <label class="vacio__boton" for="rango-todo">
+              Ver todo el histórico
+            </label>
+          </div>
+        ) : (
+          <>
+            <p class="sr-only" id={`descripcion-${rango.clave}`}>
+              {descripcion}
+            </p>
+            <div class="marco">
+              <div
+                class="lienzo"
+                data-lienzo
+                tabindex="0"
+                role="slider"
+                aria-label={`Semana señalada en el gráfico (${rango.etiqueta.toLowerCase()})`}
+                aria-describedby={`descripcion-${rango.clave}`}
+                aria-valuemin="0"
+                aria-valuemax={ventana.puntos.length - 1}
+                aria-valuenow={ventana.puntos.length - 1}
+                aria-valuetext={leerPunto(ventana.puntos.at(-1)!, ultimaSemana, unidad).frase}
+              >
+                <div class="trazo">
+                <svg viewBox={`0 0 ${ancho} ${alto}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                  {marcasY.map((m) => (
+                    <path class="rejilla" d={`M0 ${m.y}H${ancho}`} />
+                  ))}
+                  <path class="banda" d={dibujo.banda} />
+                  <path class="horquilla" d={dibujo.aislados.horquillas} />
+                  <path class="linea" d={dibujo.linea} />
+                  <path class="aislado" d={dibujo.aislados.puntos} />
+                </svg>
+                <span class="cursor" data-cursor hidden />
+                <span class="marca" data-marca hidden />
+                </div>
+              </div>
+              <div class="eje-y cifra" aria-hidden="true">
+                {marcasY.map((m) => (
+                  <span style={`top: ${m.top}`}>{m.texto}</span>
+                ))}
+              </div>
+            </div>
+            <div class="eje-x" aria-hidden="true">
+              {marcasX.map((m) => (
+                <span style={`left: ${m.left}`}>{m.texto}</span>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    ))
+  }
+
+  <SelectorRango />
+
+  <p class="leyenda">
+    <span class="leyenda__linea" aria-hidden="true"></span> Precio medio
+    <span class="leyenda__banda" aria-hidden="true"></span> Horquilla mínimo–máximo
+    <span class="leyenda__nota">Los huecos son semanas sin cotización.</span>
+  </p>
+</section>
+
+<script>
+  import { iniciarGrafico } from '../grafico/interaccion.ts';
+
+  for (const raiz of document.querySelectorAll<HTMLElement>('[data-grafico]')) iniciarGrafico(raiz);
+</script>
+
+<style>
+  .grafico {
+    margin-top: 2rem;
+  }
+
+  .grafico__titulo {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .lectura {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    margin: 0 0 0.5rem;
+    min-height: 3rem;
+    font-size: 0.875rem;
+    color: var(--tinta-suave);
+  }
+
+  .lectura__valores {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .lectura__medio {
+    font-size: 1.125rem;
+    font-weight: 650;
+    color: var(--tinta);
+  }
+
+  .panel {
+    display: none;
+  }
+
+  /* El selector funciona sin JavaScript con :has(); el atributo data-activo cubre navegadores antiguos. */
+  .grafico[data-activo='6m'] .panel[data-rango='6m'],
+  .grafico[data-activo='1a'] .panel[data-rango='1a'],
+  .grafico[data-activo='3a'] .panel[data-rango='3a'],
+  .grafico[data-activo='todo'] .panel[data-rango='todo'] {
+    display: block;
+  }
+
+  .grafico:has(#rango-6m:checked) .panel,
+  .grafico:has(#rango-1a:checked) .panel,
+  .grafico:has(#rango-3a:checked) .panel,
+  .grafico:has(#rango-todo:checked) .panel {
+    display: none;
+  }
+
+  .grafico:has(#rango-6m:checked) .panel[data-rango='6m'],
+  .grafico:has(#rango-1a:checked) .panel[data-rango='1a'],
+  .grafico:has(#rango-3a:checked) .panel[data-rango='3a'],
+  .grafico:has(#rango-todo:checked) .panel[data-rango='todo'] {
+    display: block;
+  }
+
+  .marco {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 2.75rem;
+    column-gap: 0.4rem;
+  }
+
+  .lienzo {
+    position: relative;
+    height: 13.5rem;
+    background: var(--superficie);
+    border: 1px solid var(--linea);
+    border-radius: 0.35rem;
+    touch-action: pan-y;
+    cursor: crosshair;
+  }
+
+  /* El trazo deja 0,6 rem arriba y abajo para que la línea no toque el borde; el eje Y usa el mismo margen. */
+  .trazo {
+    position: absolute;
+    inset: 0.6rem 0;
+  }
+
+  .trazo svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .lienzo path {
+    vector-effect: non-scaling-stroke;
+  }
+
+  .rejilla {
+    stroke: var(--grafico-rejilla);
+    stroke-width: 1;
+  }
+
+  .banda {
+    fill: var(--grafico-banda);
+  }
+
+  .horquilla {
+    stroke: var(--grafico-linea);
+    stroke-opacity: 0.4;
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  .linea {
+    fill: none;
+    stroke: var(--grafico-linea);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .aislado {
+    fill: none;
+    stroke: var(--grafico-linea);
+    stroke-width: 5;
+    stroke-linecap: round;
+  }
+
+  .cursor {
+    position: absolute;
+    top: -0.6rem;
+    bottom: -0.6rem;
+    width: 0;
+    border-left: 1px dashed var(--cursor);
+    pointer-events: none;
+  }
+
+  .marca {
+    position: absolute;
+    width: 0.75rem;
+    height: 0.75rem;
+    margin: -0.375rem 0 0 -0.375rem;
+    border-radius: 50%;
+    background: var(--grafico-linea);
+    box-shadow: 0 0 0 2px var(--superficie);
+    pointer-events: none;
+  }
+
+  .cursor[hidden],
+  .marca[hidden] {
+    display: none;
+  }
+
+  .eje-y {
+    position: relative;
+    margin: 0.6rem 0;
+    font-size: 0.75rem;
+    color: var(--tinta-suave);
+  }
+
+  .eje-y span {
+    position: absolute;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
+  .eje-x {
+    position: relative;
+    height: 1.4rem;
+    margin-right: 3.15rem;
+    font-size: 0.75rem;
+    color: var(--tinta-suave);
+  }
+
+  .eje-x span {
+    position: absolute;
+    top: 0.25rem;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  .vacio {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 0.75rem;
+    height: 15rem;
+    background: var(--superficie);
+    border: 1px dashed var(--linea);
+    border-radius: 0.35rem;
+    text-align: center;
+  }
+
+  .vacio p {
+    margin: 0;
+  }
+
+  .vacio__boton {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tactil);
+    padding: 0 1rem;
+    border: 1px solid var(--tinta);
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .leyenda {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
+    margin: 0.75rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--tinta-suave);
+  }
+
+  .leyenda__linea,
+  .leyenda__banda {
+    display: inline-block;
+    width: 1.25rem;
+    height: 0.75rem;
+  }
+
+  .leyenda__linea {
+    height: 2px;
+    background: var(--grafico-linea);
+  }
+
+  .leyenda__banda {
+    background: var(--grafico-banda);
+    margin-left: 0.5rem;
+  }
+
+  .leyenda__nota {
+    flex-basis: 100%;
+  }
+
+  @media (min-width: 40rem) {
+    .lienzo {
+      height: 20rem;
+    }
+
+    .vacio {
+      height: 21.5rem;
+    }
+  }
+</style>

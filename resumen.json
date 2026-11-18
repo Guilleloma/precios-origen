@@ -1,15 +1,15 @@
 {
   "esquema": 1,
-  "generadoEl": "2026-11-11T22:56:49Z",
+  "generadoEl": "2026-11-18T23:02:26Z",
   "fuente": {
-    "actualizadoEl": "2026-11-11",
+    "actualizadoEl": "2026-11-18",
     "urlDataset": "https://dadesobertes.gva.es/es/dataset/agr-obs-pre-origen"
   },
   "ultimaSemana": {
     "anyo": 2026,
-    "semana": 45,
-    "lunes": "2026-11-02",
-    "domingo": "2026-11-08"
+    "semana": 46,
+    "lunes": "2026-11-09",
+    "domingo": "2026-11-15"
   },
   "categorias": [
     {
@@ -44,8 +44,8 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 0.21,
         "medio": 0.27,
         "max": 0.34
@@ -55,13 +55,13 @@
         "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -94,20 +94,20 @@
       "provincia": "Castellón",
       "unidad": "€/kg",
       "posicion": "sobre árbol",
-      "cotizaEstaSemana": false,
+      "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 8,
-        "lunes": "2026-02-16",
-        "min": 0.3,
-        "medio": 0.3,
-        "max": 0.3
+        "semana": 46,
+        "lunes": "2026-11-09",
+        "min": 0.27,
+        "medio": 0.27,
+        "max": 0.27
       },
       "variacion": null,
       "anterior": {
         "anyo": 2026,
-        "semana": 7,
-        "lunes": "2026-02-09"
+        "semana": 8,
+        "lunes": "2026-02-16"
       }
     },
     {
@@ -143,9 +143,9 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
-        "min": 0.37,
+        "semana": 46,
+        "lunes": "2026-11-09",
+        "min": 0.36,
         "medio": 0.43,
         "max": 0.5
       },
@@ -154,13 +154,13 @@
         "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -216,20 +216,20 @@
       "provincia": "Alicante",
       "unidad": "€/kg",
       "posicion": "sobre árbol",
-      "cotizaEstaSemana": false,
+      "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 3,
-        "lunes": "2026-01-12",
-        "min": 0.35,
-        "medio": 0.4,
-        "max": 0.45
+        "semana": 46,
+        "lunes": "2026-11-09",
+        "min": 0.43,
+        "medio": 0.51,
+        "max": 0.58
       },
       "variacion": null,
       "anterior": {
         "anyo": 2026,
-        "semana": 2,
-        "lunes": "2026-01-05"
+        "semana": 3,
+        "lunes": "2026-01-12"
       }
     },
     {
@@ -265,24 +265,24 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 0.3,
         "medio": 0.33,
         "max": 0.35
       },
       "variacion": {
-        "euros": -0.02,
-        "porcentaje": -5.7,
+        "euros": 0,
+        "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -387,8 +387,8 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 0.45,
         "medio": 0.58,
         "max": 0.72
@@ -398,13 +398,13 @@
         "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -463,24 +463,24 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 0.5,
         "medio": 0.57,
         "max": 0.65
       },
       "variacion": {
-        "euros": -0.1,
-        "porcentaje": -14.9,
+        "euros": 0,
+        "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -516,8 +516,8 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 0.62,
         "medio": 0.62,
         "max": 0.62
@@ -527,13 +527,13 @@
         "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -730,8 +730,8 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 5.15,
         "medio": 5.15,
         "max": 5.15
@@ -741,13 +741,13 @@
         "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -760,8 +760,8 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 5.9,
         "medio": 5.9,
         "max": 5.9
@@ -771,13 +771,13 @@
         "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -790,8 +790,8 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 5.5,
         "medio": 5.5,
         "max": 5.5
@@ -801,13 +801,13 @@
         "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -820,8 +820,8 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 5.15,
         "medio": 5.15,
         "max": 5.15
@@ -831,13 +831,13 @@
         "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -850,24 +850,24 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 3.05,
         "medio": 3.08,
         "max": 3.1
       },
       "variacion": {
-        "euros": -0.19,
-        "porcentaje": -5.8,
+        "euros": 0,
+        "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -880,24 +880,24 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 2.8,
         "medio": 2.85,
         "max": 2.9
       },
       "variacion": {
-        "euros": -0.15,
-        "porcentaje": -5,
+        "euros": 0,
+        "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -910,24 +910,24 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 2.5,
-        "medio": 2.55,
-        "max": 2.6
+        "medio": 2.58,
+        "max": 2.65
       },
       "variacion": {
-        "euros": 0.05,
-        "porcentaje": 2,
+        "euros": 0.03,
+        "porcentaje": 1.2,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     },
     {
@@ -940,24 +940,24 @@
       "cotizaEstaSemana": true,
       "ultimo": {
         "anyo": 2026,
-        "semana": 45,
-        "lunes": "2026-11-02",
+        "semana": 46,
+        "lunes": "2026-11-09",
         "min": 0.55,
         "medio": 0.57,
         "max": 0.6
       },
       "variacion": {
-        "euros": 0.06,
-        "porcentaje": 11.8,
+        "euros": 0,
+        "porcentaje": 0,
         "respectoA": {
           "anyo": 2026,
-          "semana": 44
+          "semana": 45
         }
       },
       "anterior": {
         "anyo": 2026,
-        "semana": 44,
-        "lunes": "2026-10-26"
+        "semana": 45,
+        "lunes": "2026-11-02"
       }
     }
   ]
